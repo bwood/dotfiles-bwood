@@ -108,6 +108,9 @@
 ;;                    :foreground "black" :background "blue")
 ;;(require 'org-faces)
 
+;; Emacs/Orgmode windows and frames
+(setq org-agenda-window-frame-fractions '(0.5 . 0.5))
+
 ;; todo keywords
 (setq org-todo-keywords
        '((sequence "TODO" "INPROG" "DONE" ))) 
