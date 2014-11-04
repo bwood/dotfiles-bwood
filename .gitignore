@@ -1,0 +1,49 @@
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon
+Thumbs.db
+._*
+
+# IntelliJIDEA phpStorm #
+#########################
+.idea
+
+# Eclipse files #
+#################
+.buildpath
+.project
+.settings/*
+dummy.php
+
+# Emacs files #
+###############
+*~
+\#*#
+\.\#
+
+# Vim generated files #
+######################
+*.un~
+
+# SASS #
+##########
+.sass-cache
+
