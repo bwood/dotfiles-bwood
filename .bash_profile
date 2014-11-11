@@ -36,8 +36,20 @@ drush-site-install() {
     return
   fi
 
+  if [[ $MYALIAS =~ @pantheon ]];then 
+     echo "Refusing to run a site-install command on Pantheon. Shudder..."
+     return
+  fi 
+   
+  # default profile is openberkeley, or pass your own
+  if [ x$2 = x ]; then
+    PROFILE="openberkeley"
+  else
+    PROFILE=$2
+  fi
+  
   SITEEMAIL=bwood+01@berkeley.edu
-  drush -y $MYALIAS site-install openberkeley \
+  drush $MYALIAS site-install $PROFILE \
   --site-mail=$SITEEMAIL --site-name="OB Test" \
   --account-mail=$SITEEMAIL --account-name=ucbadmin \
   update_status_module='array(FALSE,FALSE)' \
