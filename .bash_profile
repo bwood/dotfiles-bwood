@@ -60,6 +60,23 @@ drush-site-install() {
 
 alias dsi=drush-site-install
 
+# Adding users/roles
+drush-users-roles() {
+  MYALIAS=$1
+  if [ x$MYALIAS = x ]; then
+    echo "Must pass a drush alias as the first argument, for example: @mytest.dev"
+    return
+  fi
+  drush $MYALIAS ucrt builder --mail=bwood+1@berkeley.edu --password=t
+  drush $MYALIAS ucrt editor --mail=bwood+2@berkeley.edu --password=t
+  drush $MYALIAS ucrt contributor --mail=bwood+3@berkeley.edu --password=t
+  drush $MYALIAS urol contributor --mail=bwood+3@berkeley.edu
+  drush $MYALIAS urol editor --mail=bwood+2@berkeley.edu
+  drush $MYALIAS urol builder --mail=bwood+1@berkeley.edu
+}
+
+alias dur=drush-users-roles
+
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
 
