@@ -53,12 +53,12 @@ drush-site-install() {
   drush $MYALIAS site-install $PROFILE \
   --site-mail=$SITEEMAIL --site-name="Test Site" \
   --account-mail=$SITEEMAIL --account-name=ucbadmin \
-  update_status_module='array(FALSE,FALSE)' \
+  install_configure_form.update_status_module='array(FALSE,FALSE)' \
   openberkeley_add_admin_form.cas_name=213108,304629,248324,267087
 }
 
 
-alias dsi=drush-site-install
+Alias dsi=drush-site-install
 
 # Adding users/roles
 drush-users-roles() {
