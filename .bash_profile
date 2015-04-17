@@ -7,8 +7,14 @@ export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export EDITOR=/usr/bin/emacs
 export VISUAL="emacs -q"
 export TERM="xterm-color"
-# makes your shell prompt look like it does in ubuntu linux: [bwood@ucbmbp work]$ 
-export PS1='[\u@mbp \W]\$ '
+
+# Git prompt
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+export GIT_PS1_SHOWCOLORHINTS=1
+source ~/.git-prompt.sh
+#export PS1='[\u@mbp \W$(__git_ps1 " (%s)")]\$ '
+PROMPT_COMMAND='__git_ps1 "\u@mbp \W" "\\\$ "'
 
 #aliases
 alias ll="ls -laFG"
@@ -54,6 +60,8 @@ drush-site-install() {
   --site-mail=$SITEEMAIL --site-name="Test Site" \
   --account-mail=$SITEEMAIL --account-name=ucbadmin \
   install_configure_form.update_status_module='array(FALSE,FALSE)' \
+  #install_configure_form.openberkeley_wysiwyg_override_pathologic_paths='this
+#that' \
   openberkeley_add_admin_form.cas_name=213108,304629,248324,267087
 }
 
