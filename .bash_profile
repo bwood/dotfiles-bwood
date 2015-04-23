@@ -85,6 +85,33 @@ drush-users-roles() {
 
 alias dur=drush-users-roles
 
+# Toggle pantheon aliases to use drush7 on the remote
+drush-script-switch () {
+
+  if [ ! -e ~/.drush/pantheon.aliases.drushrc.php ]; then
+    echo "~/.drush/pantheon.aliases.drushrc.php doesn't exist."
+    return
+  fi
+
+  if [ ! -s ~/.drush/pantheon.aliases.drushrc.php ]; then
+    echo "~/drush/pantheon.aliases.drushrc.php is empty."
+    return
+  fi
+
+  if [ "$1" = "show" ]; then
+    grep -m1 '%drush-script' ~/.drush/pantheon.aliases.drushrc.php
+    return
+  elif [ -n "$1" ] && [ "$1" -eq "7" ]; then 
+    TO="drush7"
+  else 
+    TO="drush"
+  fi 
+  sed -i -e "s/'%drush-script'.*$/'%drush-script' => '$TO',/g" ~/.drush/pantheon.aliases.drushrc.php 
+  grep -m1 '%drush-script' ~/.drush/pantheon.aliases.drushrc.php
+}
+
+alias dss=drush-script-switch
+
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
 
