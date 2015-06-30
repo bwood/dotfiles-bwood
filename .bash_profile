@@ -13,8 +13,11 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWCOLORHINTS=1
 source ~/.git-prompt.sh
-#export PS1='[\u@mbp \W$(__git_ps1 " (%s)")]\$ '
+
+# Custom bash prompt via kirsle.net/wizards/ps1.html
+#export PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\[$(tput setaf 3)\]\u\[$(tput setaf 7)\]@\[$(tput setaf 3)\]\h \[$(tput setaf 7)\]\W\[$(tput setaf 4)\]\\$ \[$(tput sgr0)\]"
 PROMPT_COMMAND='__git_ps1 "\u@mbp \W" "\\\$ "'
+
 
 #aliases
 alias ll="ls -laFG"
@@ -60,13 +63,14 @@ drush-site-install() {
   --site-mail=$SITEEMAIL --site-name="Test Site" \
   --account-mail=$SITEEMAIL --account-name=ucbadmin \
   install_configure_form.update_status_module='array(FALSE,FALSE)' \
-  #install_configure_form.openberkeley_wysiwyg_override_pathologic_paths='this
-#that' \
   openberkeley_add_admin_form.cas_name=213108,304629,248324,267087
 }
+# To get pathologic paths working try adding
+#install_configure_form.openberkeley_wysiwyg_override_pathologic_paths='this
+#that' \
 
 
-Alias dsi=drush-site-install
+alias dsi=drush-site-install
 
 # Adding users/roles
 drush-users-roles() {
@@ -111,6 +115,42 @@ drush-script-switch () {
 }
 
 alias dss=drush-script-switch
+
+drush-self-alias () {
+  ALIAS_FILE=~/.drush/aliases.drushrc.php
+  SELF_ALIAS=$1
+  if [ x$SELF_ALIAS = x ]; then
+    echo "First argument should be the name of the alias."
+    echo "cd into the \$DRUPAL_ROOT of the site, then run"
+    echo "  dsa mysite"
+    echo "This will append an alias to $ALIAS_FILE."
+    return
+  fi
+
+  if [ $(grep -c "\$aliases\[['\"]$SELF_ALIAS['\"]\]" ~/.drush/aliases.drushrc.php) -gt 0 ]; then
+    echo "You already have an alias called $SELF_ALIAS"  
+    return
+  fi
+
+  # it'd be nice not to repeat the command
+  #SELF_ALIAS_CMD=drush sa @self --alias-name=$SELF_ALIAS --full --with-db 2>&1
+  #SELF_ALIAS_OUT=$($SELF_ALIAS_CMD)
+
+  SELF_ALIAS_OUT=$(drush sa @self --alias-name=$SELF_ALIAS --full --with-db 2>&1)
+
+  if [[ "$SELF_ALIAS_OUT" =~ "Not found: @self" ]]; then
+    echo "You need to cd into the \$DRUPAL_ROOT of the site for which you are creating an alias."
+    return
+  fi
+  
+  # if you 'echo $SELF_ALIAS_OUT >> ...' you lose the nice formatting
+  drush sa @self --alias-name=$SELF_ALIAS --full --with-db >> $ALIAS_FILE
+  echo "Added alias: "
+  tail -21 $ALIAS_FILE
+  drush cc drush
+}
+
+alias dsa=drush-self-alias
 
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
