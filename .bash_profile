@@ -3,6 +3,8 @@ export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:~/bin:~/bin/d
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
+export EMAIL_WORK=bwood@berkeley.edu
+
 # Finished adapting your PATH environment variable for use with MacPorts.
 export EDITOR=/usr/bin/emacs
 export VISUAL="emacs -q"
@@ -143,7 +145,7 @@ drush-self-alias () {
     return
   fi
   
-  # if you 'echo $SELF_ALIAS_OUT >> ...' you lose the nice formatting
+  # if you 'echo $SELF_ALIAS_OUT >> ...' you lcdose the nice formatting
   drush sa @self --alias-name=$SELF_ALIAS --full --with-db >> $ALIAS_FILE
   echo "Added alias: "
   tail -21 $ALIAS_FILE
@@ -151,6 +153,10 @@ drush-self-alias () {
 }
 
 alias dsa=drush-self-alias
+
+# terminus convenience
+alias tal="terminus auth login $EMAIL_WORK"
+source /Users/bwood/bin/terminus-completion.bash
 
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
@@ -211,3 +217,4 @@ gpob() {
 
 
 alias codercs='phpcs --standard=/Users/bwood/.drush/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
+
