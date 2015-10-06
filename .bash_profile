@@ -1,9 +1,15 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin
 export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:~/bin:~/bin/drush:~/bin/utility:/usr/local/bin/git:~/workspace/scripts:/Applications/acquia-drupal/mysql/bin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH:/Users/bwood/pear/bin
 
+
+
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 export EMAIL_WORK=bwood@berkeley.edu
+
+# Ruby rbenv installed with brew
+export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Finished adapting your PATH environment variable for use with MacPorts.
 export EDITOR=/usr/bin/emacs
@@ -29,7 +35,7 @@ alias php3=/Applications/acquia-drupal/php5_3/bin/php
 ###########
 ## Drush ##
 ###########
-. ~/bin/drush/drush-5.10.0/drush.complete.sh
+. ~/bin/drush/drush.complete.sh
 # https://drupal.org/node/877916#comment-4286400
 drush() { 
   if [[ $@ == "help" ]]; then 
