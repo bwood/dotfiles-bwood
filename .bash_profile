@@ -1,10 +1,7 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin
 export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:~/bin:~/bin/drush:~/bin/utility:/usr/local/bin/git:~/workspace/scripts:/Applications/acquia-drupal/mysql/bin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH:/Users/bwood/pear/bin
 
-
-
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
 export EMAIL_WORK=bwood@berkeley.edu
 
 # Ruby rbenv installed with brew
@@ -15,6 +12,10 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export EDITOR=/usr/bin/emacs
 export VISUAL="emacs -q"
 export TERM="xterm-color"
+
+# istdrupal app
+export TERMINUS_ISTDRUPAL=~/bin/terminus-081
+
 
 # Git prompt
 export GIT_PS1_SHOWSTASHSTATE=1
@@ -224,3 +225,5 @@ gpob() {
 
 alias codercs='phpcs --standard=/Users/bwood/.drush/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
 
+
+export PATH="$PATH:/Applications/DevDesktop/drush"
