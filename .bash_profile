@@ -4,6 +4,13 @@ export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:~/bin:~/bin/d
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export EMAIL_WORK=bwood@berkeley.edu
 
+# istdrupal console
+export ISTDRUPAL_TERMINUS=~/bin/terminus-093
+export ISTDRUPAL_TERMINUS_DEV_PATH="/Users/bwood/code/php/cli"
+export ISTDRUPAL_TERMINUS_DEV="1"
+export VCR_CASSETTE_PATH="/Users/bwood/code/php/istdrupal/tests/fixtures"
+
+
 # Ruby rbenv installed with brew
 export RBENV_ROOT=/usr/local/var/rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -32,6 +39,21 @@ PROMPT_COMMAND='__git_ps1 "\u@mbp \W" "\\\$ "'
 alias ll="ls -laFG"
 alias php3=/Applications/acquia-drupal/php5_3/bin/php
 # alias php4=/usr/bin/php
+
+##############
+## Terminus ##
+##############
+
+terminus-dashboard() {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass a site shortname as the first argument, for example: openberkeley-ob"
+    return
+  fi
+  terminus site dashboard --yes --site=$SITE 
+}
+
+alias tdash=terminus-dashboard
 
 ###########
 ## Drush ##
@@ -68,7 +90,7 @@ drush-site-install() {
   fi
   
   SITEEMAIL=bwood+01@berkeley.edu
-  drush $MYALIAS site-install $PROFILE \
+  drush $MYALIAS --notify site-install $PROFILE \
   --site-mail=$SITEEMAIL --site-name="Test Site" \
   --account-mail=$SITEEMAIL --account-name=ucbadmin \
   install_configure_form.update_status_module='array(FALSE,FALSE)' \
@@ -88,7 +110,7 @@ drush-users-roles() {
     echo "Must pass a drush alias as the first argument, for example: @mytest.dev"
     return
   fi
-  drush $MYALIAS ucrt builder --mail=bwood+1@berkeley.edu --password=t
+  Drush $MYALIAS ucrt builder --mail=bwood+1@berkeley.edu --password=t
   drush $MYALIAS ucrt editor --mail=bwood+2@berkeley.edu --password=t
   drush $MYALIAS ucrt contributor --mail=bwood+3@berkeley.edu --password=t
   drush $MYALIAS urol contributor --mail=bwood+3@berkeley.edu
@@ -163,7 +185,7 @@ alias dsa=drush-self-alias
 
 # terminus convenience
 alias tal="terminus auth login $EMAIL_WORK"
-source /Users/bwood/bin/terminus-completion.bash
+#source /Users/bwood/bin/terminus-completion.bash
 
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
