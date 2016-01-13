@@ -55,6 +55,19 @@ terminus-dashboard() {
 
 alias tdash=terminus-dashboard
 
+terminus-site-wake() {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass a site shortname as the first argument, for example: openberkeley-ob"
+    return
+  fi
+  terminus site wake --site=$SITE --env=dev
+  terminus site wake --site=$SITE --env=test
+}
+
+alias tsite-wake=terminus-site-wake
+alias tsw=terminus-site-wake
+
 ###########
 ## Drush ##
 ###########
@@ -110,7 +123,7 @@ drush-users-roles() {
     echo "Must pass a drush alias as the first argument, for example: @mytest.dev"
     return
   fi
-  Drush $MYALIAS ucrt builder --mail=bwood+1@berkeley.edu --password=t
+  drush $MYALIAS ucrt builder --mail=bwood+1@berkeley.edu --password=t
   drush $MYALIAS ucrt editor --mail=bwood+2@berkeley.edu --password=t
   drush $MYALIAS ucrt contributor --mail=bwood+3@berkeley.edu --password=t
   drush $MYALIAS urol contributor --mail=bwood+3@berkeley.edu
