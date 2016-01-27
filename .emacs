@@ -349,7 +349,7 @@ Webform_CAS
 ;; https://lists.gnu.org/archive/html/emacs-orgmode/2010-04/msg01100.html
 (setq org-agenda-custom-commands
       '(("c" . "Priority views")
-        ("ca" "#A" agenda ""
+        ("ca" "#A" agenda "Show only priority A"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#A\\]"))))
@@ -357,11 +357,11 @@ Webform_CAS
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#[A\|B]\\]"))))
-        ("Cb" "#B" agenda ""
+        ("Cb" "#B" agenda "Show only priority B"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#B\\]"))))
-        ("cc" "#C" agenda ""
+        ("cc" "#C" agenda "Show only priority C"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#C\\]"))))
