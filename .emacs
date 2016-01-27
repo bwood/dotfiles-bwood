@@ -116,13 +116,13 @@
 ; DONE = done and archived
 
 (setq org-todo-keywords
-       '((sequence "TODO" "INPROG" "|" "WONTFIX" "RESOLVED" "DONE" ))) 
+       '((sequence "TODO" "INPROG" "|" "WAITING" "WONTFIX" "RESOLVED" "DONE" ))) 
 ;  "BLOCKED" "CANCELED"
 
 ;;http://orgmode.org/manual/Faces-for-TODO-keywords.html
 ;;http://raebear.net/comp/emacscolors.html
 (setq org-todo-keyword-faces
-           '(("TODO" . org-warning) ("INPROG" . (:foreground "medium aquamarine" :weight bold)) ("BLOCKED" . (:foreground "magenta" :weight bold)) ("DONE" . (:foreground "green" :weight bold)) ("WONTFIX" . (:foreground "dark olive green" :weight bold)) ("RESOLVED" . (:foreground "dim gray" :weight bold))))
+           '(("TODO" . org-warning) ("INPROG" . (:foreground "medium aquamarine" :weight bold)) ("BLOCKED" . (:foreground "magenta" :weight bold)) ("DONE" . (:foreground "green" :weight bold)) ("WONTFIX" . (:foreground "dark olive green" :weight bold)) ("RESOLVED" . (:foreground "dim gray" :weight bold)) ("WAITING" . (:foreground "dark goldenrod" :weight bold))))
 
 ;; Auto-archive DONE tasks
 ; http://stackoverflow.com/a/27043756
@@ -356,7 +356,7 @@ Webform_CAS
         ("cA" "#A and #B" agenda "Show only priorities A and B"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
-"\\[#A\|B\\]"))))
+"\\[#[A\|B]\\]"))))
         ("Cb" "#B" agenda ""
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
