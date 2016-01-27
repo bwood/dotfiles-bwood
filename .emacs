@@ -346,13 +346,18 @@ Webform_CAS
          ))
 
 ;; Filter agenda on priority
+;; https://lists.gnu.org/archive/html/emacs-orgmode/2010-04/msg01100.html
 (setq org-agenda-custom-commands
       '(("c" . "Priority views")
         ("ca" "#A" agenda ""
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#A\\]"))))
-        ("cb" "#B" agenda ""
+        ("cA" "#A and #B" agenda "Show only priorities A and B"
+         ((org-agenda-entry-types '(:scheduled))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
+"\\[#A\|B\\]"))))
+        ("Cb" "#B" agenda ""
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#B\\]"))))
@@ -415,13 +420,24 @@ Webform_CAS
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
 ;; http://doc.norang.ca/org-mode.html#Capture
+;; Journal
+;; http://sachachua.com/blog/2014/11/using-org-mode-keep-process-journal/
+(setq org-capture-templates
+      '(;; other entries
+        ("j" "Journal entry" plain
+         (file+datetree+prompt "~/Documents/orgmode/journal.org")
+         "%K - %a\n%i\n%?\n")
+        ;; other entries
+        ))
+
+
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/Documents/orgmode/capture.org")
                "* TODO %?\n%U\n%a\n  %i" :clock-in t :clock-resume t)
+              ("j" "Journal entry" plain (file+datetree+prompt "~/Documents/orgmode/journal.org")
+               "%K - %a\n%i\n%?\n")
               ("n" "note" entry (file "~/Documents/orgmode/capture.org")
                "* %? :NOTE:\n%U\n%a\n  %i" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree "~/Documents/orgmode/work/journal.org")
-               "* %?\n%U\n  %i" :clock-in t :clock-resume t)
               ("w" "org-protocol" entry (file "~/Documents/orgmode/capture.org")
                "* TODO Review %c\n%U\n  %i" :immediate-finish t)
               ("i" "Interruption" entry (file "~/Documents/orgmode/capture.org")
@@ -442,3 +458,4 @@ Webform_CAS
             (add-hook 'after-save-hook
                       'check-parens
                       nil t))))
+
