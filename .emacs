@@ -35,7 +35,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(markdown-command "/usr/local/bin/markdown")
- '(org-agenda-files (quote ("/Users/bwood/Documents/orgmode/work/projects/security-website.org" "/Users/bwood/Documents/orgmode/home/home.org" "/Users/bwood/Documents/orgmode/home/music.org" "/Users/bwood/Documents/orgmode/work/20141014.org" "/Users/bwood/Documents/orgmode/work/abatement.org" "/Users/bwood/Documents/orgmode/work/admin.org" "/Users/bwood/Documents/orgmode/work/anki.org" "/Users/bwood/Documents/orgmode/work/berkeley-drops-7_dist.org" "/Users/bwood/Documents/orgmode/work/community.org" "/Users/bwood/Documents/orgmode/work/css.org" "/Users/bwood/Documents/orgmode/work/cts.org" "/Users/bwood/Documents/orgmode/work/drupal.org" "/Users/bwood/Documents/orgmode/work/ets.org" "/Users/bwood/Documents/orgmode/work/foundational.org" "/Users/bwood/Documents/orgmode/work/ideas.org" "/Users/bwood/Documents/orgmode/work/javascript.org" "/Users/bwood/Documents/orgmode/work/journal.org" "/Users/bwood/Documents/orgmode/work/misc.org" "/Users/bwood/Documents/orgmode/work/oc.org" "/Users/bwood/Documents/orgmode/work/open_berkeley.org" "/Users/bwood/Documents/orgmode/work/operations-allsites.org" "/Users/bwood/Documents/orgmode/work/pantheon.org" "/Users/bwood/Documents/orgmode/work/parking.org" "/Users/bwood/Documents/orgmode/work/presales.org" "/Users/bwood/Documents/orgmode/work/professional_development.org" "/Users/bwood/Documents/orgmode/work/rct.org" "/Users/bwood/Documents/orgmode/work/reports.org" "/Users/bwood/Documents/orgmode/work/security.org" "/Users/bwood/Documents/orgmode/work/socrates.org" "/Users/bwood/Documents/orgmode/work/system_maintenance.org" "/Users/bwood/Documents/orgmode/work/training.org" "/Users/bwood/Documents/orgmode/work/ucb_cas.org" "/Users/bwood/Documents/orgmode/work/ucb_envconf.org" "/Users/bwood/Documents/orgmode/work/projects/asg-charlesjames.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo_acctsvcs.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo_dirt.org" "/Users/bwood/Documents/orgmode/work/projects/box.org" "/Users/bwood/Documents/orgmode/work/projects/calanswers.org" "/Users/bwood/Documents/orgmode/work/projects/caltime.org" "/Users/bwood/Documents/orgmode/work/projects/campuslife.org" "/Users/bwood/Documents/orgmode/work/projects/careercompass.org" "/Users/bwood/Documents/orgmode/work/projects/chancellor.org" "/Users/bwood/Documents/orgmode/work/projects/hrweb-ob.org" "/Users/bwood/Documents/orgmode/work/projects/hrweb.org" "/Users/bwood/Documents/orgmode/work/projects/ist-staff.org" "/Users/bwood/Documents/orgmode/work/projects/ocio.org" "/Users/bwood/Documents/orgmode/work/projects/oepo.org" "/Users/bwood/Documents/orgmode/work/projects/pmb.org" "/Users/bwood/Documents/orgmode/work/projects/procurment.org" "/Users/bwood/Documents/orgmode/work/projects/public_affairs.org" "/Users/bwood/Documents/orgmode/work/projects/safetrec.org" "/Users/bwood/Documents/orgmode/work/projects/scholar.org" "/Users/bwood/Documents/orgmode/work/projects/stafforg.org" "/Users/bwood/Documents/orgmode/work/projects/techcommons.org" "/Users/bwood/Documents/orgmode/work/projects/uhs.org" "/Users/bwood/Documents/orgmode/work/projects/vcaf.org"))))
+ '(org-agenda-files (quote ("~/Documents/orgmode/work/projects/ls.org" "/Users/bwood/Documents/orgmode/work/system_maintenance.org" "/Users/bwood/Documents/orgmode/home/home.org" "/Users/bwood/Documents/orgmode/home/music.org" "/Users/bwood/Documents/orgmode/work/20141014.org" "/Users/bwood/Documents/orgmode/work/abatement.org" "/Users/bwood/Documents/orgmode/work/admin.org" "/Users/bwood/Documents/orgmode/work/anki.org" "/Users/bwood/Documents/orgmode/work/berkeley-drops-7_dist.org" "/Users/bwood/Documents/orgmode/work/community.org" "/Users/bwood/Documents/orgmode/work/css.org" "/Users/bwood/Documents/orgmode/work/cts.org" "/Users/bwood/Documents/orgmode/work/drupal.org" "/Users/bwood/Documents/orgmode/work/ets.org" "/Users/bwood/Documents/orgmode/work/foundational.org" "/Users/bwood/Documents/orgmode/work/ideas.org" "/Users/bwood/Documents/orgmode/work/javascript.org" "/Users/bwood/Documents/orgmode/work/journal.org" "/Users/bwood/Documents/orgmode/work/misc.org" "/Users/bwood/Documents/orgmode/work/oc.org" "/Users/bwood/Documents/orgmode/work/open_berkeley.org" "/Users/bwood/Documents/orgmode/work/operations-allsites.org" "/Users/bwood/Documents/orgmode/work/pantheon.org" "/Users/bwood/Documents/orgmode/work/parking.org" "/Users/bwood/Documents/orgmode/work/presales.org" "/Users/bwood/Documents/orgmode/work/professional_development.org" "/Users/bwood/Documents/orgmode/work/rct.org" "/Users/bwood/Documents/orgmode/work/reports.org" "/Users/bwood/Documents/orgmode/work/security.org" "/Users/bwood/Documents/orgmode/work/socrates.org" "/Users/bwood/Documents/orgmode/work/training.org" "/Users/bwood/Documents/orgmode/work/ucb_cas.org" "/Users/bwood/Documents/orgmode/work/ucb_envconf.org" "/Users/bwood/Documents/orgmode/work/projects/asg-charlesjames.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo_acctsvcs.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo_dirt.org" "/Users/bwood/Documents/orgmode/work/projects/box.org" "/Users/bwood/Documents/orgmode/work/projects/calanswers.org" "/Users/bwood/Documents/orgmode/work/projects/caltime.org" "/Users/bwood/Documents/orgmode/work/projects/campuslife.org" "/Users/bwood/Documents/orgmode/work/projects/careercompass.org" "/Users/bwood/Documents/orgmode/work/projects/catsip.org" "/Users/bwood/Documents/orgmode/work/projects/chancellor.org" "/Users/bwood/Documents/orgmode/work/projects/hrweb-ob.org" "/Users/bwood/Documents/orgmode/work/projects/hrweb.org" "/Users/bwood/Documents/orgmode/work/projects/ist-staff.org" "/Users/bwood/Documents/orgmode/work/projects/ocio.org" "/Users/bwood/Documents/orgmode/work/projects/oepo.org" "/Users/bwood/Documents/orgmode/work/projects/optometry.org" "/Users/bwood/Documents/orgmode/work/projects/pmb.org" "/Users/bwood/Documents/orgmode/work/projects/procurment.org" "/Users/bwood/Documents/orgmode/work/projects/public_affairs.org" "/Users/bwood/Documents/orgmode/work/projects/safetrec.org" "/Users/bwood/Documents/orgmode/work/projects/scholar.org" "/Users/bwood/Documents/orgmode/work/projects/security-website.org" "/Users/bwood/Documents/orgmode/work/projects/stafforg.org" "/Users/bwood/Documents/orgmode/work/projects/techcommons.org" "/Users/bwood/Documents/orgmode/work/projects/uhs.org" "/Users/bwood/Documents/orgmode/work/projects/vcaf.org"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -112,14 +112,28 @@
 (setq org-agenda-window-frame-fractions '(0.5 . 0.5))
 
 ;; todo keywords
+; RESOLVED = done but not archived
+; DONE = done and archived
+
 (setq org-todo-keywords
-       '((sequence "TODO" "INPROG" "DONE" ))) 
+       '((sequence "TODO" "INPROG" "|" "WONTFIX" "RESOLVED" "DONE" ))) 
 ;  "BLOCKED" "CANCELED"
 
 ;;http://orgmode.org/manual/Faces-for-TODO-keywords.html
 ;;http://raebear.net/comp/emacscolors.html
 (setq org-todo-keyword-faces
-           '(("TODO" . org-warning) ("INPROG" . (:foreground "medium aquamarine" :weight bold)) ("BLOCKED" . (:foreground "magenta" :weight bold)) ("DONE" . (:foreground "green" :weight bold)) ("DEFERRED" . (:foreground "dark olive green" :weight bold))))
+           '(("TODO" . org-warning) ("INPROG" . (:foreground "medium aquamarine" :weight bold)) ("BLOCKED" . (:foreground "magenta" :weight bold)) ("DONE" . (:foreground "green" :weight bold)) ("WONTFIX" . (:foreground "dark olive green" :weight bold)) ("RESOLVED" . (:foreground "dim gray" :weight bold))))
+
+;; Auto-archive DONE tasks
+; http://stackoverflow.com/a/27043756
+; not working?
+;(defun org-archive-done-tasks ()
+;  (interactive)
+;  (org-map-entries
+;   (lambda ()
+;     (org-archive-subtree)
+;     (setq org-map-continue-from (outline-previous-heading)))
+;   "/DONE" 'tree))
 
 ;; Default properties
 (setq org-global-properties
@@ -136,15 +150,24 @@
 ;; WPS = Web Platform Services.  Time tracking for Google Sheet begun with CalTime Migration
                 ("wps_ALL". 
 "Administration
+American-Cultures-Web
+APBears-Drupal
 ASG-Consulting
+bConnected-Consulting
+bConnected-Website
+BGC-Website
+CalNet-Website
 CATSIP-Website
 Chanc-Office-Website
 Chemistry-Website
+Disability-Compl-Website
 Drupal-Community
 Drupal-Ops-Managed
+DSP-Website
 EIS-Website
 Enterprise-SOA
 ERIT
+ETS-Website
 Gustafson-Website
 Holiday
 HR-Web
@@ -155,18 +178,33 @@ Library-Bindery
 LS-Web
 OCIO-Technology-Website
 OFEW-Website
+OFEW-FamilyEdge-Website
 Open-Berkeley
+Optometry-Website
+ORIAS-Website
 Pantheon-Admin
+PCSSC-Website
 PMB-Drupal
+Procurement-Drupal
 Professional-Developmt
 Real-Estate-Website
+RetirementCtr-Website
 Research-Hub-Transition
 SafeTREC-Website
-Staff-Org-Website
+Security-Website
+Service-Now-Website
+Software-Central-Website
+Staff-Org-Website-OB
 STC-Website
+STFC-Website
+StudentBilling-Web
+Telecom-Website
+Travel-Website
 UCPD-Website
 UCSF-PIVOT
 UHS-Policy-Website
+UPP-Website
+VCUE
 Web-Accessibility
 Web-Platform-Services
 Website-Abatement-Proj
@@ -271,6 +309,11 @@ Webform_CAS
 
 (setq org-clock-modeline-total 'today)
 
+;; Priorities: A-E. Default priority=E
+(setq org-enable-priority-commands t)
+(setq org-default-priority ?E)
+(setq org-lowest-priority ?E)
+
 ;; Customize Agenda menu
 ;                        (quote ((agenda time-up tag-up priority-down) )))
 (setq org-agenda-custom-commands
@@ -301,6 +344,25 @@ Webform_CAS
          ((org-agenda-files (file-expand-wildcards "~/Documents/orgmode/archive/*.org"))))
         ;; ...other commands here
          ))
+
+;; Filter agenda on priority
+(setq org-agenda-custom-commands
+      '(("c" . "Priority views")
+        ("ca" "#A" agenda ""
+         ((org-agenda-entry-types '(:scheduled))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
+"\\[#A\\]"))))
+        ("cb" "#B" agenda ""
+         ((org-agenda-entry-types '(:scheduled))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
+"\\[#B\\]"))))
+        ("cc" "#C" agenda ""
+         ((org-agenda-entry-types '(:scheduled))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
+"\\[#C\\]"))))
+        ;; ...other commands here
+        ))
+
 
 (setq org-agenda-start-with-follow-mode t)
 ;; http://orgmode.org/manual/Clocking-work-time.html#Clocking-work-time
