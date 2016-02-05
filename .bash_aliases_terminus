@@ -5,7 +5,7 @@
 terminus-git-clone() {
   SITE=$1
   if [ x$SITE = x ]; then
-    echo "Must pass a site shortname as the first argument, for example: openberkeley-ob"
+    echo "Must pass a site shortname as the first argument, for example: site-name"
     return
   fi
   
@@ -20,7 +20,7 @@ alias tgc=terminus-git-clone
 terminus-dashboard() {
   SITE=$1
   if [ x$SITE = x ]; then
-    echo "Must pass a site shortname as the first argument, for example: openberkeley-ob"
+    echo "Must pass a site shortname as the first argument, for example: site-name"
     return
   fi
   terminus site dashboard --yes --site=$SITE 
@@ -31,7 +31,7 @@ alias tdash=terminus-dashboard
 terminus-site-wake() {
   SITE=$1
   if [ x$SITE = x ]; then
-    echo "Must pass a site shortname as the first argument, for example: openberkeley-ob"
+    echo "Must pass a site shortname as the first argument, for example: site-name"
     return
   fi
   terminus site wake --site=$SITE --env=dev
@@ -47,7 +47,7 @@ alias tal="terminus auth login $EMAIL_WORK"
 terminus-cache-clear () {
   terminus cli cache-clear
   terminus auth login $EMAIL_WORK
-  terminus site info --site=openberkeley-ob
+  terminus site info --site=openberkeley-ob # rebuild caches
 }
 
 alias tcc=terminus-cache-clear
