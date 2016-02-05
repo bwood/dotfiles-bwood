@@ -43,41 +43,7 @@ alias php3=/Applications/acquia-drupal/php5_3/bin/php
 ##############
 ## Terminus ##
 ##############
-
-terminus-dashboard() {
-  SITE=$1
-  if [ x$SITE = x ]; then
-    echo "Must pass a site shortname as the first argument, for example: openberkeley-ob"
-    return
-  fi
-  terminus site dashboard --yes --site=$SITE 
-}
-
-alias tdash=terminus-dashboard
-
-terminus-site-wake() {
-  SITE=$1
-  if [ x$SITE = x ]; then
-    echo "Must pass a site shortname as the first argument, for example: openberkeley-ob"
-    return
-  fi
-  terminus site wake --site=$SITE --env=dev
-  terminus site wake --site=$SITE --env=test
-}
-
-alias tsite-wake=terminus-site-wake
-alias tsw=terminus-site-wake
-
-alias tal="terminus auth login $EMAIL_WORK"
-#source /Users/bwood/bin/terminus-completion.bash
-
-terminus-cache-clear () {
-  terminus cli cache-clear
-  terminus auth login $EMAIL_WORK
-  terminus site info --site=openberkeley-ob
-}
-
-alias tcc=terminus-cache-clear
+. ~/.bash_aliases_terminus
 
 ###########
 ## Drush ##
