@@ -15,6 +15,7 @@ terminus-git-clone() {
     echo "You already cloned $SITE. Doing a git pull..." 
     cd $SITE
     git pull
+    return
   fi
   ID=$(terminus site info --field=id --site=$SITE)
   CMD="git clone ssh://codeserver.dev.$ID@codeserver.dev.$ID.drush.in:2222/~/repository.git $SITE --depth=1"
