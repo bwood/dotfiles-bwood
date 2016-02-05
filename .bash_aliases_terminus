@@ -8,10 +8,18 @@ terminus-git-clone() {
     echo "Must pass a site shortname as the first argument, for example: site-name"
     return
   fi
-  
+
+  SITES_DIR=~/Sites/pantheon  
+  cd $SITES_DIR
+  if [ -d "$SITE" ]; then
+    echo "You already cloned $SITE. Doing a git pull..." 
+    cd $SITE
+    git pull
+  fi
   ID=$(terminus site info --field=id --site=$SITE)
   CMD="git clone ssh://codeserver.dev.$ID@codeserver.dev.$ID.drush.in:2222/~/repository.git $SITE --depth=1"
   $CMD
+  cd $SITE
 }
 
 alias tgc=terminus-git-clone
