@@ -68,6 +68,17 @@ terminus-site-wake() {
 alias tsite-wake=terminus-site-wake
 alias tsw=terminus-site-wake
 
+alias tal="terminus auth login $EMAIL_WORK"
+#source /Users/bwood/bin/terminus-completion.bash
+
+terminus-cache-clear () {
+  terminus cli cache-clear
+  terminus auth login $EMAIL_WORK
+  terminus site info --site=openberkeley-ob
+}
+
+alias tcc=terminus-cache-clear
+
 ###########
 ## Drush ##
 ###########
@@ -195,18 +206,6 @@ drush-self-alias () {
 }
 
 alias dsa=drush-self-alias
-
-# terminus convenience
-alias tal="terminus auth login $EMAIL_WORK"
-#source /Users/bwood/bin/terminus-completion.bash
-
-terminus-cache-clear () {
-  terminus cli cache-clear
-  terminus auth login $EMAIL_WORK
-  terminus site info --site=openberkeley-ob
-}
-
-alias tcc=terminus-cache-clear
 
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
