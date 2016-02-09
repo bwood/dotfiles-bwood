@@ -2,7 +2,7 @@
 ## Terminus ##
 ##############
 
-terminus-hostname() {
+_terminus-hostname() {
   SITE=$1
   if [ x$SITE = x ]; then
     echo "terminus-hostname Must pass a site shortname as the first argument, for example: site-name"
@@ -38,7 +38,8 @@ terminus-sftp() {
     return
   fi
 
-  terminus-hostname "$SITE" "dev" "appserver"
+  _terminus-hostname "$SITE" "dev" "appserver"
+
   if [ -n "$HOSTNAME" ]; then
     CMD="sftp -o Port=2222 $HOSTNAME"
     echo $CMD
@@ -64,11 +65,14 @@ terminus-git-clone() {
     return
   fi
 
-  CMD="git clone ssh://codeserver.dev.$ID@codeserver.dev.$ID.drush.in:2222/~/repository.git $SITE --depth=1"
-#  TYPE="codeserver"
-#  CMD="git clone ssh://$TYPE."_terminus-hostname() "$SITE" "dev" $TYPE":2222/~/repository.git $SITE --depth=1"
-  $CMD
-  cd $SITE
+  TYPE="codeserver"
+  _terminus-hostname $SITE "dev" $TYPE
+
+  if [ -n "$HOSTNAME" ]; then
+    CMD="git clone ssh://$TYPE.$HOSTNAME:2222/~/repository.git $SITE --depth=1"
+    $CMD
+    cd $SITE
+  fi
 }
 
 alias tgc=terminus-git-clone
