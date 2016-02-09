@@ -34,7 +34,17 @@ _terminus-hostname() {
 terminus-sftp() {
   SITE=$1
   if [ x$SITE = x ]; then
-    echo "Must pass a site shortname as the first argument, for example: site-name"
+    echo "
+USAGE:
+
+terminus-sftp site-shortname
+
+Make an sftp connection to a site.
+
+  site-shortname: REQUIRED: If your site is dev-example.pantheon.io
+                  this would be "example" 
+
+"
     return
   fi
 
@@ -43,11 +53,59 @@ terminus-sftp() {
   if [ -n "$HOSTNAME" ]; then
     CMD="sftp -o Port=2222 $HOSTNAME"
     echo $CMD
-    $CMD    
+    $CMD
   fi
 }
 
 alias tsftp=terminus-sftp
+
+terminus-logs() {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "
+USAGE:
+
+terminus-logs site-shortname
+
+Gets the logs for the site 
+
+  site-shortname: REQUIRED: If your site is dev-example.pantheon.io
+                  this would be "example" 
+
+"
+    return
+  fi
+
+  DIR="/tmp"
+
+
+  SFTP_CMDS="cd logs
+  lcd $DIR/$SITE
+  mget php*
+  get nginx-access.log"
+
+  _terminus-hostname "$SITE" "dev" "appserver"
+
+  if [ -n "$HOSTNAME" ]; then
+    # if the log directory exists delete it
+    if [ ! -d "$DIR/$SITE" ]; then
+      mkdir "$DIR/$SITE"
+    fi
+
+    echo ""
+    echo "Connecting to $SITE..."
+    CMD="sftp -o Port=2222 $HOSTNAME"
+    echo "$SFTP_CMDS" | $CMD
+
+    echo ""
+    echo "Logs downloaded to $DIR/$SITE."
+    echo ""
+    cd "$DIR/$SITE"
+    ls -l
+  fi
+}
+
+alias tlogs=terminus-logs
 
 terminus-git-clone() {
   SITE=$1
