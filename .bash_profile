@@ -5,7 +5,7 @@ export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export EMAIL_WORK=bwood@berkeley.edu
 
 # istdrupal console
-export ISTDRUPAL_TERMINUS=~/bin/terminus-093
+export ISTDRUPAL_TERMINUS=~/bin/terminus-0102
 export ISTDRUPAL_TERMINUS_DEV_PATH="/Users/bwood/code/php/cli"
 export ISTDRUPAL_TERMINUS_DEV="1"
 export VCR_CASSETTE_PATH="/Users/bwood/code/php/istdrupal/tests/fixtures"
