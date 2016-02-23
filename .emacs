@@ -35,7 +35,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(markdown-command "/usr/local/bin/markdown")
- '(org-agenda-files (quote ("/Users/bwood/Documents/orgmode/work/journal.org" "/Users/bwood/Documents/orgmode/home/home.org" "/Users/bwood/Documents/orgmode/home/music.org" "/Users/bwood/Documents/orgmode/work/20141014.org" "/Users/bwood/Documents/orgmode/work/abatement.org" "/Users/bwood/Documents/orgmode/work/admin.org" "/Users/bwood/Documents/orgmode/work/anki.org" "/Users/bwood/Documents/orgmode/work/berkeley-drops-7_dist.org" "/Users/bwood/Documents/orgmode/work/community.org" "/Users/bwood/Documents/orgmode/work/css.org" "/Users/bwood/Documents/orgmode/work/cts.org" "/Users/bwood/Documents/orgmode/work/drupal.org" "/Users/bwood/Documents/orgmode/work/ets.org" "/Users/bwood/Documents/orgmode/work/foundational.org" "/Users/bwood/Documents/orgmode/work/ideas.org" "/Users/bwood/Documents/orgmode/work/javascript.org" "/Users/bwood/Documents/orgmode/work/misc.org" "/Users/bwood/Documents/orgmode/work/oc.org" "/Users/bwood/Documents/orgmode/work/open_berkeley.org" "/Users/bwood/Documents/orgmode/work/operations-allsites.org" "/Users/bwood/Documents/orgmode/work/pantheon.org" "/Users/bwood/Documents/orgmode/work/parking.org" "/Users/bwood/Documents/orgmode/work/presales.org" "/Users/bwood/Documents/orgmode/work/professional_development.org" "/Users/bwood/Documents/orgmode/work/rct.org" "/Users/bwood/Documents/orgmode/work/reports.org" "/Users/bwood/Documents/orgmode/work/security.org" "/Users/bwood/Documents/orgmode/work/socrates.org" "/Users/bwood/Documents/orgmode/work/system_maintenance.org" "/Users/bwood/Documents/orgmode/work/training.org" "/Users/bwood/Documents/orgmode/work/ucb_cas.org" "/Users/bwood/Documents/orgmode/work/ucb_envconf.org" "/Users/bwood/Documents/orgmode/work/projects/asg-charlesjames.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo_acctsvcs.org" "/Users/bwood/Documents/orgmode/work/projects/bamboo_dirt.org" "/Users/bwood/Documents/orgmode/work/projects/box.org" "/Users/bwood/Documents/orgmode/work/projects/calanswers.org" "/Users/bwood/Documents/orgmode/work/projects/caltime.org" "/Users/bwood/Documents/orgmode/work/projects/campuslife.org" "/Users/bwood/Documents/orgmode/work/projects/careercompass.org" "/Users/bwood/Documents/orgmode/work/projects/catsip.org" "/Users/bwood/Documents/orgmode/work/projects/chancellor.org" "/Users/bwood/Documents/orgmode/work/projects/hrweb-ob.org" "/Users/bwood/Documents/orgmode/work/projects/hrweb.org" "/Users/bwood/Documents/orgmode/work/projects/ist-staff.org" "/Users/bwood/Documents/orgmode/work/projects/ls.org" "/Users/bwood/Documents/orgmode/work/projects/ocio.org" "/Users/bwood/Documents/orgmode/work/projects/oepo.org" "/Users/bwood/Documents/orgmode/work/projects/optometry.org" "/Users/bwood/Documents/orgmode/work/projects/pmb.org" "/Users/bwood/Documents/orgmode/work/projects/procurment.org" "/Users/bwood/Documents/orgmode/work/projects/public_affairs.org" "/Users/bwood/Documents/orgmode/work/projects/safetrec.org" "/Users/bwood/Documents/orgmode/work/projects/scholar.org" "/Users/bwood/Documents/orgmode/work/projects/security-website.org" "/Users/bwood/Documents/orgmode/work/projects/stafforg.org" "/Users/bwood/Documents/orgmode/work/projects/techcommons.org" "/Users/bwood/Documents/orgmode/work/projects/uhs.org" "/Users/bwood/Documents/orgmode/work/projects/vcaf.org"))))
+ '(org-agenda-files (quote ("/Users/bwood/Google Drive/orgmode/work/journal.org" "/Users/bwood/Google Drive/orgmode/home/home.org" "/Users/bwood/Google Drive/orgmode/home/music.org" "/Users/bwood/Google Drive/orgmode/work/20141014.org" "/Users/bwood/Google Drive/orgmode/work/abatement.org" "/Users/bwood/Google Drive/orgmode/work/admin.org" "/Users/bwood/Google Drive/orgmode/work/anki.org" "/Users/bwood/Google Drive/orgmode/work/berkeley-drops-7_dist.org" "/Users/bwood/Google Drive/orgmode/work/community.org" "/Users/bwood/Google Drive/orgmode/work/css.org" "/Users/bwood/Google Drive/orgmode/work/cts.org" "/Users/bwood/Google Drive/orgmode/work/drupal.org" "/Users/bwood/Google Drive/orgmode/work/ets.org" "/Users/bwood/Google Drive/orgmode/work/foundational.org" "/Users/bwood/Google Drive/orgmode/work/ideas.org" "/Users/bwood/Google Drive/orgmode/work/javascript.org" "/Users/bwood/Google Drive/orgmode/work/misc.org" "/Users/bwood/Google Drive/orgmode/work/oc.org" "/Users/bwood/Google Drive/orgmode/work/open_berkeley.org" "/Users/bwood/Google Drive/orgmode/work/operations-allsites.org" "/Users/bwood/Google Drive/orgmode/work/pantheon.org" "/Users/bwood/Google Drive/orgmode/work/parking.org" "/Users/bwood/Google Drive/orgmode/work/presales.org" "/Users/bwood/Google Drive/orgmode/work/professional_development.org" "/Users/bwood/Google Drive/orgmode/work/rct.org" "/Users/bwood/Google Drive/orgmode/work/reports.org" "/Users/bwood/Google Drive/orgmode/work/security.org" "/Users/bwood/Google Drive/orgmode/work/socrates.org" "/Users/bwood/Google Drive/orgmode/work/system_maintenance.org" "/Users/bwood/Google Drive/orgmode/work/training.org" "/Users/bwood/Google Drive/orgmode/work/ucb_cas.org" "/Users/bwood/Google Drive/orgmode/work/ucb_envconf.org" "/Users/bwood/Google Drive/orgmode/work/projects/asg-charlesjames.org" "/Users/bwood/Google Drive/orgmode/work/projects/bamboo.org" "/Users/bwood/Google Drive/orgmode/work/projects/bamboo_acctsvcs.org" "/Users/bwood/Google Drive/orgmode/work/projects/bamboo_dirt.org" "/Users/bwood/Google Drive/orgmode/work/projects/box.org" "/Users/bwood/Google Drive/orgmode/work/projects/calanswers.org" "/Users/bwood/Google Drive/orgmode/work/projects/caltime.org" "/Users/bwood/Google Drive/orgmode/work/projects/campuslife.org" "/Users/bwood/Google Drive/orgmode/work/projects/careercompass.org" "/Users/bwood/Google Drive/orgmode/work/projects/catsip.org" "/Users/bwood/Google Drive/orgmode/work/projects/chancellor.org" "/Users/bwood/Google Drive/orgmode/work/projects/hrweb-ob.org" "/Users/bwood/Google Drive/orgmode/work/projects/hrweb.org" "/Users/bwood/Google Drive/orgmode/work/projects/ist-staff.org" "/Users/bwood/Google Drive/orgmode/work/projects/ls.org" "/Users/bwood/Google Drive/orgmode/work/projects/ocio.org" "/Users/bwood/Google Drive/orgmode/work/projects/oepo.org" "/Users/bwood/Google Drive/orgmode/work/projects/optometry.org" "/Users/bwood/Google Drive/orgmode/work/projects/pmb.org" "/Users/bwood/Google Drive/orgmode/work/projects/procurment.org" "/Users/bwood/Google Drive/orgmode/work/projects/public_affairs.org" "/Users/bwood/Google Drive/orgmode/work/projects/safetrec.org" "/Users/bwood/Google Drive/orgmode/work/projects/scholar.org" "/Users/bwood/Google Drive/orgmode/work/projects/security-website.org" "/Users/bwood/Google Drive/orgmode/work/projects/stafforg.org" "/Users/bwood/Google Drive/orgmode/work/projects/techcommons.org" "/Users/bwood/Google Drive/orgmode/work/projects/uhs.org" "/Users/bwood/Google Drive/orgmode/work/projects/vcaf.org"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -85,15 +85,15 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
-(setq org-agenda-files (list "~/Documents/orgmode/home/"
-                             "~/Documents/orgmode/work/"
-                             "~/Documents/orgmode/work/projects"))
+(setq org-agenda-files (list "~/Google Drive/Documents/orgmode/home/"
+                             "~/Google Drive/Documents/orgmode/work/"
+                             "~/Google Drive/Documents/orgmode/work/projects"))
 
 ;; Archive location
 ;; This allows searching archives, but since this dir is not in set-org-agenda-files
 ;; it will not be scanned for agenda commands
 ;; See C-h v org-archive-location
-(setq org-archive-location "~/Documents/orgmode/archive/%s_archive.org::")
+(setq org-archive-location "~/Google Drive/Documents/orgmode/archive/%s_archive.org::")
 
 ;; Question at http://stackoverflow.com/questions/20979553/how-to-override-override-modeline-customization-from-org-faces-el
 ;; prevent org clock from using the same background as 'mode-line
@@ -314,6 +314,9 @@ Webform_CAS
 (setq org-default-priority ?E)
 (setq org-lowest-priority ?E)
 
+;; Default dealine warning number of days
+(setq org-deadline-warning-days 7)
+
 ;; Customize Agenda menu
 ;                        (quote ((agenda time-up tag-up priority-down) )))
 (setq org-agenda-custom-commands
@@ -336,12 +339,12 @@ Webform_CAS
         ;; Agenda queries.  Allow searching archives
         ("Q" . "Custom queries") ;; gives label to "Q" 
         ("Qa" "Archive search" search ""
-         ((org-agenda-files (file-expand-wildcards "~/Documents/orgmode/archive/*.org")))) 
+         ((org-agenda-files (file-expand-wildcards "~/Google Drive/Documents/orgmode/archive/*.org")))) 
         ("Qb" "Projects and Archive" search ""
-         ((org-agenda-text-search-extra-files (file-expand-wildcards "~/Documents/orgmode/archive/*.org"))))
+         ((org-agenda-text-search-extra-files (file-expand-wildcards "~/Google Drive/Documents/orgmode/archive/*.org"))))
                 ;; searches both projects and archive directories
         ("QA" "Archive tags search" org-tags-view "" 
-         ((org-agenda-files (file-expand-wildcards "~/Documents/orgmode/archive/*.org"))))
+         ((org-agenda-files (file-expand-wildcards "~/Google Drive/Documents/orgmode/archive/*.org"))))
         ;; ...other commands here
          ))
 
@@ -401,9 +404,9 @@ Webform_CAS
 ;; -----------------------------------------------------------
 ;; Mobile Org
 ;; Set to the location of your Org files on your local system
-(setq org-directory "~/Documents/orgmode")
+(setq org-directory "~/Google Drive/Documents/orgmode")
 ;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull "~/Documents/orgmode/capture.org")
+(setq org-mobile-inbox-for-pull "~/Google Drive/Documents/orgmode/capture.org")
 ;; Set to <your Dropbox root directory>/MobileOrg.
 (setq org-mobile-directory "~/Dropbox/")
 
@@ -415,7 +418,7 @@ Webform_CAS
 ;; Capture
 
 ;; Notes
-(setq org-default-notes-file (concat org-directory "Documents/orgmode/capture.org")) 
+(setq org-default-notes-file (concat org-directory "~/Google Drive/Documents/orgmode/capture.org")) 
 (define-key global-map "\C-cc" 'org-capture)
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
@@ -423,21 +426,21 @@ Webform_CAS
 ;; Journal
 ;; http://sachachua.com/blog/2014/11/using-org-mode-keep-process-journal/
 (setq org-capture-templates
-      (quote (("t" "todo" entry (file "~/Documents/orgmode/capture.org")
+      (quote (("t" "todo" entry (file "~/Google Drive/Documents/orgmode/capture.org")
                "* TODO %?\n%U\n%a\n  %i" :clock-in t :clock-resume t)
 ;This stores a link to the currently-clocked task and to whatever context I was looking at when I started the journal entry. It also copies the active region (if any), then positions my cursor after that text. 
-;              ("j" "Journal entry" plain (file+datetree+prompt "~/Documents/orgmode/work/journal.org")
+;              ("j" "Journal entry" plain (file+datetree+prompt "~/Google Drive/Documents/orgmode/work/journal.org")
 ;               "%K - %a\n%i\n%?\n")
 ; I want a headline
-              ("j" "Journal entry" entry (file+datetree "~/Documents/orgmode/work/journal.org")
+              ("j" "Journal entry" entry (file+datetree "~/Google Drive/Documents/orgmode/work/journal.org")
                "* %? \n%K\n\n")
-              ("n" "note" entry (file "~/Documents/orgmode/capture.org")
+              ("n" "note" entry (file "~/Google Drive/Documents/orgmode/capture.org")
                "* %? :NOTE:\n%U\n%a\n  %i" :clock-in t :clock-resume t)
-              ("w" "org-protocol" entry (file "~/Documents/orgmode/capture.org")
+              ("w" "org-protocol" entry (file "~/Google Drive/Documents/orgmode/capture.org")
                "* TODO Review %c\n%U\n  %i" :immediate-finish t)
-              ("i" "Interruption" entry (file "~/Documents/orgmode/capture.org")
+              ("i" "Interruption" entry (file "~/Google Drive/Documents/orgmode/capture.org")
                "* Interruption %?\n%U" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file "~/Documents/orgmode/capture.org")
+              ("h" "Habit" entry (file "~/Google Drive/Documents/orgmode/capture.org")
                "* NEXT %?\n%U\n%a\nSCHEDULED: %t .+1d/3d\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n  %i"))))
 
 ;; Markdown mode
