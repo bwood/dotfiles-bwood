@@ -166,7 +166,7 @@ alias tal="terminus auth login $EMAIL_WORK"
 terminus-cache-clear () {
   terminus cli cache-clear
   terminus auth login $EMAIL_WORK
-  terminus site info --site=openberkeley-ob # rebuild caches
+  terminus sites list |head -3 # warm the terminus cache
 }
 
 alias tcc=terminus-cache-clear

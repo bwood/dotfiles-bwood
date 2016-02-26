@@ -1,5 +1,7 @@
-# Homebrew: make sure /usr/local/bin is before /usr/bin
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:~/bin:~/bin/drush:~/bin/utility:/usr/local/bin/git:~/workspace/scripts:/Applications/acquia-drupal/mysql/bin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH:/Users/bwood/pear/bin
+# Homebrew: make sure /usr/local/bin is before /usr/bin so that things like brew-installed git take precedence over Apple-installed programs
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/bin:$HOME/bin/utility:/Applications/acquia-drupal/mysql/bin:$HOME/.composer/vendor/bin:$PATH"
+
+
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export EMAIL_WORK=bwood@berkeley.edu
@@ -43,6 +45,11 @@ alias php3=/Applications/acquia-drupal/php5_3/bin/php
 ##############
 ## Terminus ##
 ##############
+. ~/.bash_aliases_terminus
+
+##############################
+## IST Web Platform Scripts ##
+##############################
 . ~/.bash_aliases_terminus
 
 ###########

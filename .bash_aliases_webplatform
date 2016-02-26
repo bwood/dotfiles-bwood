@@ -1,0 +1,18 @@
+new-site() {
+
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "new-site Must pass a site shortname as the first argument, for example: site-name"
+    exit 1
+  fi
+
+  PROD_ORG=$2
+  if [ x$PROD_ORG = x ]; then
+    TEST_ORG='-T'
+  else 
+    TEST_ORG=""
+  fi
+  
+  php ~/bin/istdrupal-new-site.php --site=$SITE --site-friendly=$SITE --site-mail=bwood+01@berkeley.edu --user1-mail=bwood+02@berkeley.edu -y $TEST_ORG
+
+}
