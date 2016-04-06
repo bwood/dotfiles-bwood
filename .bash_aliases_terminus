@@ -351,6 +351,30 @@ terminus-clone-site() {
     terminus-deploy-content $TO_SITE $ENV
   fi
 
+  echo "Site created:"
+  echo "http://dev-$TO_SITE.pantheon.berkeley.edu"
+  echo "http://test-$TO_SITE.pantheon.berkeley.edu"
+  echo "http://live-$TO_SITE.pantheon.berkeley.edu"
+
+  # Tag the site on the dashbaord.
+  if [[ "$TO_SITE" =~ "upgrade-testing" ]];then
+    echo ""
+    echo "Since this is an upgrade-testing site, we will add the 'Upgrade Testing' tag."
+    if [ -z "$ISTDRUPAL_ORG" ]; then
+       echo "(To avoind interaction
+  export ISTDRUPAL_ORG=''
+before running this script.)
+"
+       echo "Enter the Pantheon Organization for the tag."
+       read INPUT
+       ISTDRUPAL_ORG=$INPUT
+    fi
+
+    terminus site tags add --tag='Upgrade Testing' --site=$TO_SITE --org="'$ISTDRUPAL_ORG'"
+
+    echo "Done."
+  fi
+
 
 }
 
