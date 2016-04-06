@@ -2,6 +2,10 @@
 ## Terminus ##
 ##############
 
+# Globals
+# if you need to customize consider a symlink to this location
+ISTDRUPAL_NEW_SITE=$HOME/bin/istdrupal-new-site.php
+
 _terminus-hostname() {
   SITE=$1
   if [ x$SITE = x ]; then
@@ -170,3 +174,184 @@ terminus-cache-clear () {
 }
 
 alias tcc=terminus-cache-clear
+
+
+terminus-deploy-code() {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass the site shortname of the site."
+    return
+  fi
+
+  ENV=$2
+  if [ x$ENV = x ]; then
+    echo "Must pass the target environment. (If \"live\" code will also be deployed to \"test.\")"
+    return
+  fi
+  
+  if [ "$ENV" == "test" ]; then
+    ENVS=( test )
+  elif  [ "$ENV" == "live" ]; then
+    ENVS=( test live )
+  else
+    echo "The second argument must be \"test\" or \"live\""
+    return
+  fi
+
+  for TO_ENV in "${ENVS[@]}"; do
+    echo ""
+    echo "$SITE: Deploying code to $TO_ENV."
+    terminus site deploy --site=$SITE --env=$TO_ENV --note="Deployed via bash $FUNCNAME()."
+  done
+  
+}
+
+alias tdcode=terminus-deploy-code
+
+terminus-deploy-content() {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass the site shortname of the site."
+    return
+  fi
+
+  ENV=$2
+  if [ x$ENV = x ]; then
+    echo "Must pass the target environment. (If \"live\" code will also be deployed to \"test.\")"
+    return
+  fi
+  
+  if [ "$ENV" == "test" ]; then
+    ENVS=( test )
+  elif  [ "$ENV" == "live" ]; then
+    ENVS=( test live )
+  else
+    echo "The second argument must be \"test\" or \"live\""
+    return
+  fi
+
+  for TO_ENV in "${ENVS[@]}"; do
+    echo ""
+    echo "$SITE: Deploying content to $TO_ENV."
+    terminus site clone-content --from-env=dev --to-env=$TO_ENV --site=$SITE --yes
+  done
+
+}
+
+alias tdcontent=terminus-deploy-content
+
+new-site() {
+
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass the site shortname of the site to which you want to clone."
+    return
+  fi
+
+  STEPS=$2
+  if [ x$STEPS != x ]; then
+    STEP_OPT=" -S"$STEPS
+  fi
+  
+  # Create the target site
+  php $ISTDRUPAL_NEW_SITE --site=$TO_SITE $STEP_OPT
+
+}
+
+clone-content-between-sites() {
+  SOURCE=$1
+  if [ x$SOURCE = x ]; then
+    echo "Must pass the site shortname of the SOURCE site FROM which to which you want to clone."
+    return
+  fi
+
+ TARGET=$2
+  if [ x$TARGET = x ]; then
+    echo "Must pass the site shortname of the TARGET site TO which you want to clone."
+    return
+  fi
+
+ ELEMENTS=$3
+  if [ x$ELEMENTS = x ]; then
+    echo "Must pass the (comma-separated) elements that you want to clone. (E.g. \"files,database\")"
+    return
+  fi
+
+  # replace the ',' with a space and evaluate the string with in '()' to create an array.  Yea bash. :-/
+  ELEMENTS=(${ELEMENTS//,/ })
+
+  DB_TASKS=0
+
+  for ELEMENT in "${ELEMENTS[@]}"; do
+    if [ "$ELEMENT" == "database" ]; then
+      DB_TASKS=1
+    fi 
+    echo "Cloning $ELEMENT $SOURCE --> $TARGET"
+    terminus site import-content --site=$TARGET --url=$(terminus site backups get --site=$SOURCE --env=live --element=$ELEMENT --latest) --element=$ELEMENT
+  done
+
+  if [ "$DB_TASKS" -eq "1" ]; then 
+
+    # update pathologic
+    echo ""
+    echo "Updating pathologic paths on $TARGET."
+    echo ""
+    PATHOLOGIC="http://dev-$TARGET.pantheon.berkeley.edu/
+http://test-$TARGET.pantheon.berkeley.edu/
+http://live-$TARGET.pantheon.berkeley.edu/
+http://dev-$TARGET.pantheonsite.io/
+http://test-$TARGET.pantheonsite.io/
+http://live-$TARGET.pantheonsite.io/
+http://$TARGET.berkeley.edu
+http://$TARGET.localhost"
+    terminus drush --site=$TARGET --env=dev "vset openberkeley_wysiwyg_override_pathologic_paths '$PATHOLOGIC'"
+
+    # clear caches
+    echo ""
+    echo "Clearing caches on $TARGET."
+    echo ""
+    terminus site clear-cache --site=$TARGET --env=dev
+  fi
+
+}
+
+terminus-clone-site() {
+  # Other users need to customize ISTDRUPAL_NEW_SITE at top of file
+
+  FROM_SITE=$1
+  if [ x$FROM_SITE = x ]; then
+    echo "Must pass the site shortname of the site from which you want to clone."
+    return
+  fi
+
+  # Validate the FROM_SITE
+  terminus site info --site=$FROM_SITE &>/dev/null
+  STATUS=$?
+  if [ "$STATUS" -ne "0" ]; then
+    echo "$FROM_SITE is not found.  Try running 
+  terminus sites info";
+    return
+  fi
+
+  TO_SITE=$2
+  if [ x$TO_SITE = x ]; then
+    echo "Must pass the site shortname of the site to which you want to clone."
+    return
+  fi
+
+  # Create a basic target site
+  new-site $TO_SITE "1,2,5"
+
+  # Clone the db and files from the source to the target site
+  clone-content-between-sites $FROM_SITE $TO_SITE "database,files"
+
+  ENV=$3
+  if [ x$ENV = x ]; then
+    terminus-deploy-code $TO_SITE $ENV
+    terminus-deploy-content $TO_SITE $ENV
+  fi
+
+
+}
+
+alias tcsite=terminus-clone-site
