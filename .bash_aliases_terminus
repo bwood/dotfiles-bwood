@@ -318,9 +318,30 @@ http://$TARGET.localhost"
 terminus-clone-site() {
   # Other users need to customize ISTDRUPAL_NEW_SITE at top of file
 
+  USAGE="
+terminus-clone-site my-source-site-name my-target-site-name [test|live] UCB
+
+Required Arguments: 
+
+  my-source-site-name:  Pantheon short name for source site
+
+  my-target-site-name:  Pantheon short name for target site
+
+  environment:          Environment to which to deploy the target site.
+
+Optional Arguments:
+
+  UCB:                  UCB will put the target site in the live organization.
+                        If not present, will put target site in the test org.
+
+"
+
+
   FROM_SITE=$1
   if [ x$FROM_SITE = x ]; then
     echo "Must pass the site shortname of the site from which you want to clone."
+    echo ""
+    echo "$USAGE"
     return
   fi
 
@@ -336,20 +357,35 @@ terminus-clone-site() {
   TO_SITE=$2
   if [ x$TO_SITE = x ]; then
     echo "Must pass the site shortname of the site to which you want to clone."
+    echo ""
+    echo "$USAGE"
     return
   fi
 
+  ENV=$3
+  if [ x$ENV = x ]; then
+    echo "Must indicate the environment to which you want to deploy on the target site."
+    echo ""
+    echo "$USAGE"
+    return
+  fi
+
+  # This argument puts the site in the real organization. Else it's put in the test organization.
+  LIVE_ORG=$4
+  if [ $LIVE_ORG == "UCB" ]; then
+    NEW_SITE_STEPS="1,2,5"
+  else
+    NEW_SITE_STEPS="1,5"
+  fi
+
   # Create a basic target site
-  new-site $TO_SITE "1,2,5"
+  new-site $TO_SITE $NEW_SITE_STEPS
 
   # Clone the db and files from the source to the target site
   clone-content-between-sites $FROM_SITE $TO_SITE "database,files"
 
-  ENV=$3
-  if [ x$ENV = x ]; then
-    terminus-deploy-code $TO_SITE $ENV
-    terminus-deploy-content $TO_SITE $ENV
-  fi
+  terminus-deploy-code $TO_SITE $ENV
+  terminus-deploy-content $TO_SITE $ENV
 
   echo "Site created:"
   echo "http://dev-$TO_SITE.pantheon.berkeley.edu"
