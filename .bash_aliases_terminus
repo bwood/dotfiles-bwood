@@ -35,6 +35,21 @@ _terminus-hostname() {
   fi
 }
 
+_terminus-validate-site () {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass the site shortname of the site from which you want to validate."
+    echo ""
+    echo "$USAGE"
+    return
+  fi
+
+  terminus site info --site=$SITE &>/dev/null
+  local STATUS=$?
+  echo $STATUS
+}
+
+
 terminus-sftp() {
   SITE=$1
   if [ x$SITE = x ]; then
@@ -265,9 +280,23 @@ clone-content-between-sites() {
     return
   fi
 
+  # Validate the site
+  VALID=$(_terminus-validate-site $SOURCE)
+  if [ "$VALID" != "0" ]; then
+    echo "$SOURCE not found.  If name is correct try 'terminus sites list'."
+    return
+  fi
+
  TARGET=$2
   if [ x$TARGET = x ]; then
     echo "Must pass the site shortname of the TARGET site TO which you want to clone."
+    return
+  fi
+
+  # Validate the site
+  VALID=$(_terminus-validate-site $TARGET)
+  if [ "$VALID" != "0" ]; then
+    echo "$TARGET not found.  If name is correct try 'terminus sites list'."
     return
   fi
 
@@ -287,7 +316,7 @@ clone-content-between-sites() {
       DB_TASKS=1
     fi 
     echo "Cloning $ELEMENT $SOURCE --> $TARGET"
-    terminus site import-content --site=$TARGET --url=$(terminus site backups get --site=$SOURCE --env=live --elemstent=$ELEMENT --latest) --element=$ELEMENT
+    terminus site import-content --site=$TARGET --url=$(terminus site backups get --site=$SOURCE --env=live --element=$ELEMENT --latest) --element=$ELEMENT
   done
 
   if [ "$DB_TASKS" -eq "1" ]; then 
@@ -346,12 +375,10 @@ Optional Arguments:
     return
   fi
 
-  # Validate the FROM_SITE
-  terminus site info --site=$FROM_SITE &>/dev/null
-  STATUS=$?
-  if [ "$STATUS" -ne "0" ]; then
-    echo "$FROM_SITE is not found.  Try running 
-  terminus sites info";
+  # Validate the site
+  VALID=$(_terminus-validate-site $FROM_SITE)
+  if [ "$VALID" != "0" ]; then
+    echo "$FROM_SITE  not found.  If name is correct try 'terminus sites list'."
     return
   fi
 
@@ -362,6 +389,14 @@ Optional Arguments:
     echo "$USAGE"
     return
   fi
+
+  # Validate the site
+  VALID=$(_terminus-validate-site $TO_SITE)
+  if [ "$VALID" != "0" ]; then
+    echo "$TO_SITE  not found.  If name is correct try 'terminus sites list'."
+    return
+  fi
+
 
   ENV=$3
   if [ x$ENV = x ]; then
