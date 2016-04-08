@@ -287,10 +287,16 @@ clone-content-between-sites() {
       DB_TASKS=1
     fi 
     echo "Cloning $ELEMENT $SOURCE --> $TARGET"
-    terminus site import-content --site=$TARGET --url=$(terminus site backups get --site=$SOURCE --env=live --element=$ELEMENT --latest) --element=$ELEMENT
+    terminus site import-content --site=$TARGET --url=$(terminus site backups get --site=$SOURCE --env=live --elemstent=$ELEMENT --latest) --element=$ELEMENT
   done
 
   if [ "$DB_TASKS" -eq "1" ]; then 
+
+    # clear caches
+    echo ""
+    echo "Clearing caches on $TARGET."
+    echo ""
+    terminus site clear-cache --site=$TARGET --env=dev
 
     # update pathologic
     echo ""
@@ -306,11 +312,6 @@ http://$TARGET.berkeley.edu
 http://$TARGET.localhost"
     terminus drush --site=$TARGET --env=dev "vset openberkeley_wysiwyg_override_pathologic_paths '$PATHOLOGIC'"
 
-    # clear caches
-    echo ""
-    echo "Clearing caches on $TARGET."
-    echo ""
-    terminus site clear-cache --site=$TARGET --env=dev
   fi
 
 }
@@ -406,6 +407,7 @@ before running this script.)
        ISTDRUPAL_ORG=$INPUT
     fi
 
+    echo "terminus site tags add --tag='Upgrade Testing' --site=$TO_SITE --org='$ISTDRUPAL_ORG'"
     terminus site tags add --tag='Upgrade Testing' --site=$TO_SITE --org="'$ISTDRUPAL_ORG'"
 
     echo "Done."
