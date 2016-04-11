@@ -343,6 +343,11 @@ http://$TARGET.localhost"
 
   fi
 
+  # disable SMTP (until we have a better solution)
+    echo ""
+    echo "Disabling SMTP so mail isn't inadvertently sent from this site."
+    echo ""
+    terminus drush --site=$TARGET --env=dev "vset smtp_host 'NOEMAIL-FROM-CLONED-SITE.berkeley.edu'"
 }
 
 terminus-clone-site() {
