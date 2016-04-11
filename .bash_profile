@@ -4,7 +4,6 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreuti
 
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-export EMAIL_WORK=bwood@berkeley.edu
 
 # istdrupal console
 export ISTDRUPAL_TERMINUS=~/bin/terminus-0102

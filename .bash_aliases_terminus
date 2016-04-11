@@ -457,3 +457,26 @@ before running this script.)
 }
 
 alias tcsite=terminus-clone-site
+
+terminus-managed-site-aliases () {
+if [ -z "ISTDRUPAL_MACHINE" ]; then
+  echo "Please set the correct value:"
+  echo "  export ISTDRUPAL_MACHINE="
+  return
+fi
+
+if [ -z "$EMAIL_WORK" ]; then
+  echo "Please set the correct value:"
+  echo "  export $EMAIL_WORK="
+  return
+fi
+
+LOCATION=$HOME/.drush/ms.aliases.drushrc.php
+terminus auth login $ISTDRUPAL_MACHINE 
+terminus sites aliases --location=$LOCATION
+terminus auth login $EMAIL_WORK
+echo "Managed site aliases refreshed: $LOCATION"
+}
+
+alias tms-aliases=terminus-managed-site-aliases
+alias tmsa=terminus-managed-site-aliases
