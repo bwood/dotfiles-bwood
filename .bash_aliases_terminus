@@ -392,14 +392,6 @@ Optional Arguments:
     return
   fi
 
-  # Validate the site
-  VALID=$(_terminus-validate-site $TO_SITE)
-  if [ "$VALID" != "0" ]; then
-    echo "$TO_SITE  not found.  If name is correct try 'terminus sites list'."
-    return
-  fi
-
-
   ENV=$3
   if [ x$ENV = x ]; then
     echo "Must indicate the environment to which you want to deploy on the target site."
@@ -410,7 +402,7 @@ Optional Arguments:
 
   # This argument puts the site in the real organization. Else it's put in the test organization.
   LIVE_ORG=$4
-  if [ $LIVE_ORG == "UCB" ]; then
+  if [ -n $LIVE_ORG ] && [ "$LIVE_ORG" == "UCB" ]; then
     NEW_SITE_STEPS="1,2,5"
   else
     NEW_SITE_STEPS="1,5"
@@ -429,41 +421,49 @@ Optional Arguments:
   echo "http://dev-$TO_SITE.pantheon.berkeley.edu"
   echo "http://test-$TO_SITE.pantheon.berkeley.edu"
   echo "http://live-$TO_SITE.pantheon.berkeley.edu"
+  echo ""
+  echo "Site dashboard url:"
+  echo $(terminus site dashboard --site=$TO_SITE --env=dev --print)
 
   # Tag the site on the dashbaord.
   if [[ "$TO_SITE" =~ "upgrade-testing" ]];then
     echo ""
     echo "Since this is an upgrade-testing site, we will add the 'Upgrade Testing' tag."
-    if [ -z "$ISTDRUPAL_ORG" ]; then
-       echo "(To avoind interaction
-  export ISTDRUPAL_ORG=''
-before running this script.)
-"
-       echo "Enter the Pantheon Organization for the tag."
-       read INPUT
-       ISTDRUPAL_ORG=$INPUT
-    fi
-
-    echo "terminus site tags add --tag='Upgrade Testing' --site=$TO_SITE --org='$ISTDRUPAL_ORG'"
-    terminus site tags add --tag='Upgrade Testing' --site=$TO_SITE --org="'$ISTDRUPAL_ORG'"
-
-    echo "Done."
+    terminus site tags add --tag='Upgrade Testing' --site=$TO_SITE --org=$(terminus site info --site=$TO_SITE --field=holder_id)
   fi
 
+  echo "Done."
 
 }
 
 alias tcsite=terminus-clone-site
 
+
 # Resetting a cloned site to an older commit and then using 'git push -f' is 
 # problematic when you try to deploy between environments.  It's cleaner to 
 # blow away the clone and start fresh.
+############
+# WARNING!!! Be very careful when editing this. Potential for disaster.  Runs 'site delete --force'
+############
 terminus-reset-cloned-site () {
   USAGE="USAGE:
 
-terminus-reset-cloned-site upgrade-testing-example-site
+terminus-reset-cloned-site upgrade-testing-example-site live -y
 
-The site name must contain \"upgrade-testing\".
+Required:
+
+  site_name     Pantheon shortname of site to delete and re-clone.
+                (Will refuse to delete sites without \"upgrade-testing\" 
+                in their name.)
+
+  environment   The environment to which to deploy the clone. 
+                Values other than [dev|test|live] will fail.
+
+Optional:
+
+  -y            Skip confirmation before site deletion. 
+                Not using getopts. This needs to be the 3rd argument.
+
 "
   SITE=$1
   if [ x$SITE = x ]; then
@@ -472,6 +472,16 @@ The site name must contain \"upgrade-testing\".
     echo "$USAGE"
     return
   fi
+
+  ENV=$2
+  if [ x$ENV = x ]; then
+    echo "Must indicate the environment to which you want to deploy on the target site."
+    echo ""
+    echo "$USAGE"
+    return
+  fi
+
+  CONFIRM=$3
 
   if [[ ! "$SITE" =~ "upgrade-testing" ]];then
     echo "I only work on 'upgrade-testing' sites. Aborting."
@@ -485,17 +495,27 @@ The site name must contain \"upgrade-testing\".
     return
   fi
 
-  echo "Are you sure you want to DELETE and recreate $SITE? (y/n)"
-  read INPUT
+  if [ -z $CONFIRM ]; then
+    echo "Are you sure you want to DELETE and recreate $SITE? (y/n)"
+    read CONFIRM
+    # Prepend a dash to make it look like an option
+    CONFIRM="-$CONFIRM"
+  fi
 
-  if [ "$INPUT" != "y" ]; then 
+  if [ "$CONFIRM" != "-y" ]; then 
     echo "Aborting."
     return
   fi
 
-  echo "terminus site delete --force $SITE"
+  # WARNING!!!
+  echo "Deleting $SITE..."
+  terminus site delete --force --site=$SITE
+  
   # replace the 'upgrade-testing-' substring with null
-  echo "terminus-clone-site ${SITE/upgrade-testing-/} $SITE"
+  FROM_SITE="${SITE/upgrade-testing-/}"
+  echo "Re-cloning $FROM_SITE --> $SITE..."
+  terminus-clone-site $FROM_SITE $SITE $ENV
+
 }
 
 # We get gateway timeouts using 'terminus sites aliases' with individual accounts.
