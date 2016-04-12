@@ -6,7 +6,6 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreuti
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # istdrupal console
-export ISTDRUPAL_TERMINUS=~/bin/terminus-0102
 export ISTDRUPAL_TERMINUS_DEV_PATH="/Users/bwood/code/php/cli"
 export ISTDRUPAL_TERMINUS_DEV="1"
 export VCR_CASSETTE_PATH="/Users/bwood/code/php/istdrupal/tests/fixtures"
@@ -44,6 +43,7 @@ alias php3=/Applications/acquia-drupal/php5_3/bin/php
 ##############
 ## Terminus ##
 ##############
+. ~/.env
 . ~/.bash_aliases_terminus
 
 ##############################
