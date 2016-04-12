@@ -40,7 +40,6 @@ _terminus-validate-site () {
   if [ x$SITE = x ]; then
     echo "Must pass the site shortname of the site from which you want to validate."
     echo ""
-    echo "$USAGE"
     return
   fi
 
@@ -53,8 +52,7 @@ _terminus-validate-site () {
 terminus-sftp() {
   SITE=$1
   if [ x$SITE = x ]; then
-    echo "
-USAGE:
+    echo "USAGE:
 
 terminus-sftp site-shortname
 
@@ -81,8 +79,7 @@ alias tsftp=terminus-sftp
 terminus-logs() {
   SITE=$1
   if [ x$SITE = x ]; then
-    echo "
-USAGE:
+    echo "USAGE:
 
 terminus-logs site-shortname
 
@@ -353,7 +350,7 @@ http://$TARGET.localhost"
 terminus-clone-site() {
   # Other users need to customize ISTDRUPAL_NEW_SITE at top of file
 
-  USAGE="
+  USAGE="USAGE:
 terminus-clone-site my-source-site-name my-target-site-name [test|live] UCB
 
 Required Arguments: 
@@ -458,6 +455,52 @@ before running this script.)
 
 alias tcsite=terminus-clone-site
 
+# Resetting a cloned site to an older commit and then using 'git push -f' is 
+# problematic when you try to deploy between environments.  It's cleaner to 
+# blow away the clone and start fresh.
+terminus-reset-cloned-site () {
+  USAGE="USAGE:
+
+terminus-reset-cloned-site upgrade-testing-example-site
+
+The site name must contain \"upgrade-testing\".
+"
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass the site shortname of the site from which you want to clone."
+    echo ""
+    echo "$USAGE"
+    return
+  fi
+
+  if [[ ! "$SITE" =~ "upgrade-testing" ]];then
+    echo "I only work on 'upgrade-testing' sites. Aborting."
+    return
+  fi
+
+  # Validate the site
+  VALID=$(_terminus-validate-site $SITE)
+  if [ "$VALID" != "0" ]; then
+    echo "$SITE not found.  If name is correct try 'terminus sites list'."
+    return
+  fi
+
+  echo "Are you sure you want to DELETE and recreate $SITE? (y/n)"
+  read INPUT
+
+  if [ "$INPUT" != "y" ]; then 
+    echo "Aborting."
+    return
+  fi
+
+  echo "terminus site delete --force $SITE"
+  # replace the 'upgrade-testing-' substring with null
+  echo "terminus-clone-site ${SITE/upgrade-testing-/} $SITE"
+}
+
+# We get gateway timeouts using 'terminus sites aliases' with individual accounts.
+# This workaround gets the aliases for the machine user account which is a team member
+# on fewer sites.
 terminus-managed-site-aliases () {
 if [ -z "ISTDRUPAL_MACHINE" ]; then
   echo "Please set the correct value:"
