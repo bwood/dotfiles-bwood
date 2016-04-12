@@ -124,14 +124,46 @@ Gets the logs for the site
 alias tlogs=terminus-logs
 
 terminus-git-clone() {
+  USAGE="
+terminus-git-clone $SITE_NAME $DEPTH $LOCATION
+
+Required:
+
+$SITE_NAME       Pantheon shortname for the site
+
+Optional:
+
+$DEPTH           Value for --depth= for git clone.
+                 Default: 100
+
+$LOCATION        Full path to where you want to clone this.
+                 Default: ~/Sites/pantheon
+"
+
   SITE=$1
   if [ x$SITE = x ]; then
     echo "Must pass a site shortname as the first argument, for example: site-name"
     return
   fi
 
-  SITES_DIR=~/Sites/pantheon  
-  cd $SITES_DIR
+  DEPTH=$2
+  if [ -z $LOCATION ]; then
+    # default
+    DEPTH=100
+  fi
+
+  LOCATION=$3
+  if [ -z $LOCATION ]; then
+    LOCATION=$HOME/Sites/pantheon  
+  fi
+
+  if [ ! -d "$LOCATION" ]; then
+    echo "Error: Not a directory: $LOCATION"
+    return    
+  fi
+
+
+  cd $LOCATION
   if [ -d "$SITE" ]; then
     echo "You already cloned $SITE. Doing a git pull..." 
     cd $SITE
@@ -139,14 +171,8 @@ terminus-git-clone() {
     return
   fi
 
-  TYPE="codeserver"
-  _terminus-hostname $SITE "dev" $TYPE
-
-  if [ -n "$HOSTNAME" ]; then
-    CMD="git clone ssh://$TYPE.$HOSTNAME:2222/~/repository.git $SITE --depth=1"
-    $CMD
-    cd $SITE
-  fi
+  echo "git cloning with --depth=$DEPTH" 
+  $(terminus site connection-info --site=$SITE --env=dev --field=git_command) --depth=$DEPTH
 }
 
 alias tgc=terminus-git-clone
@@ -400,12 +426,11 @@ Optional Arguments:
     return
   fi
 
+  NEW_SITE_STEPS="1,5"
   # This argument puts the site in the real organization. Else it's put in the test organization.
   LIVE_ORG=$4
   if [ -n $LIVE_ORG ] && [ "$LIVE_ORG" == "UCB" ]; then
     NEW_SITE_STEPS="1,2,5"
-  else
-    NEW_SITE_STEPS="1,5"
   fi
 
   # Create a basic target site
