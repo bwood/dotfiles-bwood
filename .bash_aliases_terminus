@@ -478,6 +478,9 @@ to your ~/.env file."
     return
   fi
 
+  # cd into the repo
+  cd $SITE_PATH
+
   echo "'git rev-list -n 1 $TAG'"
   git rev-list -n 1 "$TAG"
   if [ $? -ne 0 ]; then
@@ -577,6 +580,7 @@ to your ~/.env file."
   fi
 
   # Add team member
+  echo ""
   echo "Adding team members $ISTDRUPAL_MACHINE, $EMAIL_WORK"
   terminus site team add-member --member=$ISTDRUPAL_MACHINE --role=admin --site=$TO_SITE
   terminus site team add-member --member=$EMAIL_WORK --role=admin --site=$TO_SITE
