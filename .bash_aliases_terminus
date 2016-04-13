@@ -338,7 +338,7 @@ ELEMENT:   [code|files|db|all]
   for ITEM in "${ENVS[@]}"; do
     echo ""
     echo "$SITE: Backing up $ITEM element=$ELEMENT."
-    terminus site backup create --site=$SITE --env=$ITEM --element=$ELEMENT
+    terminus site backups create --site=$SITE --env=$ITEM --element=$ELEMENT
   done
 
 }
