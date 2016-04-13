@@ -147,14 +147,22 @@ $LOCATION        Full path to where you want to clone this.
   fi
 
   DEPTH=$2
-  if [ -z $LOCATION ]; then
+  if [ -z $DEPTH ]; then
     # default
     DEPTH=100
   fi
 
   LOCATION=$3
   if [ -z $LOCATION ]; then
-    LOCATION=$HOME/Sites/pantheon  
+
+      if [ -z $CLONE_PATH ]; then
+    echo "Please add 
+  export CLONE_PATH=/path/to/site/clones
+to your ~/.env file."
+    return
+  fi
+
+    LOCATION=$CLONE_PATH
   fi
 
   if [ ! -d "$LOCATION" ]; then
@@ -267,7 +275,6 @@ terminus-deploy-content() {
     echo "The second argument must be \"test\" or \"live\""
     return
   fi
-
   for TO_ENV in "${ENVS[@]}"; do
     echo ""
     echo "$SITE: Deploying content to $TO_ENV."
@@ -277,6 +284,63 @@ terminus-deploy-content() {
 }
 
 alias tdcontent=terminus-deploy-content
+
+terminus-backup-site-envs() {
+  USAGE="
+terminus-backup-site-envs SITE ENV ELEMENT
+
+Required:
+
+SITE:      Site name
+
+ENV:       if 'dev' backs up dev
+           if 'test' backups dev and test
+           if 'live' backs up dev, test and live
+
+Optional:
+
+ELEMENT:   [code|files|db|all]
+           Default: all
+
+"
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass the site shortname of the site."
+    echo $USAGE
+    return
+  fi
+
+  ENV=$2
+  if [ x$ENV = x ]; then
+    echo "Must pass the target environment. (If \"live\" code will also be deployed to \"test.\")"
+    echo $USAGE
+    return
+  fi
+
+  ELEMENT=$3
+  if [ -z $ELEMENT ]; then
+    ELEMENT=all
+  fi
+  
+  if [ "$ENV" == "dev" ]; then
+    ENVS=( dev )
+  elif [ "$ENV" == "test" ]; then
+    ENVS=( dev test )
+  elif  [ "$ENV" == "live" ]; then
+    ENVS=( dev test live )
+  else
+    echo "The third argument must be \"dev,\" \"test\" or \"live\""
+    echo $USAGE
+    return
+  fi
+
+  for ITEM in "${ENVS[@]}"; do
+    echo ""
+    echo "$SITE: Backing up $ITEM element=$ELEMENT."
+    terminus site backup create --site=$SITE --env=$ITEM --element=$ELEMENT
+  done
+
+}
 
 new-site() {
 
@@ -373,27 +437,101 @@ http://$TARGET.localhost"
     terminus drush --site=$TARGET --env=dev "vset smtp_host 'NOEMAIL-FROM-CLONED-SITE.berkeley.edu'"
 }
 
+reset-repo-to-tag() {
+
+  USAGE="
+reset-repo-to-tag $SITE $TAG
+
+$SITE      Pantheon short name for the site
+
+$TAG       A valid tag in the repository.
+           e.g: 7.x-0.7.2
+"
+
+  if [ -z $CLONE_PATH ]; then
+    echo "Please add 
+  export CLONE_PATH=/path/to/site/clones
+to your ~/.env file."
+    return
+  fi
+
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass the site shortname of the site."
+    echo ""
+    echo "$USAGE"
+    return
+  fi
+
+  TAG=$2
+  if [ x$TAG = x ]; then
+    echo "Must indicate tag to which you want to reset."
+    echo ""
+    echo "$USAGE"
+    return
+  fi
+
+  SITE_PATH="$CLONE_PATH/$SITE"
+  if [ ! -d "$SITE_PATH" ]; then
+    echo "Error: $SITE_PATH is not a directory."
+    return
+  fi
+
+  echo "'git rev-list -n 1 $TAG'"
+  git rev-list -n 1 "$TAG"
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "Error: $TAG not found in site repo ($SITE_PATH)."
+    return
+  fi
+
+  SHA=$(git rev-list -n 1 "$TAG")
+  echo ""
+  echo "Resetting the repository to $TAG and forcing a git push..."
+  echo "($TAG = $SHA)"
+  git reset --hard $SHA
+  git push -f
+  echo ""
+}
+
 terminus-clone-site() {
   # Other users need to customize ISTDRUPAL_NEW_SITE at top of file
 
   USAGE="USAGE:
-terminus-clone-site my-source-site-name my-target-site-name [test|live] UCB
+terminus-clone-site SOURCE_SITE TARGET_SITE ENV TAG [UCB]
 
 Required Arguments: 
 
-  my-source-site-name:  Pantheon short name for source site
+SORUCE_SITE:  Pantheon short name for source site
 
-  my-target-site-name:  Pantheon short name for target site
+TARGET_SITE:  Pantheon short name for target site
 
-  environment:          Environment to which to deploy the target site.
+ENV:          Environment to which to deploy the target site.
 
 Optional Arguments:
 
-  UCB:                  UCB will put the target site in the live organization.
+TAG:          Git tag for reset --hard and git push -f
+              Nothing will be done if omitted.
+
+UCB:                  UCB will put the target site in the live organization.
                         If not present, will put target site in the test org.
 
 "
 
+
+  if [ -z $CLONE_PATH ]; then
+    echo "Please add 
+  export CLONE_PATH=/path/to/site/clones
+to your ~/.env file."
+    return
+  fi
+
+  if [ -z $ISTDRUPAL_MACHINE ]; then
+    echo "Please add 
+  export ISTDRUPAL_MACHINE=example@example.com
+to your ~/.env file."
+    return
+  fi
 
   FROM_SITE=$1
   if [ x$FROM_SITE = x ]; then
@@ -426,20 +564,51 @@ Optional Arguments:
     return
   fi
 
-  NEW_SITE_STEPS="1,5"
-  # This argument puts the site in the real organization. Else it's put in the test organization.
-  LIVE_ORG=$4
-  if [ -n $LIVE_ORG ] && [ "$LIVE_ORG" == "UCB" ]; then
-    NEW_SITE_STEPS="1,2,5"
-  fi
+
 
   # Create a basic target site
-  new-site $TO_SITE $NEW_SITE_STEPS
+  new-site $TO_SITE 1
+
+  # This argument puts the site in the real organization. Else it's put in the test organization.
+  LIVE_ORG=$4
+  if [[ -n $LIVE_ORG  && "$LIVE_ORG" == "UCB" ]]; then
+  new-site $TO_SITE 2
+  fi
+
+  # Add team member
+  echo "Adding team members $ISTDRUPAL_MACHINE, $EMAIL_WORK"
+  terminus site team add-member --member=$ISTDRUPAL_MACHINE --role=admin
+  terminus site team add-member --member=$EMAIL_WORK --role=admin
+
+  # clone the sites down
+  echo "Creating git clones..."
+  terminus-git-clone $FROM_SITE 
+  terminus-git-clone $TO_SITE 
+
+  # Reset and git push -f, if desired
+  TAG=$4
+  if [ -n $TAG ]; then
+    reset-repo-to-tag $TO_SITE $TAG
+  fi
+
+  # copy over custom data in sites/all/modules
+  CUSTOMIZATIONS=$(ls -1 $CLONE_PATH/$FROM_SITE/sites/all/modules | wc -l)
+  if [ $CUSTOMIZATIONS -gt 1 ]; then
+    echo "Found customizations in $CLONE_PATH/$FROM_SITE/sites/all/modules. Copying..."
+    cp -r  $CLONE_PATH/$FROM_SITE/sites/all/modules/*  $CLONE_PATH/$TO_SITE/sites/all/modules
+    echo "Adding customizations and pushing to git remote..."
+    cd $CLONE_PATH/$TO_SITE
+    git pull
+    git add -A > /dev/null
+    git commit -m "Adding customizations from $CLONE_PATH/$FROM_SITE/sites/all/modules" > /dev/null
+    git push
+  fi
+
+  # Deploy code to environments
+  terminus-deploy-code $TO_SITE $ENV
 
   # Clone the db and files from the source to the target site
   clone-content-between-sites $FROM_SITE $TO_SITE "database,files"
-
-  terminus-deploy-code $TO_SITE $ENV
   terminus-deploy-content $TO_SITE $ENV
 
   echo "Site created:"
@@ -449,6 +618,10 @@ Optional Arguments:
   echo ""
   echo "Site dashboard url:"
   echo $(terminus site dashboard --site=$TO_SITE --env=dev --print)
+
+  # take backups
+  echo "Creating initial backups of site environments"
+  terminus-backup-site-envs $TO_SITE $ENV
 
   # Tag the site on the dashbaord.
   if [[ "$TO_SITE" =~ "upgrade-testing" ]];then
@@ -486,6 +659,8 @@ Required:
 
 Optional:
 
+  tag           Git tag to which to reset the repository and git push -f.
+
   -y            Skip confirmation before site deletion. 
                 Not using getopts. This needs to be the 3rd argument.
 
@@ -506,7 +681,9 @@ Optional:
     return
   fi
 
-  CONFIRM=$3
+  TAG=$3
+
+  CONFIRM=$4
 
   if [[ ! "$SITE" =~ "upgrade-testing" ]];then
     echo "I only work on 'upgrade-testing' sites. Aborting."
@@ -535,13 +712,27 @@ Optional:
   # WARNING!!!
   echo "Deleting $SITE..."
   terminus site delete --force --site=$SITE
+
+  # Remove the git working copy
+  # if this dir is the user's pwd the rm will work and the user will be in a ghost directory 
+  # after the subshell for the script exits.
+  echo "Preparing to remove $CLONE_PATH/$SITE."
+  if [[ -n "$CLONE_PATH"  &&  -d "$CLONE_PATH/$SITE"  &&  -d "$CLONE_PATH/$SITE/.git" ]]; then
+    # make sure that the subshell's pwd is not this dir
+    cd $HOME
+    rm -rf "$CLONE_PATH/$SITE"
+  else 
+    echo "Error: Not safe to remove this directory."
+    return
+  fi 
   
   # replace the 'upgrade-testing-' substring with null
   FROM_SITE="${SITE/upgrade-testing-/}"
   echo "Re-cloning $FROM_SITE --> $SITE..."
-  terminus-clone-site $FROM_SITE $SITE $ENV
+  terminus-clone-site $FROM_SITE $SITE $ENV $TAG
 
 }
+
 
 # We get gateway timeouts using 'terminus sites aliases' with individual accounts.
 # This workaround gets the aliases for the machine user account which is a team member
