@@ -179,7 +179,8 @@ to your ~/.env file."
     return
   fi
 
-  echo "git cloning with --depth=$DEPTH" 
+  echo ""
+  echo "Git cloning $SITE with --depth=$DEPTH" 
   $(terminus site connection-info --site=$SITE --env=dev --field=git_command) --depth=$DEPTH
 }
 
@@ -577,8 +578,8 @@ to your ~/.env file."
 
   # Add team member
   echo "Adding team members $ISTDRUPAL_MACHINE, $EMAIL_WORK"
-  terminus site team add-member --member=$ISTDRUPAL_MACHINE --role=admin
-  terminus site team add-member --member=$EMAIL_WORK --role=admin
+  terminus site team add-member --member=$ISTDRUPAL_MACHINE --role=admin --site=$TO_SITE
+  terminus site team add-member --member=$EMAIL_WORK --role=admin --site=$TO_SITE
 
   # clone the sites down
   echo "Creating git clones..."
