@@ -397,6 +397,12 @@ clone-content-between-sites() {
   # replace the ',' with a space and evaluate the string with in '()' to create an array.  Yea bash. :-/
   ELEMENTS=(${ELEMENTS//,/ })
 
+  ENV=$4
+  if [ x$ENV = x ]; then
+    echo "Must pass the enviornment from which to copy conten from the source site"
+    return
+  fi
+
   DB_TASKS=0
 
   for ELEMENT in "${ELEMENTS[@]}"; do
@@ -404,7 +410,7 @@ clone-content-between-sites() {
       DB_TASKS=1
     fi 
     echo "Cloning $ELEMENT $SOURCE --> $TARGET"
-    terminus site import-content --site=$TARGET --url=$(terminus site backups get --site=$SOURCE --env=live --element=$ELEMENT --latest) --element=$ELEMENT
+    terminus site import-content --site=$TARGET --url=$(terminus site backups get --site=$SOURCE --env=$ENV --element=$ELEMENT --latest) --element=$ELEMENT
   done
 
   if [ "$DB_TASKS" -eq "1" ]; then 
@@ -419,7 +425,7 @@ clone-content-between-sites() {
     echo ""
     echo "Updating pathologic paths on $TARGET."
     echo ""
-    PATHOLOGIC="http://dev-$TARGET.pantheon.berkeley.edu/
+    NEW="http://dev-$TARGET.pantheon.berkeley.edu/
 http://test-$TARGET.pantheon.berkeley.edu/
 http://live-$TARGET.pantheon.berkeley.edu/
 http://dev-$TARGET.pantheonsite.io/
@@ -427,7 +433,16 @@ http://test-$TARGET.pantheonsite.io/
 http://live-$TARGET.pantheonsite.io/
 http://$TARGET.berkeley.edu
 http://$TARGET.localhost"
-    terminus drush --site=$TARGET --env=dev "vset openberkeley_wysiwyg_override_pathologic_paths '$PATHOLOGIC'"
+
+    EXISTING=$(terminus drush "vget openberkeley_wysiwyg_override_pathologic_paths" --site=$SOURCE --env=$ENV 2>/dev/null)
+    # Strip out varilable name
+    EXISTING=${EXISTING/openberkeley_wysiwyg_override_pathologic_paths: /}
+    # //\" = replace all instances of "
+    EXISTING=${EXISTING//\"/}
+    UPDATED_PATHS="$EXISTING
+$NEW
+"
+    terminus drush "vset openberkeley_wysiwyg_override_pathologic_paths '$UPDATED_PATHS'" --site=$TARGET --env=dev
 
   fi
 
@@ -574,7 +589,7 @@ to your ~/.env file."
   new-site $TO_SITE 1
 
   # This argument puts the site in the real organization. Else it's put in the test organization.
-  LIVE_ORG=$4
+  LIVE_ORG=$5
   if [[ -n $LIVE_ORG  && "$LIVE_ORG" == "UCB" ]]; then
   new-site $TO_SITE 2
   fi
@@ -613,7 +628,7 @@ to your ~/.env file."
   terminus-deploy-code $TO_SITE $ENV
 
   # Clone the db and files from the source to the target site
-  clone-content-between-sites $FROM_SITE $TO_SITE "database,files"
+  clone-content-between-sites $FROM_SITE $TO_SITE "database,files" $ENV
   terminus-deploy-content $TO_SITE $ENV
 
   echo "Site created:"
