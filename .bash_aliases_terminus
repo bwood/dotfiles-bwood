@@ -343,24 +343,6 @@ ELEMENT:   [code|files|db|all]
 
 }
 
-new-site() {
-
-  SITE=$1
-  if [ x$SITE = x ]; then
-    echo "Must pass the site shortname of the site to which you want to clone."
-    return
-  fi
-
-  STEPS=$2
-  if [ x$STEPS != x ]; then
-    STEP_OPT=" -S"$STEPS
-  fi
-  
-  # Create the target site
-  php $ISTDRUPAL_NEW_SITE --site=$TO_SITE $STEP_OPT
-
-}
-
 clone-content-between-sites() {
   SOURCE=$1
   if [ x$SOURCE = x ]; then
@@ -583,15 +565,47 @@ to your ~/.env file."
     return
   fi
 
-
+  if [ -z $ISTDRUPAL_ORG ] || [ -z $ISTDRUPAL_UPSTREAM ]; then
+    echo "Error: both ISTDRUPAL_ORG and ISTDRUPAL_UPSTREAM must be defined in your environment."
+    return
+  fi
 
   # Create a basic target site
-  new-site $TO_SITE 1
+  CMD="terminus --yes sites create --site=$TO_SITE --name=$TO_SITE --label=$TO_SITE --upstream=$ISTDRUPAL_UPSTREAM --org=$ISTDRUPAL_TEST_ORG"
+  echo ""
+  echo "Creating site $TO_SITE"
+  echo $CMD
+  $CMD
+
+  # Was the site created or did something fail
+  VALID=$(_terminus-validate-site $TO_SITE)
+  if [ "$VALID" != "0" ]; then
+    echo "$TO_SITE  not found.  Running 'terminus sites list'..."
+    terminus sites list
+    VALID2=$(_terminus-validate-site $TO_SITE)
+    if [ "$VALID2" != "0" ]; then
+      echo "$TO_SITE STILL not found.  Aborting."
+      return
+    fi
+  fi
 
   # This argument puts the site in the real organization. Else it's put in the test organization.
   LIVE_ORG=$5
   if [[ -n $LIVE_ORG  && "$LIVE_ORG" == "UCB" ]]; then
-  new-site $TO_SITE 2
+    echo ""
+    echo "Moving site to main organization."
+    # add main org
+    CMD="terminus site organizations add --site=$TO_SITE --org=$ISTDRUPAL_ORG --role=admin"
+    echo $CMD
+    $CMD    
+    # set instrument
+    CMD="terminus site set-instrument --instrument=$ISTDRUPAL_INSTRUMENT --site=$TO_SITE"
+    echo $CMD
+    $CMD
+    # remove test org
+    CMD="terminus site organizations remove --site=$TO_SITE --org=$ISTDRUPAL_TEST_ORG"
+    echo $CMD
+    $CMD
   fi
 
   # Add team member
