@@ -241,3 +241,24 @@ alias codercs='phpcs --standard=/Users/bwood/.drush/coder/coder_sniffer/Drupal/r
 
 
 export PATH="$PATH:/Applications/DevDesktop/drush"
+
+# Acquia Dev Desktop 2
+# Acquia Dev Desktop drush (PATH added to env)
+alias adrush='/Applications/DevDesktop/drush/drush'
+ 
+# To show alias names for those automatically added by ADD2
+alias alist='adrush sa | grep loc'
+# alias amysql= /Applications/DevDesktop/mysql/bin/Mysql
+
+alogin() {
+  if [ -z "$1" ]
+  then
+    echo "Needs two parameters: site and browser (For Chrome, specify 'Google\ Chrome')"
+  else
+    #Format: adrush @loc.sitename uli --browser="open -a Firefox" 
+    adrush @loc.$1 uli --browser="open -a $2"
+  fi
+}
+
+# drupal console
+source "$HOME/.console/console.rc" 2>/dev/null
