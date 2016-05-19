@@ -103,9 +103,11 @@ Gets the logs for the site
 
 
   SFTP_CMDS="cd logs
-  lcd $DIR/$SITE
-  mget php*
-  get nginx-access.log"
+  lcd $DIR/$SITE.$ENV
+  mget *.log"
+
+#  mget php*
+#  get nginx-access.log"
 
   _terminus-hostname "$SITE" "$ENV" "appserver"
 
@@ -121,9 +123,9 @@ Gets the logs for the site
     echo "$SFTP_CMDS" | $CMD
 
     echo ""
-    echo "Logs downloaded to $DIR/$SITE."
+    echo "Logs downloaded to $DIR/$SITE.$ENV"
     echo ""
-    cd "$DIR/$SITE"
+    cd "$DIR/$SITE.$ENV"
     ls -l
   fi
 }
