@@ -88,8 +88,15 @@ Gets the logs for the site
   site-shortname: REQUIRED: If your site is dev-example.pantheon.io
                   this would be "example" 
 
+  env:            dev, test, live
 "
     return
+  fi
+
+  if [ x$2 = x ]; then
+    ENV='dev'
+  else 
+    ENV=$2
   fi
 
   DIR="/tmp"
@@ -100,12 +107,12 @@ Gets the logs for the site
   mget php*
   get nginx-access.log"
 
-  _terminus-hostname "$SITE" "dev" "appserver"
+  _terminus-hostname "$SITE" "$ENV" "appserver"
 
   if [ -n "$HOSTNAME" ]; then
     # if the log directory exists delete it
-    if [ ! -d "$DIR/$SITE" ]; then
-      mkdir "$DIR/$SITE"
+    if [ ! -d "$DIR/$SITE.$ENV" ]; then
+      mkdir "$DIR/$SITE.$ENV"
     fi
 
     echo ""
