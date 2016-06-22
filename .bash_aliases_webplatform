@@ -16,9 +16,3 @@ new-site() {
   php ~/bin/istdrupal-new-site.php --site=$SITE --site-friendly=$SITE --site-mail=bwood+01@berkeley.edu --user1-mail=bwood+02@berkeley.edu -y $TEST_ORG
 
 }
-
-# useful on the machine that runs updates
-upgrades-done () {
-  cd $HOME/logs
-  grep -l "SCRIPT END TIME:" *.log | sed -e 's/_.*/.pantheon.berkeley.edu/g' -e 's/^/http://test-/g'
-}
