@@ -7,3 +7,5 @@ export PATH=$PATH:/Applications/acquia-drupal/drush
 [ -f /Users/bwood/.travis/travis.sh ] && source /Users/bwood/.travis/travis.sh
 
 source ~/.git-prompt.sh
+
+export PATH="$PATH:/Applications/DevDesktop/drush"

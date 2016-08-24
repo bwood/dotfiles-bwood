@@ -442,6 +442,13 @@ $NEW
     echo "Disabling SMTP so mail isn't inadvertently sent from this site."
     echo ""
     terminus drush --site=$TARGET --env=dev "vset smtp_host 'NOEMAIL-FROM-CLONED-SITE.berkeley.edu'"
+
+  # since SMTP isn't enabled on some sites also remove the user emails
+    echo ""
+    echo "Remove user emails."
+    echo ""
+    terminus drush --site=$TARGET --env=dev "sqlq \"update users set mail='' where uid <> 0\""
+
 }
 
 reset-repo-to-tag() {
@@ -641,7 +648,7 @@ to your ~/.env file."
     cp -r  $CLONE_PATH/$FROM_SITE/sites/all/modules/*  $CLONE_PATH/$TO_SITE/sites/all/modules
     echo "Adding customizations and pushing to git remote..."
     cd $CLONE_PATH/$TO_SITE
-    git pull
+    # git pull #erroring.  just cloned the site, so should be ok
     git add -A > /dev/null
     git commit -m "Adding customizations from $CLONE_PATH/$FROM_SITE/sites/all/modules" > /dev/null
     git push

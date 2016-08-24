@@ -12,8 +12,9 @@ export VCR_CASSETTE_PATH="/Users/bwood/code/php/istdrupal/tests/fixtures"
 
 
 # Ruby rbenv installed with brew
-export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# enabling this overrides openssl and gives me an insecure version!
+#export RBENV_ROOT=/usr/local/var/rbenv
+#if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Finished adapting your PATH environment variable for use with MacPorts.
 export EDITOR=/usr/bin/emacs
@@ -240,10 +241,8 @@ gpob() {
 alias codercs='phpcs --standard=/Users/bwood/.drush/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
 
 
-export PATH="$PATH:/Applications/DevDesktop/drush"
-
 # Acquia Dev Desktop 2
-# Acquia Dev Desktop drush (PATH added to env)
+
 alias adrush='/Applications/DevDesktop/drush/drush'
  
 # To show alias names for those automatically added by ADD2
