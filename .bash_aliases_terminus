@@ -59,13 +59,18 @@ terminus-sftp site-shortname
 Make an sftp connection to a site.
 
   site-shortname: REQUIRED: If your site is dev-example.pantheon.io
-                  this would be "example" 
+                  this would be \"example\" .
 
+  environment:    Defaults to \"dev\".
 "
     return
   fi
 
-  _terminus-hostname "$SITE" "dev" "appserver"
+  ENV=$2
+  if [ -z "$ENV" ]; then
+    ENV="dev"
+  fi 
+  _terminus-hostname "$SITE" $ENV "appserver"
 
   if [ -n "$HOSTNAME" ]; then
     CMD="sftp -o Port=2222 $HOSTNAME"
