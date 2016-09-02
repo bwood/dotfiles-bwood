@@ -134,7 +134,7 @@ alias tlogs=terminus-logs
 
 terminus-git-clone() {
   USAGE="
-terminus-git-clone $SITE_NAME $DEPTH $LOCATION
+terminus-git-clone $SITE_NAME $DEPTH $FRESH $LOCATION
 
 Required:
 
@@ -143,7 +143,10 @@ $SITE_NAME       Pantheon shortname for the site
 Optional:
 
 $DEPTH           Value for --depth= for git clone.
-                 Default: 100
+                 Default: 1
+
+$FRESH           If \"1\" delete and reclone the repo. Otherwise
+                 'git pull' to get the latest.
 
 $LOCATION        Full path to where you want to clone this.
                  Default: ~/Sites/pantheon
@@ -158,18 +161,20 @@ $LOCATION        Full path to where you want to clone this.
   DEPTH=$2
   if [ -z $DEPTH ]; then
     # default
-    DEPTH=100
+    DEPTH=1
   fi
 
-  LOCATION=$3
+  FRESH=$3
+
+  LOCATION=$4
   if [ -z $LOCATION ]; then
 
-      if [ -z $CLONE_PATH ]; then
+    if [ -z $CLONE_PATH ]; then
     echo "Please add 
   export CLONE_PATH=/path/to/site/clones
 to your ~/.env file."
     return
-  fi
+    fi
 
     LOCATION=$CLONE_PATH
   fi
@@ -181,7 +186,13 @@ to your ~/.env file."
 
 
   cd $LOCATION
-  if [ -d "$SITE" ]; then
+  
+if [ "$FRESH" == "1" ]; then
+    if [ -d "$SITE" ]; then
+      echo "Removing and re-cloning $SITE..."
+      rm -rf $SITE
+    fi
+  elif [ -d "$SITE" ]; then
     echo "You already cloned $SITE. Doing a git pull..." 
     cd $SITE
     git pull
@@ -191,6 +202,8 @@ to your ~/.env file."
   echo ""
   echo "Git cloning $SITE with --depth=$DEPTH" 
   $(terminus site connection-info --site=$SITE --env=dev --field=git_command) --depth=$DEPTH
+
+  cd $LOCATION/$SITE
 }
 
 alias tgc=terminus-git-clone
@@ -632,8 +645,10 @@ to your ~/.env file."
 
   # clone the sites down
   echo "Creating git clones..."
-  terminus-git-clone $FROM_SITE 
-  terminus-git-clone $TO_SITE 
+  terminus-git-clone $FROM_SITE 100
+
+  # We always want to get this fresh, so rm -rf if it exists
+  terminus-git-clone $TO_SITE 100 1
 
   # Reset and git push -f, if desired
   TAG=$4
