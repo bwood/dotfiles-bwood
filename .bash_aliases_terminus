@@ -48,6 +48,101 @@ _terminus-validate-site () {
   echo $STATUS
 }
 
+terminus-site-connection-info () {
+  SITE=$1
+  FIELD=$2
+  ENV=$3
+  if [ -z "$ENV" ]; then
+    ENV="dev"
+  fi 
+
+ 
+  if [ "x$SITE" == "x" ] || [ "x$FIELD" == "x" ]; then
+    echo "USAGE:
+
+terminus-site-connection-info site-shortname command field
+
+Open a mysql connection to a site.
+
+  site-shortname: REQUIRED: If your site is dev-example.pantheon.io
+                  this would be \"example\" .
+
+  field:          E.g. \"git_command\", \"mysql_command\"
+
+  environment     Defaults to \"dev\"
+"
+    return
+  fi
+
+  # 'site connection-info' broken in 0.13.2. https://github.com/pantheon-systems/terminus/issues/1297
+  terminus-0131 site connection-info --site=$SITE --env=$ENV --field=$FIELD
+}
+alias tsci=terminus-site-connection-info
+
+terminus-sql-cli() {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "USAGE:
+
+terminus-sql-cli site-shortname environment
+
+Open a mysql connection to a site.
+
+  site-shortname: REQUIRED: If your site is dev-example.pantheon.io
+                  this would be \"example\" .
+
+  environment:    Defaults to \"dev\".
+"
+    return
+  fi
+
+  ENV=$2
+  if [ -z "$ENV" ]; then
+    ENV="dev"
+  fi 
+
+  if [ "$ENV" != "live" ]; then
+    terminus site wake --site=$SITE --env=$ENV
+  fi
+
+  $(terminus-site-connection-info $SITE mysql_command $ENV) -A --ssl 
+}
+alias tsqlc=terminus-sql-cli
+alias tsql=terminus-sql-cli
+
+terminus-mysql-dump() {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "USAGE:
+
+terminus-mysql-dump <site-shortname> <table> <environment>
+
+Dump a mysql table on for a site.
+
+  site-shortname: REQUIRED: If your site is dev-example.pantheon.io
+                  this would be \"example\" .
+
+  table:          Name of the table. Leave blank for whole db.
+
+  environment:    Defaults to \"dev\".
+
+
+"
+    return
+  fi
+
+  TABLE=$2
+
+  ENV=$3
+  if [ -z "$ENV" ]; then
+    ENV="dev"
+  fi 
+
+  CMD=$(terminus-site-connection-info $SITE mysql_command $ENV)
+  CMD="${CMD/mysql /mysqldump }"
+  $CMD  --ssl $TABLE
+}
+alias tmd=terminus-mysql-dump
 
 terminus-sftp() {
   SITE=$1
@@ -70,6 +165,8 @@ Make an sftp connection to a site.
   if [ -z "$ENV" ]; then
     ENV="dev"
   fi 
+
+  # TODO use terminus-site-connection-info()
   _terminus-hostname "$SITE" $ENV "appserver"
 
   if [ -n "$HOSTNAME" ]; then
@@ -206,8 +303,9 @@ if [ "$FRESH" == "1" ]; then
 
   echo ""
   echo "Git cloning $SITE with --depth=$DEPTH" 
-  $(terminus site connection-info --site=$SITE --env=dev --field=git_command) --depth=$DEPTH
-
+  # 'site connection-info' broken in 0.13.2. https://github.com/pantheon-systems/terminus/issues/1297
+  $(terminus-site-connection-info --site=$SITE --env=dev --field=git_command) --depth=$DEPTH
+  
   cd $LOCATION/$SITE
 }
 
