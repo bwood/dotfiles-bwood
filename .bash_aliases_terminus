@@ -138,6 +138,10 @@ Dump a mysql table on for a site.
     ENV="dev"
   fi 
 
+  if [ "$ENV" != "live" ]; then
+    terminus site wake --site=$SITE --env=$ENV
+  fi
+
   CMD=$(terminus-site-connection-info $SITE mysql_command $ENV)
   CMD="${CMD/mysql /mysqldump }"
   $CMD  --ssl $TABLE
