@@ -5,6 +5,7 @@
 # Globals
 # if you need to customize consider a symlink to this location
 ISTDRUPAL_NEW_SITE=$HOME/bin/istdrupal-new-site.php
+TERMINUS=$HOME/bin/terminus-0136
 
 _terminus-hostname() {
   SITE=$1
@@ -25,7 +26,7 @@ _terminus-hostname() {
     exit 1
   fi
 
-  ID=$(terminus site info --field=id --site=$SITE)
+  ID=$($TERMINUS site info --field=id --site=$SITE)
   HOSTNAME=""
   if [ -n "$ID" ]; then 
     HOSTNAME="$ENV.$ID@$TYPE.$ENV.$ID.drush.in"
@@ -43,7 +44,7 @@ _terminus-validate-site () {
     return
   fi
 
-  terminus site info --site=$SITE &>/dev/null
+  $TERMINUS site info --site=$SITE &>/dev/null
   local STATUS=$?
   echo $STATUS
 }
@@ -74,8 +75,7 @@ Open a mysql connection to a site.
     return
   fi
 
-  # 'site connection-info' broken in 0.13.2. https://github.com/pantheon-systems/terminus/issues/1297
-  terminus-0131 site connection-info --site=$SITE --env=$ENV --field=$FIELD
+  $TERMINUS site connection-info --site=$SITE --env=$ENV --field=$FIELD
 }
 alias tsci=terminus-site-connection-info
 
@@ -102,7 +102,7 @@ Open a mysql connection to a site.
   fi 
 
   if [ "$ENV" != "live" ]; then
-    terminus site wake --site=$SITE --env=$ENV
+    $TERMINUS site wake --site=$SITE --env=$ENV
   fi
 
   $(terminus-site-connection-info $SITE mysql_command $ENV) -A --ssl 
@@ -139,7 +139,7 @@ Dump a mysql table on for a site.
   fi 
 
   if [ "$ENV" != "live" ]; then
-    terminus site wake --site=$SITE --env=$ENV
+    $TERMINUS site wake --site=$SITE --env=$ENV
   fi
 
   CMD=$(terminus-site-connection-info $SITE mysql_command $ENV)
@@ -307,7 +307,6 @@ if [ "$FRESH" == "1" ]; then
 
   echo ""
   echo "Git cloning $SITE with --depth=$DEPTH" 
-  # 'site connection-info' broken in 0.13.2. https://github.com/pantheon-systems/terminus/issues/1297
   $(terminus-site-connection-info --site=$SITE --env=dev --field=git_command) --depth=$DEPTH
   
   cd $LOCATION/$SITE
@@ -322,7 +321,7 @@ terminus-dashboard() {
     echo "Must pass a site shortname as the first argument, for example: site-name"
     return
   fi
-  terminus site dashboard --yes --site=$SITE 
+  $TERMINUS site dashboard --yes --site=$SITE 
 }
 
 alias tdash=terminus-dashboard
@@ -333,20 +332,20 @@ terminus-site-wake() {
     echo "Must pass a site shortname as the first argument, for example: site-name"
     return
   fi
-  terminus site wake --site=$SITE --env=dev
-  terminus site wake --site=$SITE --env=test
+  $TERMINUS site wake --site=$SITE --env=dev
+  $TERMINUS site wake --site=$SITE --env=test
 }
 
 alias tsite-wake=terminus-site-wake
 alias tsw=terminus-site-wake
 
-alias tal="terminus auth login $EMAIL_WORK"
+alias tal="$TERMINUS auth login $EMAIL_WORK"
 #source /Users/bwood/bin/terminus-completion.bash
 
 terminus-cache-clear () {
-  terminus cli cache-clear
-  terminus auth login $EMAIL_WORK
-  terminus sites list |head -3 # warm the terminus cache
+  $TERMINUS cli cache-clear
+  $TERMINUS auth login $EMAIL_WORK
+  $TERMINUS sites list |head -3 # warm the terminus cache
 }
 
 alias tcc=terminus-cache-clear
@@ -377,7 +376,7 @@ terminus-deploy-code() {
   for TO_ENV in "${ENVS[@]}"; do
     echo ""
     echo "$SITE: Deploying code to $TO_ENV."
-    terminus site deploy --site=$SITE --env=$TO_ENV --note="Deployed via bash $FUNCNAME()."
+    $TERMINUS site deploy --site=$SITE --env=$TO_ENV --note="Deployed via bash $FUNCNAME()."
   done
   
 }
@@ -408,7 +407,7 @@ terminus-deploy-content() {
   for TO_ENV in "${ENVS[@]}"; do
     echo ""
     echo "$SITE: Deploying content to $TO_ENV."
-    terminus site clone-content --from-env=dev --to-env=$TO_ENV --site=$SITE --yes
+    $TERMINUS site clone-content --from-env=dev --to-env=$TO_ENV --site=$SITE --yes
   done
 
 }
@@ -467,7 +466,7 @@ ELEMENT:   [code|files|db|all]
   for ITEM in "${ENVS[@]}"; do
     echo ""
     echo "$SITE: Backing up $ITEM element=$ELEMENT."
-    terminus site backups create --site=$SITE --env=$ITEM --element=$ELEMENT
+    $TERMINUS site backups create --site=$SITE --env=$ITEM --element=$ELEMENT
   done
 
 }
@@ -482,7 +481,7 @@ clone-content-between-sites() {
   # Validate the site
   VALID=$(_terminus-validate-site $SOURCE)
   if [ "$VALID" != "0" ]; then
-    echo "$SOURCE not found.  If name is correct try 'terminus sites list'."
+    echo "$SOURCE not found.  If name is correct try '$TERMINUS sites list'."
     return
   fi
 
@@ -495,7 +494,7 @@ clone-content-between-sites() {
   # Validate the site
   VALID=$(_terminus-validate-site $TARGET)
   if [ "$VALID" != "0" ]; then
-    echo "$TARGET not found.  If name is correct try 'terminus sites list'."
+    echo "$TARGET not found.  If name is correct try '$TERMINUS sites list'."
     return
   fi
 
@@ -521,7 +520,7 @@ clone-content-between-sites() {
       DB_TASKS=1
     fi 
     echo "Cloning $ELEMENT $SOURCE --> $TARGET"
-    terminus site import-content --site=$TARGET --url=$(terminus site backups get --site=$SOURCE --env=$ENV --element=$ELEMENT --latest) --element=$ELEMENT
+    $TERMINUS site import-content --site=$TARGET --url=$($TERMINUS site backups get --site=$SOURCE --env=$ENV --element=$ELEMENT --latest) --element=$ELEMENT
   done
 
   if [ "$DB_TASKS" -eq "1" ]; then 
@@ -530,7 +529,7 @@ clone-content-between-sites() {
     echo ""
     echo "Clearing caches on $TARGET."
     echo ""
-    terminus site clear-cache --site=$TARGET --env=dev
+    $TERMINUS site clear-cache --site=$TARGET --env=dev
 
     # update pathologic
     echo ""
@@ -545,7 +544,7 @@ http://live-$TARGET.pantheonsite.io/
 http://$TARGET.berkeley.edu
 http://$TARGET.localhost"
 
-    EXISTING=$(terminus drush "vget openberkeley_wysiwyg_override_pathologic_paths" --site=$SOURCE --env=$ENV 2>/dev/null)
+    EXISTING=$($TERMINUS drush "vget openberkeley_wysiwyg_override_pathologic_paths" --site=$SOURCE --env=$ENV 2>/dev/null)
     # Strip out varilable name
     EXISTING=${EXISTING/openberkeley_wysiwyg_override_pathologic_paths: /}
     # //\" = replace all instances of "
@@ -553,7 +552,7 @@ http://$TARGET.localhost"
     UPDATED_PATHS="$EXISTING
 $NEW
 "
-    terminus drush "vset openberkeley_wysiwyg_override_pathologic_paths '$UPDATED_PATHS'" --site=$TARGET --env=dev
+    $TERMINUS drush "vset openberkeley_wysiwyg_override_pathologic_paths '$UPDATED_PATHS'" --site=$TARGET --env=dev
 
   fi
 
@@ -561,13 +560,13 @@ $NEW
     echo ""
     echo "Disabling SMTP so mail isn't inadvertently sent from this site."
     echo ""
-    terminus drush --site=$TARGET --env=dev "vset smtp_host 'NOEMAIL-FROM-CLONED-SITE.berkeley.edu'"
+    $TERMINUS drush --site=$TARGET --env=dev "vset smtp_host 'NOEMAIL-FROM-CLONED-SITE.berkeley.edu'"
 
   # since SMTP isn't enabled on some sites also remove the user emails
     echo ""
     echo "Remove user emails."
     echo ""
-    terminus drush --site=$TARGET --env=dev "sqlq \"update users set mail='' where uid <> 0\""
+    $TERMINUS drush --site=$TARGET --env=dev "sqlq \"update users set mail='' where uid <> 0\""
 
 }
 
@@ -681,7 +680,7 @@ to your ~/.env file."
   # Validate the site
   VALID=$(_terminus-validate-site $FROM_SITE)
   if [ "$VALID" != "0" ]; then
-    echo "$FROM_SITE  not found.  If name is correct try 'terminus sites list'."
+    echo "$FROM_SITE  not found.  If name is correct try '$TERMINUS sites list'."
     return
   fi
 
@@ -707,7 +706,7 @@ to your ~/.env file."
   fi
 
   # Create a basic target site
-  CMD="terminus --yes sites create --site=$TO_SITE --name=$TO_SITE --label=$TO_SITE --upstream=$ISTDRUPAL_UPSTREAM --org=$ISTDRUPAL_TEST_ORG"
+  CMD="$TERMINUS --yes sites create --site=$TO_SITE --name=$TO_SITE --label=$TO_SITE --upstream=$ISTDRUPAL_UPSTREAM --org=$ISTDRUPAL_TEST_ORG"
   echo ""
   echo "Creating site $TO_SITE"
   echo $CMD
@@ -716,8 +715,8 @@ to your ~/.env file."
   # Was the site created or did something fail
   VALID=$(_terminus-validate-site $TO_SITE)
   if [ "$VALID" != "0" ]; then
-    echo "$TO_SITE  not found.  Running 'terminus sites list'..."
-    terminus sites list
+    echo "$TO_SITE  not found.  Running '$TERMINUS sites list'..."
+    $TERMINUS sites list
     VALID2=$(_terminus-validate-site $TO_SITE)
     if [ "$VALID2" != "0" ]; then
       echo "$TO_SITE STILL not found.  Aborting."
@@ -731,15 +730,15 @@ to your ~/.env file."
     echo ""
     echo "Moving site to main organization."
     # add main org
-    CMD="terminus site organizations add --site=$TO_SITE --org=$ISTDRUPAL_ORG --role=admin"
+    CMD="$TERMINUS site organizations add --site=$TO_SITE --org=$ISTDRUPAL_ORG --role=admin"
     echo $CMD
     $CMD    
     # set instrument
-    CMD="terminus site set-instrument --instrument=$ISTDRUPAL_INSTRUMENT --site=$TO_SITE"
+    CMD="$TERMINUS site set-instrument --instrument=$ISTDRUPAL_INSTRUMENT --site=$TO_SITE"
     echo $CMD
     $CMD
     # remove test org
-    CMD="terminus site organizations remove --site=$TO_SITE --org=$ISTDRUPAL_TEST_ORG"
+    CMD="$TERMINUS site organizations remove --site=$TO_SITE --org=$ISTDRUPAL_TEST_ORG"
     echo $CMD
     $CMD
   fi
@@ -747,8 +746,8 @@ to your ~/.env file."
   # Add team member
   echo ""
   echo "Adding team members $ISTDRUPAL_MACHINE, $EMAIL_WORK"
-  terminus site team add-member --member=$ISTDRUPAL_MACHINE --role=admin --site=$TO_SITE
-  terminus site team add-member --member=$EMAIL_WORK --role=admin --site=$TO_SITE
+  $TERMINUS site team add-member --member=$ISTDRUPAL_MACHINE --role=admin --site=$TO_SITE
+  $TERMINUS site team add-member --member=$EMAIL_WORK --role=admin --site=$TO_SITE
 
   # clone the sites down
   echo "Creating git clones..."
@@ -789,7 +788,7 @@ to your ~/.env file."
   echo "http://live-$TO_SITE.pantheon.berkeley.edu"
   echo ""
   echo "Site dashboard url:"
-  echo $(terminus site dashboard --site=$TO_SITE --env=dev --print)
+  echo $($TERMINUS site dashboard --site=$TO_SITE --env=dev --print)
 
   # take backups
   echo "Creating initial backups of site environments"
@@ -799,7 +798,7 @@ to your ~/.env file."
   if [[ "$TO_SITE" =~ "upgrade-testing" ]];then
     echo ""
     echo "Since this is an upgrade-testing site, we will add the 'Upgrade Testing' tag."
-    terminus site tags add --tag='Upgrade Testing' --site=$TO_SITE --org=$(terminus site info --site=$TO_SITE --field=holder_id)
+    $TERMINUS site tags add --tag='Upgrade Testing' --site=$TO_SITE --org=$($TERMINUS site info --site=$TO_SITE --field=holder_id)
   fi
 
   echo "Done."
@@ -865,7 +864,7 @@ Optional:
   # Validate the site
   VALID=$(_terminus-validate-site $SITE)
   if [ "$VALID" != "0" ]; then
-    echo "$SITE not found.  If name is correct try 'terminus sites list'."
+    echo "$SITE not found.  If name is correct try '$TERMINUS sites list'."
     return
   fi
 
@@ -883,7 +882,7 @@ Optional:
 
   # WARNING!!!
   echo "Deleting $SITE..."
-  terminus site delete --force --site=$SITE
+  $TERMINUS site delete --force --site=$SITE
 
   # Remove the git working copy
   # if this dir is the user's pwd the rm will work and the user will be in a ghost directory 
@@ -906,7 +905,7 @@ Optional:
 }
 
 
-# We get gateway timeouts using 'terminus sites aliases' with individual accounts.
+# We get gateway timeouts using '$TERMINUS sites aliases' with individual accounts.
 # This workaround gets the aliases for the machine user account which is a team member
 # on fewer sites.
 terminus-managed-site-aliases () {
@@ -923,9 +922,9 @@ if [ -z "$EMAIL_WORK" ]; then
 fi
 
 LOCATION=$HOME/.drush/ms.aliases.drushrc.php
-terminus auth login $ISTDRUPAL_MACHINE 
-terminus sites aliases --location=$LOCATION
-terminus auth login $EMAIL_WORK
+$TERMINUS auth login $ISTDRUPAL_MACHINE 
+$TERMINUS sites aliases --location=$LOCATION
+$TERMINUS auth login $EMAIL_WORK
 echo "Managed site aliases refreshed: $LOCATION"
 }
 
