@@ -35,7 +35,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(markdown-command "/usr/local/bin/markdown")
- '(org-agenda-files (quote ("/Users/bwood/Google Drive/orgmode/work/journal.org" "/Users/bwood/Google Drive/orgmode/home/home.org" "/Users/bwood/Google Drive/orgmode/home/music.org" "/Users/bwood/Google Drive/orgmode/work/20141014.org" "/Users/bwood/Google Drive/orgmode/work/abatement.org" "/Users/bwood/Google Drive/orgmode/work/admin.org" "/Users/bwood/Google Drive/orgmode/work/anki.org" "/Users/bwood/Google Drive/orgmode/work/berkeley-drops-7_dist.org" "/Users/bwood/Google Drive/orgmode/work/community.org" "/Users/bwood/Google Drive/orgmode/work/css.org" "/Users/bwood/Google Drive/orgmode/work/cts.org" "/Users/bwood/Google Drive/orgmode/work/drupal.org" "/Users/bwood/Google Drive/orgmode/work/ets.org" "/Users/bwood/Google Drive/orgmode/work/foundational.org" "/Users/bwood/Google Drive/orgmode/work/ideas.org" "/Users/bwood/Google Drive/orgmode/work/javascript.org" "/Users/bwood/Google Drive/orgmode/work/misc.org" "/Users/bwood/Google Drive/orgmode/work/oc.org" "/Users/bwood/Google Drive/orgmode/work/open_berkeley.org" "/Users/bwood/Google Drive/orgmode/work/operations-allsites.org" "/Users/bwood/Google Drive/orgmode/work/pantheon.org" "/Users/bwood/Google Drive/orgmode/work/parking.org" "/Users/bwood/Google Drive/orgmode/work/presales.org" "/Users/bwood/Google Drive/orgmode/work/professional_development.org" "/Users/bwood/Google Drive/orgmode/work/rct.org" "/Users/bwood/Google Drive/orgmode/work/reports.org" "/Users/bwood/Google Drive/orgmode/work/security.org" "/Users/bwood/Google Drive/orgmode/work/socrates.org" "/Users/bwood/Google Drive/orgmode/work/system_maintenance.org" "/Users/bwood/Google Drive/orgmode/work/training.org" "/Users/bwood/Google Drive/orgmode/work/ucb_cas.org" "/Users/bwood/Google Drive/orgmode/work/ucb_envconf.org" "/Users/bwood/Google Drive/orgmode/work/projects/asg-charlesjames.org" "/Users/bwood/Google Drive/orgmode/work/projects/bamboo.org" "/Users/bwood/Google Drive/orgmode/work/projects/bamboo_acctsvcs.org" "/Users/bwood/Google Drive/orgmode/work/projects/bamboo_dirt.org" "/Users/bwood/Google Drive/orgmode/work/projects/box.org" "/Users/bwood/Google Drive/orgmode/work/projects/calanswers.org" "/Users/bwood/Google Drive/orgmode/work/projects/caltime.org" "/Users/bwood/Google Drive/orgmode/work/projects/campuslife.org" "/Users/bwood/Google Drive/orgmode/work/projects/careercompass.org" "/Users/bwood/Google Drive/orgmode/work/projects/catsip.org" "/Users/bwood/Google Drive/orgmode/work/projects/chancellor.org" "/Users/bwood/Google Drive/orgmode/work/projects/hrweb-ob.org" "/Users/bwood/Google Drive/orgmode/work/projects/hrweb.org" "/Users/bwood/Google Drive/orgmode/work/projects/ist-staff.org" "/Users/bwood/Google Drive/orgmode/work/projects/ls.org" "/Users/bwood/Google Drive/orgmode/work/projects/ocio.org" "/Users/bwood/Google Drive/orgmode/work/projects/oepo.org" "/Users/bwood/Google Drive/orgmode/work/projects/optometry.org" "/Users/bwood/Google Drive/orgmode/work/projects/pmb.org" "/Users/bwood/Google Drive/orgmode/work/projects/procurment.org" "/Users/bwood/Google Drive/orgmode/work/projects/public_affairs.org" "/Users/bwood/Google Drive/orgmode/work/projects/safetrec.org" "/Users/bwood/Google Drive/orgmode/work/projects/scholar.org" "/Users/bwood/Google Drive/orgmode/work/projects/security-website.org" "/Users/bwood/Google Drive/orgmode/work/projects/stafforg.org" "/Users/bwood/Google Drive/orgmode/work/projects/techcommons.org" "/Users/bwood/Google Drive/orgmode/work/projects/uhs.org" "/Users/bwood/Google Drive/orgmode/work/projects/vcaf.org"))))
+ '(org-agenda-files (quote ("~/Google Drive/Documents/orgmode/work/wps.org" "/Users/bwood/Google Drive/Documents/orgmode/work/system_maintenance.org" "/Users/bwood/Google Drive/Documents/orgmode/home/home.org" "/Users/bwood/Google Drive/Documents/orgmode/home/music.org" "/Users/bwood/Google Drive/Documents/orgmode/work/20141014.org" "/Users/bwood/Google Drive/Documents/orgmode/work/abatement.org" "/Users/bwood/Google Drive/Documents/orgmode/work/admin.org" "/Users/bwood/Google Drive/Documents/orgmode/work/anki.org" "/Users/bwood/Google Drive/Documents/orgmode/work/berkeley-drops-7_dist.org" "/Users/bwood/Google Drive/Documents/orgmode/work/community.org" "/Users/bwood/Google Drive/Documents/orgmode/work/css.org" "/Users/bwood/Google Drive/Documents/orgmode/work/cts.org" "/Users/bwood/Google Drive/Documents/orgmode/work/drupal.org" "/Users/bwood/Google Drive/Documents/orgmode/work/ets.org" "/Users/bwood/Google Drive/Documents/orgmode/work/foundational.org" "/Users/bwood/Google Drive/Documents/orgmode/work/ideas.org" "/Users/bwood/Google Drive/Documents/orgmode/work/javascript.org" "/Users/bwood/Google Drive/Documents/orgmode/work/journal.org" "/Users/bwood/Google Drive/Documents/orgmode/work/misc.org" "/Users/bwood/Google Drive/Documents/orgmode/work/oc.org" "/Users/bwood/Google Drive/Documents/orgmode/work/open_berkeley.org" "/Users/bwood/Google Drive/Documents/orgmode/work/operations-allsites.org" "/Users/bwood/Google Drive/Documents/orgmode/work/pantheon.org" "/Users/bwood/Google Drive/Documents/orgmode/work/parking.org" "/Users/bwood/Google Drive/Documents/orgmode/work/presales.org" "/Users/bwood/Google Drive/Documents/orgmode/work/professional_development.org" "/Users/bwood/Google Drive/Documents/orgmode/work/rct.org" "/Users/bwood/Google Drive/Documents/orgmode/work/reports.org" "/Users/bwood/Google Drive/Documents/orgmode/work/security.org" "/Users/bwood/Google Drive/Documents/orgmode/work/socrates.org" "/Users/bwood/Google Drive/Documents/orgmode/work/terminus.org" "/Users/bwood/Google Drive/Documents/orgmode/work/training.org" "/Users/bwood/Google Drive/Documents/orgmode/work/ucb_cas.org" "/Users/bwood/Google Drive/Documents/orgmode/work/ucb_envconf.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/asg-charlesjames.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/bamboo.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/bamboo_acctsvcs.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/bamboo_dirt.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/box.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/calanswers.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/caltime.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/campuslife.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/careercompass.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/catsip.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/chancellor.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/hrweb-ob.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/hrweb.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/ist-staff.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/ls.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/ocio.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/oepo.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/optometry.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/pmb.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/procurment.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/public_affairs.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/safetrec.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/scholar.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/security-website.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/stafforg.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/techcommons.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/uhs.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/vcaf.org"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -116,13 +116,13 @@
 ; DONE = done and archived
 
 (setq org-todo-keywords
-       '((sequence "TODO" "INPROG" "WAITING" "|" "WONTFIX" "RESOLVED" "DONE" ))) 
+       '((sequence "TODO" "INPROG" "Testing" "|" "DONE" ))) 
 ;  "BLOCKED" "CANCELED"
 
 ;;http://orgmode.org/manual/Faces-for-TODO-keywords.html
 ;;http://raebear.net/comp/emacscolors.html
 (setq org-todo-keyword-faces
-           '(("TODO" . org-warning) ("INPROG" . (:foreground "medium aquamarine" :weight bold)) ("BLOCKED" . (:foreground "magenta" :weight bold)) ("DONE" . (:foreground "green" :weight bold)) ("WONTFIX" . (:foreground "dark olive green" :weight bold)) ("RESOLVED" . (:foreground "dim gray" :weight bold)) ("WAITING" . (:foreground "dark goldenrod" :weight bold))))
+           '(("TODO" . org-warning) ("INPROG" . (:foreground "medium aquamarine" :weight bold))  ("DONE" . (:foreground "green" :weight bold)) ("TESTING" . (:foreground "dark goldenrod" :weight bold))))
 
 ;; Auto-archive DONE tasks
 ; http://stackoverflow.com/a/27043756
@@ -159,6 +159,7 @@ BGC-Website
 CalNet-Website
 CATSIP-Website
 Chanc-Office-Website
+Chanc-RiskSvc-Website
 Chemistry-Website
 Disability-Compl-Website
 Drupal-Community
@@ -169,6 +170,7 @@ Enterprise-SOA
 ERIT
 ETS-Website
 Gustafson-Website
+Haas-Consulting
 Holiday
 HR-Web
 IST-Staff-Drupal
@@ -176,6 +178,7 @@ IT-Service-Catalog-Drupal
 Leave-Taken
 Library-Bindery
 LS-Web
+OCIO-Service-Catalog
 OCIO-Technology-Website
 OFEW-Website
 OFEW-FamilyEdge-Website
@@ -202,12 +205,14 @@ Telecom-Website
 Travel-Website
 UCPD-Website
 UCSF-PIVOT
+UHS-OptoHub-Features
 UHS-Policy-Website
 UPP-Website
 VCUE
 Web-Accessibility
 Web-Platform-Services
 Website-Abatement-Proj
+WPS-Console
 "
                 )
                 ("tms_ALL". 
