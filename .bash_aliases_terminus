@@ -5,7 +5,6 @@
 # Globals
 # if you need to customize consider a symlink to this location
 ISTDRUPAL_NEW_SITE=$HOME/bin/istdrupal-new-site.php
-TERMINUS=$HOME/bin/terminus-0136
 
 _terminus-hostname() {
   SITE=$1
@@ -26,7 +25,7 @@ _terminus-hostname() {
     exit 1
   fi
 
-  ID=$($TERMINUS site info --field=id --site=$SITE)
+  ID=$(terminus site:info --field=id $SITE)
   HOSTNAME=""
   if [ -n "$ID" ]; then 
     HOSTNAME="$ENV.$ID@$TYPE.$ENV.$ID.drush.in"
@@ -44,7 +43,7 @@ _terminus-validate-site () {
     return
   fi
 
-  $TERMINUS site info --site=$SITE &>/dev/null
+  terminus site:info $SITE &>/dev/null
   local STATUS=$?
   echo $STATUS
 }
@@ -75,7 +74,7 @@ Open a mysql connection to a site.
     return
   fi
 
-  $TERMINUS site connection-info --site=$SITE --env=$ENV --field=$FIELD
+  terminus connection:info $SITE.$ENV --field=$FIELD
 }
 alias tsci=terminus-site-connection-info
 
@@ -110,6 +109,25 @@ Open a mysql connection to a site.
 alias tsqlc=terminus-sql-cli
 alias tsql=terminus-sql-cli
 
+terminus-site-wake() {
+  SITE=$1
+  if [ x$SITE = x ]; then
+    echo "Must pass a site shortname as the first argument, for example: site-name"
+    return
+  fi
+  ENV=$2
+  if [ x$ENV = x ]; then
+    terminus env:wake $SITE.dev
+    terminus env:wake $SITE.test
+  else  
+    terminus env:wake $SITE.$ENV
+  fi
+
+}
+
+alias tsite-wake=terminus-site-wake
+alias tsw=terminus-site-wake
+
 terminus-mysql-dump() {
   SITE=$1
   if [ x$SITE = x ]; then
@@ -139,7 +157,7 @@ Dump a mysql table on for a site.
   fi 
 
   if [ "$ENV" != "live" ]; then
-    $TERMINUS site wake --site=$SITE --env=$ENV
+    terminus-site-wake $SITE $ENV
   fi
 
   CMD=$(terminus-site-connection-info $SITE mysql_command $ENV)
@@ -307,9 +325,9 @@ if [ "$FRESH" == "1" ]; then
 
   echo ""
   echo "Git cloning $SITE with --depth=$DEPTH" 
-  $(terminus-site-connection-info --site=$SITE --env=dev --field=git_command) --depth=$DEPTH
-  
-  cd $LOCATION/$SITE
+  X=$(terminus-site-connection-info --site=$SITE --env=dev --field=git_command)
+  echo $X
+#  cd $LOCATION/$SITE
 }
 
 alias tgc=terminus-git-clone
@@ -321,23 +339,10 @@ terminus-dashboard() {
     echo "Must pass a site shortname as the first argument, for example: site-name"
     return
   fi
-  $TERMINUS site dashboard --yes --site=$SITE 
+  terminus dashboard:view --yes $SITE.dev
 }
 
 alias tdash=terminus-dashboard
-
-terminus-site-wake() {
-  SITE=$1
-  if [ x$SITE = x ]; then
-    echo "Must pass a site shortname as the first argument, for example: site-name"
-    return
-  fi
-  $TERMINUS site wake --site=$SITE --env=dev
-  $TERMINUS site wake --site=$SITE --env=test
-}
-
-alias tsite-wake=terminus-site-wake
-alias tsw=terminus-site-wake
 
 alias tal="$TERMINUS auth login $EMAIL_WORK"
 #source /Users/bwood/bin/terminus-completion.bash
