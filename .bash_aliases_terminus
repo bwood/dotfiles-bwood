@@ -325,7 +325,7 @@ if [ "$FRESH" == "1" ]; then
 
   echo ""
   echo "Git cloning $SITE with --depth=$DEPTH" 
-  X=$(terminus-site-connection-info --site=$SITE --env=dev --field=git_command)
+  X=$(terminus-site-connection-info $SITE git_command dev)
   echo $X
 #  cd $LOCATION/$SITE
 }
