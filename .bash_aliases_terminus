@@ -325,9 +325,10 @@ if [ "$FRESH" == "1" ]; then
 
   echo ""
   echo "Git cloning $SITE with --depth=$DEPTH" 
-  X=$(terminus-site-connection-info $SITE git_command dev)
+  X="$(terminus-site-connection-info $SITE git_command dev) --depth=$DEPTH"
   echo $X
-#  cd $LOCATION/$SITE
+  $X
+  cd $LOCATION/$SITE
 }
 
 alias tgc=terminus-git-clone
