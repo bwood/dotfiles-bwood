@@ -928,9 +928,9 @@ if [ -z "$EMAIL_WORK" ]; then
 fi
 
 LOCATION=$HOME/.drush/ms.aliases.drushrc.php
-$TERMINUS auth login $ISTDRUPAL_MACHINE 
-$TERMINUS sites aliases --location=$LOCATION
-$TERMINUS auth login $EMAIL_WORK
+terminus auth:login --email $ISTDRUPAL_MACHINE 
+terminus aliases --location=$LOCATION
+terminus auth:login --email $EMAIL_WORK
 echo "Managed site aliases refreshed: $LOCATION"
 }
 
