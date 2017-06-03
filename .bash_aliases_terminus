@@ -345,7 +345,7 @@ terminus-dashboard() {
 
 alias tdash=terminus-dashboard
 
-alias tal="$TERMINUS auth login $EMAIL_WORK"
+alias tal="terminus auth:login --email $EMAIL_WORK"
 #source /Users/bwood/bin/terminus-completion.bash
 
 terminus-cache-clear () {
