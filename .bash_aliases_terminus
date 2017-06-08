@@ -101,10 +101,11 @@ Open a mysql connection to a site.
   fi 
 
   if [ "$ENV" != "live" ]; then
-    $TERMINUS site wake --site=$SITE --env=$ENV
+    terminus env:wake $SITE.$ENV
   fi
-
-  $(terminus-site-connection-info $SITE mysql_command $ENV) -A --ssl 
+ 
+  #--ssl-mode=VERIFY_IDENTITY fails with Pantheon containers?
+  $(terminus-site-connection-info $SITE mysql_command $ENV) -A --ssl-mode=VERIFY_CA
 }
 alias tsqlc=terminus-sql-cli
 alias tsql=terminus-sql-cli
