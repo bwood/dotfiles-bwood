@@ -1,3 +1,8 @@
+showcert() {
+  HOST=$1
+  curl -vvI https://$HOST 2>&1 |grep "Server certificate"
+}
+
 new-site() {
 
   SITE=$1
@@ -9,10 +14,10 @@ new-site() {
   PROD_ORG=$2
   if [ x$PROD_ORG = x ]; then
     TEST_ORG='-T'
-  else 
+  else
     TEST_ORG=""
   fi
-  
+
   php ~/bin/istdrupal-new-site.php --site=$SITE --site-friendly=$SITE --site-mail=bwood+01@berkeley.edu --user1-mail=bwood+02@berkeley.edu -y $TEST_ORG
 
 }
