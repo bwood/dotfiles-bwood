@@ -1,3 +1,14 @@
+dig-ucb-ns () {
+  NAME=$1
+  NAMESERVERS=( 128.32.206.9 128.32.206.12 128.32.136.9 128.32.136.12 )  
+
+  for NS in "${NAMESERVERS[@]}"; do
+      echo ""
+      echo "Querying nameserver $NS:"
+      dig @$NS $NAME +short
+  done
+}
+
 showcert() {
   HOST=$1
   curl -vvI https://$HOST 2>&1 |grep "Server certificate"
