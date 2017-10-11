@@ -1,5 +1,10 @@
+find-symlinks () {
+  ls -lR $1 | grep ^l
+}
+
 dig-ucb-ns () {
   IFS=',' read -r -a NAMES <<< "$1"
+  # These are the "recursive" name s
   NAMESERVERS=( 128.32.206.9 128.32.206.12 128.32.136.9 128.32.136.12 )  
 
   for NAME in "${NAMES[@]}"; do
