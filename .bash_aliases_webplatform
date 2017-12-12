@@ -108,7 +108,7 @@ drush-users-roles-nocas() {
   drush $MYALIAS urol editor --mail=bwood+20@berkeley.edu
   drush $MYALIAS urol builder --mail=bwood+10@berkeley.edu
 }
-alias dur-nocas=drush-users-roles
+alias dur-nocas=drush-users-roles-nocas
 
 # Toggle pantheon aliases to use drush7 on the remote
 drush-script-switch () {
