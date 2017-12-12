@@ -1,15 +1,21 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin so that things like brew-installed git take precedence over Apple-installed programs
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/bin:$HOME/bin/utility:$HOME/bin/drush:/Applications/acquia-drupal/mysql/bin:$HOME/.composer/vendor/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/bin/utility:/Applications/acquia-drupal/mysql/bin:$HOME/.composer/vendor/bin:/usr/local/sbin:$PATH"
 
 
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
-# istdrupal console
+# istdrupal console development
 export ISTDRUPAL_TERMINUS_DEV_PATH="/Users/bwood/code/php/cli"
 export ISTDRUPAL_TERMINUS_DEV="1"
 export VCR_CASSETTE_PATH="/Users/bwood/code/php/istdrupal/tests/fixtures"
 
+# wps console development
+export WPS_VCR_CASSETTE_PATH="/Users/bwood/code/php/WpsConsole/tests/fixtures"
+export WPS_BIN_DIR=builds
+
+# istdrupal_ops development
+export ISTDRUPAL_OPS_BIN_DIR=builds
 
 # Ruby rbenv installed with brew
 # enabling this overrides openssl and gives me an insecure version!
@@ -22,7 +28,7 @@ export VISUAL="emacs -q"
 export TERM="xterm-color"
 
 # istdrupal app
-export TERMINUS_ISTDRUPAL=~/bin/terminus-081
+export TERMINUS_ISTDRUPAL=~/bin/terminus-0133
 
 
 # Git prompt
@@ -38,147 +44,26 @@ PROMPT_COMMAND='__git_ps1 "\u@mbp \W" "\\\$ "'
 
 #aliases
 alias ll="ls -laFG"
-alias php3=/Applications/acquia-drupal/php5_3/bin/php
-# alias php4=/usr/bin/php
+
+# PHP Aliases 
+# disable xdebug per https://getcomposer.org/doc/articles/troubleshooting.md#xdebug-impact-on-composer
+# Load xdebug Zend extension with php command
+# alias php5='php -dzend_extension="/usr/local/opt/php56-xdebug/xdebug.so"'
+# alias php7='php -dzend_extension="/usr/local/opt/php71-xdebug/xdebug.so"'
+# PHPUnit needs xdebug for coverage. In this case, just make an alias with php command prefix.
+alias phpunit='php $(which phpunit)'
+# alias brew-php-switcher="brew-php-switcher -s"
+# alias phpswitch="brew-php-switcher -s"
 
 ##############
 ## Terminus ##
 ##############
-. ~/.env
 . ~/.bash_aliases_terminus
 
 ##############################
 ## IST Web Platform Scripts ##
 ##############################
 . ~/.bash_aliases_webplatform
-
-###########
-## Drush ##
-###########
-. ~/bin/drush/drush.complete.sh
-# https://drupal.org/node/877916#comment-4286400
-drush() { 
-  if [[ $@ == "help" ]]; then 
-    command drush help < /dev/null | less
-  else 
-    command drush --strict=0 "$@"
-  fi 
-}
-
-#Installing sites
-drush-site-install() {
-  MYALIAS=$1
-  if [ x$MYALIAS = x ]; then
-    echo "Must pass a drush alias as the first argument, for example: @mytest.dev"
-    return
-  fi
-
-  if [[ $MYALIAS =~ @pantheon ]];then 
-     echo "*** Pantheon ***"
-     echo $MYALIAS
-     echo "Are you sure about this?"
-  fi 
-   
-  # default profile is openberkeley, or pass your own
-  if [ x$2 = x ]; then
-    PROFILE="openberkeley"
-  else
-    PROFILE=$2
-  fi
-  
-  SITEEMAIL=bwood+01@berkeley.edu
-  drush $MYALIAS --notify site-install $PROFILE \
-  --site-mail=$SITEEMAIL --site-name="Test Site" \
-  --account-mail=$SITEEMAIL --account-name=ucbadmin \
-  install_configure_form.update_status_module='array(FALSE,FALSE)' \
-  openberkeley_add_admin_form.cas_name=213108,304629,248324,267087
-}
-# To get pathologic paths working try adding
-#install_configure_form.openberkeley_wysiwyg_override_pathologic_paths='this
-#that' \
-
-
-alias dsi=drush-site-install
-
-# Adding users/roles
-drush-users-roles() {
-  MYALIAS=$1
-  if [ x$MYALIAS = x ]; then
-    echo "Must pass a drush alias as the first argument, for example: @mytest.dev"
-    return
-  fi
-  drush $MYALIAS ucrt builder --mail=bwood+1@berkeley.edu --password=t
-  drush $MYALIAS ucrt editor --mail=bwood+2@berkeley.edu --password=t
-  drush $MYALIAS ucrt contributor --mail=bwood+3@berkeley.edu --password=t
-  drush $MYALIAS urol contributor --mail=bwood+3@berkeley.edu
-  drush $MYALIAS urol editor --mail=bwood+2@berkeley.edu
-  drush $MYALIAS urol builder --mail=bwood+1@berkeley.edu
-}
-
-alias dur=drush-users-roles
-
-# Toggle pantheon aliases to use drush7 on the remote
-drush-script-switch () {
-
-  if [ ! -e ~/.drush/pantheon.aliases.drushrc.php ]; then
-    echo "~/.drush/pantheon.aliases.drushrc.php doesn't exist."
-    return
-  fi
-
-  if [ ! -s ~/.drush/pantheon.aliases.drushrc.php ]; then
-    echo "~/drush/pantheon.aliases.drushrc.php is empty."
-    return
-  fi
-
-  if [ "$1" = "show" ]; then
-    grep -m1 '%drush-script' ~/.drush/pantheon.aliases.drushrc.php
-    return
-  elif [ -n "$1" ] && [ "$1" -eq "7" ]; then 
-    TO="drush7"
-  else 
-    TO="drush"
-  fi 
-  sed -i -e "s/'%drush-script'.*$/'%drush-script' => '$TO',/g" ~/.drush/pantheon.aliases.drushrc.php 
-  grep -m1 '%drush-script' ~/.drush/pantheon.aliases.drushrc.php
-}
-
-alias dss=drush-script-switch
-
-drush-self-alias () {
-  ALIAS_FILE=~/.drush/aliases.drushrc.php
-  SELF_ALIAS=$1
-  if [ x$SELF_ALIAS = x ]; then
-    echo "First argument should be the name of the alias."
-    echo "cd into the \$DRUPAL_ROOT of the site, then run"
-    echo "  dsa mysite"
-    echo "This will append an alias to $ALIAS_FILE."
-    return
-  fi
-
-  if [ $(grep -c "\$aliases\[['\"]$SELF_ALIAS['\"]\]" ~/.drush/aliases.drushrc.php) -gt 0 ]; then
-    echo "You already have an alias called $SELF_ALIAS"  
-    return
-  fi
-
-  # it'd be nice not to repeat the command
-  #SELF_ALIAS_CMD=drush sa @self --alias-name=$SELF_ALIAS --full --with-db 2>&1
-  #SELF_ALIAS_OUT=$($SELF_ALIAS_CMD)
-
-  SELF_ALIAS_OUT=$(drush sa @self --alias-name=$SELF_ALIAS --full --with-db 2>&1)
-
-  if [[ "$SELF_ALIAS_OUT" =~ "Not found: @self" ]]; then
-    echo "You need to cd into the \$DRUPAL_ROOT of the site for which you are creating an alias."
-    return
-  fi
-  
-  # if you 'echo $SELF_ALIAS_OUT >> ...' you lcdose the nice formatting
-  drush sa @self --alias-name=$SELF_ALIAS --full --with-db >> $ALIAS_FILE
-  echo "Added alias: "
-  tail -21 $ALIAS_FILE
-  drush cc drush
-}
-
-alias dsa=drush-self-alias
 
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
@@ -208,6 +93,9 @@ alias gb='git branch' #show branches
 alias gbva='git branch -va' #show branches - verbose/all (incl remote)
 alias gbd='git branch -d' #delete branch for cleanup
 alias gbD='git branch -D' #abandon branch
+# "git branch recent" show branches ordered by most recent commits.
+alias gbr='for branch in `git branch -r | grep -v HEAD`;do echo -e `git show --format="%ci %cr" $branch | head -n 1` \\t$branch; done | sort -r'
+alias git-branch-recent=gbr
 alias glg='git log'
 alias glgp='git log --pretty=format:"%h - %an, %ar : %s"'
 alias gi='git init'
@@ -261,3 +149,35 @@ alogin() {
 
 # drupal console
 source "$HOME/.console/console.rc" 2>/dev/null
+
+alias terminus1x=$HOME/code/php/terminus1x/vendor/bin/terminus
+
+# If you commonly get a gateway timeout when running 'terminus sites aliases',
+# set this to "1" to avoid this problem. 
+export ISTDRUPAL_ALIAS_TIMEOUT=1 
+
+## DrupalVM and dvm ##
+
+export DVM_TERMINUS="$(which terminus)"
+export DVM_PROJ_DIR=$HOME/Sites/drupalvm
+export DVM_DVM_DIR=/opt/drupal-vm-2.5.1
+export CLONE_PATH="$HOME/Sites/pantheon"
+ 
+# Docker
+# Connect to an image
+docker-connect () {
+  docker run -it $1 bash -il
+}
+# "docker connect image" dci
+alias dci=docker-connect
+
+# Headless chrome
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+
+# this should come last
+# https://github.com/bamarni/symfony-console-autocomplete#prerequisites
+source $(brew --prefix)/etc/bash_completion
+# enable symfony console app command completion
+#eval "$(symfony-autocomplete)"
+source ~/.terminus-autocomplete
+
