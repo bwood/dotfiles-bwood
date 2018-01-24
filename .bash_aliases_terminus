@@ -924,7 +924,7 @@ fi
 
 if [ -z "$EMAIL_WORK" ]; then
   echo "Please set the correct value:"
-  echo "  export $EMAIL_WORK="
+  echo "  export EMAIL_WORK="
   return
 fi
 
