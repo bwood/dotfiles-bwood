@@ -1,3 +1,5 @@
+alias fix-cas-cert='drush vset cas_cert /usr/local/share/certs/cacert.pem'
+
 find-symlinks () {
   ls -lR $1 | grep ^l
 }
