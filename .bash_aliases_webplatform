@@ -8,10 +8,10 @@ is-numeric () {
 }
 
 ldaps () {
-  if [ x$LDAP_GUEST_OU_BIND_PW = x ]; then
+  if [ "x$LDAP_GUEST_OU_BIND_PW" == "x" ]; then
       echo "Please run:" 
       echo "  source ~/.env"
-      exit 1
+      return 1
   fi
 
   NUMBER1=$(is-numeric $1)
