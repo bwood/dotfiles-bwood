@@ -1,3 +1,41 @@
+is-numeric () {
+    re='^[0-9]+$'
+    if [[ $1 =~ $re ]] ; then
+        echo 1
+    else
+	echo 0
+    fi
+}
+
+ldaps () {
+  if [ x$LDAP_GUEST_OU_BIND_PW = x ]; then
+      echo "Please run:" 
+      echo "  source ~/.env"
+      exit 1
+  fi
+
+  NUMBER1=$(is-numeric $1)
+
+  if [ "$#" -eq 1 ]; then
+      if [ $NUMBER1 -eq 1 ]; then
+        echo "searching for UID:"
+	ldapsearch -Z -x -h ldap.berkeley.edu -p 389 -D uid=webplatform,ou=applications,dc=berkeley,dc=edu -w $LDAP_GUEST_OU_BIND_PW -LLL "(uid=$1)"
+      else
+        echo "searching for email:"
+	ldapsearch -Z -x -h ldap.berkeley.edu -p 389 -D uid=webplatform,ou=applications,dc=berkeley,dc=edu -w $LDAP_GUEST_OU_BIND_PW -LLL "(mail=$1)"
+
+      fi
+  elif [ "$#" -eq 2 ]; then
+      NUMBER2=$(is-numeric $2)
+      if [[ $NUMBER1 -eq 0 && $NUMBER2 -eq 0 ]]; then
+      echo "searching for first and lastname:"
+	ldapsearch -Z -x -h ldap.berkeley.edu -p 389 -D uid=webplatform,ou=applications,dc=berkeley,dc=edu -w $LDAP_GUEST_OU_BIND_PW -LLL "(&(givenname=$1)(sn=$2))"
+      fi
+  fi
+}
+
+
+
 alias fix-cas-cert='drush vset cas_cert /usr/local/share/certs/cacert.pem'
 
 find-symlinks () {
