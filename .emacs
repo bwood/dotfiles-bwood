@@ -34,14 +34,19 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ido-enable-flex-matching t)
  '(markdown-command "/usr/local/bin/markdown")
- '(org-agenda-files (quote ("/Users/bwood/Google Drive/Documents/orgmode/work/projects/privatepages.org" "/Users/bwood/Google Drive/Documents/orgmode/home/home.org" "/Users/bwood/Google Drive/Documents/orgmode/home/music.org" "/Users/bwood/Google Drive/Documents/orgmode/work/20141014.org" "/Users/bwood/Google Drive/Documents/orgmode/work/abatement.org" "/Users/bwood/Google Drive/Documents/orgmode/work/admin.org" "/Users/bwood/Google Drive/Documents/orgmode/work/anki.org" "/Users/bwood/Google Drive/Documents/orgmode/work/berkeley-drops-7_dist.org" "/Users/bwood/Google Drive/Documents/orgmode/work/community.org" "/Users/bwood/Google Drive/Documents/orgmode/work/css.org" "/Users/bwood/Google Drive/Documents/orgmode/work/cts.org" "/Users/bwood/Google Drive/Documents/orgmode/work/drupal.org" "/Users/bwood/Google Drive/Documents/orgmode/work/ets.org" "/Users/bwood/Google Drive/Documents/orgmode/work/foundational.org" "/Users/bwood/Google Drive/Documents/orgmode/work/ideas.org" "/Users/bwood/Google Drive/Documents/orgmode/work/javascript.org" "/Users/bwood/Google Drive/Documents/orgmode/work/journal.org" "/Users/bwood/Google Drive/Documents/orgmode/work/misc.org" "/Users/bwood/Google Drive/Documents/orgmode/work/oc.org" "/Users/bwood/Google Drive/Documents/orgmode/work/open_berkeley.org" "/Users/bwood/Google Drive/Documents/orgmode/work/operations-allsites.org" "/Users/bwood/Google Drive/Documents/orgmode/work/pantheon.org" "/Users/bwood/Google Drive/Documents/orgmode/work/parking.org" "/Users/bwood/Google Drive/Documents/orgmode/work/presales.org" "/Users/bwood/Google Drive/Documents/orgmode/work/professional_development.org" "/Users/bwood/Google Drive/Documents/orgmode/work/rct.org" "/Users/bwood/Google Drive/Documents/orgmode/work/reports.org" "/Users/bwood/Google Drive/Documents/orgmode/work/security.org" "/Users/bwood/Google Drive/Documents/orgmode/work/socrates.org" "/Users/bwood/Google Drive/Documents/orgmode/work/system_maintenance.org" "/Users/bwood/Google Drive/Documents/orgmode/work/terminus.org" "/Users/bwood/Google Drive/Documents/orgmode/work/training.org" "/Users/bwood/Google Drive/Documents/orgmode/work/ucb_cas.org" "/Users/bwood/Google Drive/Documents/orgmode/work/ucb_envconf.org" "/Users/bwood/Google Drive/Documents/orgmode/work/wps.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/asg-charlesjames.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/bamboo.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/bamboo_acctsvcs.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/bamboo_dirt.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/box.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/calanswers.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/caltime.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/campuslife.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/careercompass.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/catsip.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/chancellor.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/hrweb-ob.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/hrweb.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/ist-staff.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/ls.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/ocio.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/oepo.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/optometry.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/panopoly.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/pmb.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/procurment.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/public_affairs.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/safetrec.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/scholar.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/security-website.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/stafforg.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/techcommons.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/uhs.org" "/Users/bwood/Google Drive/Documents/orgmode/work/projects/vcaf.org"))))
+ '(org-agenda-files nil)
+ '(package-selected-packages (quote (org))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; turn on visible bell
+(setq visible-bell t)
 
 ;; ========== MacOS Shit ==========
 ;; Mac Option Key as Meta
@@ -69,31 +74,53 @@
 (setq ispell-program-name "/usr/local/bin/ispell")
 
 ;; ========PACKAGE LIST===========
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  )
+;; https://emacs.stackexchange.com/a/35953
+(setq gnutls-trustfiles "/private/etc/ssl/cert.pem")
+
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
+
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+
+(package-initialize)
+
+(require 'package)
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("gnu" . "https://elpa.gnu.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
+(package-initialize)
 
 ;; ========ORG MODE ====================
 
 ;; -----------------------------------------------------------
 ;; org-mode
+;; format string used when creating CLOCKSUM lines and when generating a
+;; time duration (avoid showing days)
+(setq org-duration-format (quote h:mm))
 
 ;; (require 'org-install) ;; used elpa on macbook, so not needed.
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
-(setq org-agenda-files (list "~/Google Drive/Documents/orgmode/home/"
-                             "~/Google Drive/Documents/orgmode/work/"
-                             "~/Google Drive/Documents/orgmode/work/projects"))
+(setq org-agenda-files (list "/Volumes/GoogleDrive/My Drive/Documents/orgmode/home/"
+                             "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/"
+                             "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects"))
 
 ;; Archive location
 ;; This allows searching archives, but since this dir is not in set-org-agenda-files
 ;; it will not be scanned for agenda commands
 ;; See C-h v org-archive-location
-(setq org-archive-location "~/Google Drive/Documents/orgmode/archive/%s_archive.org::")
+(setq org-archive-location "/Volumes/GoogleDrive/My Drive/Documents/orgmode/archive/%s_archive.org::")
 
 ;; Question at http://stackoverflow.com/questions/20979553/how-to-override-override-modeline-customization-from-org-faces-el
 ;; prevent org clock from using the same background as 'mode-line
@@ -112,9 +139,6 @@
 (setq org-agenda-window-frame-fractions '(0.5 . 0.5))
 
 ;; todo keywords
-; RESOLVED = done but not archived
-; DONE = done and archived
-
 (setq org-todo-keywords
        '((sequence "TODO" "INPROG" "TESTING" "WAITING" "BLOCKED" "|" "DONE" "WONTFIX" ))) 
 
@@ -344,15 +368,9 @@ Webform_CAS
                         (quote ((agenda time-up tag-up priority-down) )))
                        (org-deadline-warning-days 0)
                        ))))
-        ;; Agenda queries.  Allow searching archives
-        ("Q" . "Custom queries") ;; gives label to "Q" 
-        ("Qa" "Archive search" search ""
-         ((org-agenda-files (file-expand-wildcards "~/Google Drive/Documents/orgmode/archive/*.org")))) 
-        ("Qb" "Projects and Archive" search ""
-         ((org-agenda-text-search-extra-files (file-expand-wildcards "~/Google Drive/Documents/orgmode/archive/*.org"))))
                 ;; searches both projects and archive directories
         ("QA" "Archive tags search" org-tags-view "" 
-         ((org-agenda-files (file-expand-wildcards "~/Google Drive/Documents/orgmode/archive/*.org"))))
+         ((org-agenda-files (file-expand-wildcards "/Volumes/GoogleDrive/My Drive/Documents/orgmode/archive/*.org"))))
         ;; ...other commands here
          ))
 
@@ -376,6 +394,12 @@ Webform_CAS
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#C\\]"))))
+        ;; Agenda queries.  Allow searching archives
+        ("Q" . "Custom queries") ;; gives label to "Q" 
+        ("Qa" "Search *just* archive files" search ""
+         ((org-agenda-files (file-expand-wildcards "/Volumes/GoogleDrive/My Drive/Documents/orgmode/archive/*.org")))) 
+        ("QA" "Search archive *in addition* to non-archive files" search ""
+         ((org-agenda-text-search-extra-files (file-expand-wildcards "/Volumes/GoogleDrive/My Drive/Documents/orgmode/archive/*.org"))))
         ;; ...other commands here
         ))
 
@@ -409,24 +433,9 @@ Webform_CAS
 (org-agenda-list)
 
 
-;; -----------------------------------------------------------
-;; Mobile Org
-;; Set to the location of your Org files on your local system
-(setq org-directory "~/Google Drive/Documents/orgmode")
-;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull "~/Google Drive/Documents/orgmode/capture.org")
-;; Set to <your Dropbox root directory>/MobileOrg.
-(setq org-mobile-directory "~/Dropbox/")
-
-;; pull and push on startup
-;; (org-mobile-pull)
-;; (org-mobile-push)
-
-;; -----------------------------------------------------------
 ;; Capture
-
 ;; Notes
-(setq org-default-notes-file (concat org-directory "~/Google Drive/Documents/orgmode/capture.org")) 
+(setq org-default-notes-file (concat org-directory "/Volumes/GoogleDrive/My Drive/Documents/orgmode/capture.org")) 
 (define-key global-map "\C-cc" 'org-capture)
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
@@ -434,21 +443,21 @@ Webform_CAS
 ;; Journal
 ;; http://sachachua.com/blog/2014/11/using-org-mode-keep-process-journal/
 (setq org-capture-templates
-      (quote (("t" "todo" entry (file "~/Google Drive/Documents/orgmode/capture.org")
+      (quote (("t" "todo" entry (file "/Volumes/GoogleDrive/My Drive/Documents/orgmode/capture.org")
                "* TODO %?\n%U\n%a\n  %i" :clock-in t :clock-resume t)
 ;This stores a link to the currently-clocked task and to whatever context I was looking at when I started the journal entry. It also copies the active region (if any), then positions my cursor after that text. 
-;              ("j" "Journal entry" plain (file+datetree+prompt "~/Google Drive/Documents/orgmode/work/journal.org")
+;              ("j" "Journal entry" plain (file+datetree+prompt "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/journal.org")
 ;               "%K - %a\n%i\n%?\n")
 ; I want a headline
-              ("j" "Journal entry" entry (file+datetree "~/Google Drive/Documents/orgmode/work/journal.org")
+              ("j" "Journal entry" entry (file+datetree "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/journal.org")
                "* %? \n%K\n\n")
-              ("n" "note" entry (file "~/Google Drive/Documents/orgmode/capture.org")
+              ("n" "note" entry (file "/Volumes/GoogleDrive/My Drive/Documents/orgmode/capture.org")
                "* %? :NOTE:\n%U\n%a\n  %i" :clock-in t :clock-resume t)
-              ("w" "org-protocol" entry (file "~/Google Drive/Documents/orgmode/capture.org")
+              ("w" "org-protocol" entry (file "/Volumes/GoogleDrive/My Drive/Documents/orgmode/capture.org")
                "* TODO Review %c\n%U\n  %i" :immediate-finish t)
-              ("i" "Interruption" entry (file "~/Google Drive/Documents/orgmode/capture.org")
+              ("i" "Interruption" entry (file "/Volumes/GoogleDrive/My Drive/Documents/orgmode/capture.org")
                "* Interruption %?\n%U" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file "~/Google Drive/Documents/orgmode/capture.org")
+              ("h" "Habit" entry (file "/Volumes/GoogleDrive/My Drive/Documents/orgmode/capture.org")
                "* NEXT %?\n%U\n%a\nSCHEDULED: %t .+1d/3d\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n  %i"))))
 
 ;; Markdown mode
@@ -465,3 +474,11 @@ Webform_CAS
                       'check-parens
                       nil t))))
 
+;; ido-mode
+;; https://www.emacswiki.org/emacs/InteractivelyDoThings#toc1
+(require 'ido)
+(ido-mode t)
+
+;; mu4e email
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e")
+(setq mu4e-mu-binary "/usr/local/bin/mu")
