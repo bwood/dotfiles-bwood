@@ -38,6 +38,22 @@ ldaps () {
 
 alias fix-cas-cert='drush vset cas_cert /usr/local/share/certs/cacert.pem'
 
+fix-lockr() {
+  if [ "x$LDAP_GUEST_OU_BIND_PW" == "x" ]; then
+      echo "Please run:" 
+      echo "  source ~/.env"
+      return 1
+  fi
+
+  if [ "x$1" == "x" ]; then
+    echo "USAGE:"
+    echo "fix-lockr [site.env]"
+    return 1
+  fi
+
+  terminus remote:drush $1 -- key-save ldap_guests_ou $LDAP_GUEST_OU_BIND_PW --label='LDAP password for Guest OU bind' --key-provider=lockr --key-type=authentication --overwrite -y
+}
+
 find-symlinks () {
   ls -lR $1 | grep ^l
 }
