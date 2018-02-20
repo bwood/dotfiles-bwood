@@ -1,7 +1,5 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin so that things like brew-installed git take precedence over Apple-installed programs
-export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/bin/utility:/Applications/acquia-drupal/mysql/bin:$HOME/.composer/vendor/bin:/usr/local/sbin:$PATH"
-
-
+export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/bin/utility:/Applications/acquia-drupal/mysql/bin:$HOME/.composer/vendor/bin:/usr/local/sbin:/usr/local/opt/python/libexec/bin:$PATH"
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
@@ -30,16 +28,15 @@ export TERM="xterm-color"
 # istdrupal app
 export TERMINUS_ISTDRUPAL=~/bin/terminus-0133
 
-
+# Install new bash prompt
 # Git prompt
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWCOLORHINTS=1
-source ~/.git-prompt.sh
-
+#export GIT_PS1_SHOWSTASHSTATE=1
+#export GIT_PS1_SHOWUNTRACKEDFILES=1
+#export GIT_PS1_SHOWCOLORHINTS=1
+#source ~/.git-prompt.sh
 # Custom bash prompt via kirsle.net/wizards/ps1.html
 #export PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\[$(tput setaf 3)\]\u\[$(tput setaf 7)\]@\[$(tput setaf 3)\]\h \[$(tput setaf 7)\]\W\[$(tput setaf 4)\]\\$ \[$(tput sgr0)\]"
-PROMPT_COMMAND='__git_ps1 "\u@mbp \W" "\\\$ "'
+#PROMPT_COMMAND='__git_ps1 "\u@mbp \W" "\\\$ "'
 
 
 #aliases
@@ -71,8 +68,21 @@ export XDEBUG_CONFIG="idekey=PHPSTORM"
 #########
 ## GIT ##
 #########
+# bash-git-prompt
+# https://github.com/magicmonty/bash-git-prompt
+if [ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+  __GIT_PROMPT_DIR="/usr/local/opt/bash-git-prompt/share"
+  source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
+fi
+# Set config variables first
+# GIT_PROMPT_ONLY_IN_REPO=1
+GIT_PROMPT_SHOW_UPSTREAM=1
+#GIT_PROMPT_THEME=Evermeet
+GIT_PROMPT_THEME=Custom
+GIT_PROMPT_THEME_FILE=~/.git-prompt-colors.sh
+
 #completion
-source ~/.git-completion.sh
+#source ~/.git-completion.sh
 
 # https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh
 
@@ -181,3 +191,5 @@ source $(brew --prefix)/etc/bash_completion
 #eval "$(symfony-autocomplete)"
 source ~/.terminus-autocomplete
 
+# use python from homebrew
+alias pip=/usr/local/bin/pip2
