@@ -2,6 +2,9 @@
 ## Terminus ##
 ##############
 
+# Show time for terminus commands
+alias terminus='time terminus'
+
 # Globals
 # if you need to customize consider a symlink to this location
 ISTDRUPAL_NEW_SITE=$HOME/bin/istdrupal-new-site.php
