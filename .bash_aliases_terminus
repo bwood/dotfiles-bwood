@@ -106,9 +106,14 @@ Open a mysql connection to a site.
   if [ "$ENV" != "live" ]; then
     terminus env:wake $SITE.$ENV
   fi
- 
-  #--ssl-mode=VERIFY_IDENTITY fails with Pantheon containers?
-  $(terminus-site-connection-info $SITE mysql_command $ENV) -A --ssl-mode=VERIFY_CA
+
+  if [[ $(mysql --version) =~ 'MariaDB' ]];then
+    OPTIONS='--ssl'
+  else
+    OPTIONS='--ssl-mode=VERIFY_IDENTITY'
+  fi 
+
+  $(terminus-site-connection-info $SITE mysql_command $ENV) -A $OPTIONS
 }
 alias tsqlc=terminus-sql-cli
 alias tsql=terminus-sql-cli
