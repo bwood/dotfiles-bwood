@@ -21,8 +21,8 @@ export ISTDRUPAL_OPS_BIN_DIR=builds
 #if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Finished adapting your PATH environment variable for use with MacPorts.
-export EDITOR=/usr/bin/emacs
-export VISUAL="emacs -q"
+export EDITOR="/usr/local/bin/emacs-orig -q -nw"
+export VISUAL="emacs-orig"
 export TERM="xterm-color"
 
 # istdrupal app
@@ -55,12 +55,12 @@ alias phpunit='php $(which phpunit)'
 ##############
 ## Terminus ##
 ##############
-. ~/.bash_aliases_terminus
+. ~/.bash_terminus.sh
 
 ##############################
 ## IST Web Platform Scripts ##
 ##############################
-. ~/.bash_aliases_webplatform
+. ~/.bash_webplatform.sh
 
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
@@ -158,9 +158,7 @@ alogin() {
 }
 
 # drupal console
-source "$HOME/.console/console.rc" 2>/dev/null
-
-alias terminus1x=$HOME/code/php/terminus1x/vendor/bin/terminus
+# source "$HOME/.console/console.rc" 2>/dev/null
 
 # If you commonly get a gateway timeout when running 'terminus sites aliases',
 # set this to "1" to avoid this problem. 
@@ -168,10 +166,10 @@ export ISTDRUPAL_ALIAS_TIMEOUT=1
 
 ## DrupalVM and dvm ##
 
-export DVM_TERMINUS="$(which terminus)"
-export DVM_PROJ_DIR=$HOME/Sites/drupalvm
-export DVM_DVM_DIR=/opt/drupal-vm-2.5.1
-export CLONE_PATH="$HOME/Sites/pantheon"
+# export DVM_TERMINUS="$(which terminus)"
+# export DVM_PROJ_DIR=$HOME/Sites/drupalvm
+# export DVM_DVM_DIR=/opt/drupal-vm-2.5.1
+# export CLONE_PATH="$HOME/Sites/pantheon"
  
 # Docker
 # Connect to an image
@@ -193,3 +191,6 @@ source ~/.terminus-autocomplete
 
 # use python from homebrew
 alias pip=/usr/local/bin/pip2
+
+# by default sudo to bwood_admin
+alias sudo='sudo -u bwood_admin'
