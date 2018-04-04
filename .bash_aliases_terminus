@@ -3,7 +3,7 @@
 ##############
 
 # Show time for terminus commands
-alias terminus='time terminus'
+# alias terminus='time terminus'
 
 # Globals
 # if you need to customize consider a symlink to this location
