@@ -1,5 +1,5 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin so that things like brew-installed git take precedence over Apple-installed programs
-export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/.composer/vendor/bin:/usr/local/sbin:/usr/local/opt/python/libexec/bin:/Users/bwood/Library/Python/3.6/bin:$PATH"
+export PATH="/usr/local/opt/php@5.6/sbin:/usr/local/opt/php@5.6/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/.composer/vendor/bin:/usr/local/sbin:/usr/local/opt/python/libexec/bin:/Users/bwood/Library/Python/3.6/bin:$PATH"
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
@@ -26,7 +26,7 @@ export VISUAL="emacs-orig"
 export TERM="xterm-color"
 
 # istdrupal app
-export TERMINUS_ISTDRUPAL=~/bin/terminus-0133
+export TERMINUS_ISTDRUPAL=$HOME/bin/terminus-0133
 
 # Install new bash prompt
 # Git prompt
@@ -79,7 +79,7 @@ fi
 GIT_PROMPT_SHOW_UPSTREAM=1
 #GIT_PROMPT_THEME=Evermeet
 GIT_PROMPT_THEME=Custom
-GIT_PROMPT_THEME_FILE=~/.git-prompt-colors.sh
+GIT_PROMPT_THEME_FILE=$HOME/.git-prompt-colors.sh
 
 #completion
 #source ~/.git-completion.sh
@@ -139,37 +139,9 @@ gpob() {
 alias codercs='phpcs --standard=/Users/bwood/.drush/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
 
 
-# Acquia Dev Desktop 2
-
-alias adrush='/Applications/DevDesktop/drush/drush'
- 
-# To show alias names for those automatically added by ADD2
-alias alist='adrush sa | grep loc'
-# alias amysql= /Applications/DevDesktop/mysql/bin/Mysql
-
-alogin() {
-  if [ -z "$1" ]
-  then
-    echo "Needs two parameters: site and browser (For Chrome, specify 'Google\ Chrome')"
-  else
-    #Format: adrush @loc.sitename uli --browser="open -a Firefox" 
-    adrush @loc.$1 uli --browser="open -a $2"
-  fi
-}
-
-# drupal console
-# source "$HOME/.console/console.rc" 2>/dev/null
-
 # If you commonly get a gateway timeout when running 'terminus sites aliases',
 # set this to "1" to avoid this problem. 
 export ISTDRUPAL_ALIAS_TIMEOUT=1 
-
-## DrupalVM and dvm ##
-
-# export DVM_TERMINUS="$(which terminus)"
-# export DVM_PROJ_DIR=$HOME/Sites/drupalvm
-# export DVM_DVM_DIR=/opt/drupal-vm-2.5.1
-# export CLONE_PATH="$HOME/Sites/pantheon"
  
 # Docker
 # Connect to an image
@@ -182,12 +154,15 @@ alias dci=docker-connect
 # Headless chrome
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
-# this should come last
-# https://github.com/bamarni/symfony-console-autocomplete#prerequisites
-source $(brew --prefix)/etc/bash_completion
-# enable symfony console app command completion
-#eval "$(symfony-autocomplete)"
-source ~/.terminus-autocomplete
-
 # by default sudo to bwood_admin
 alias sudo='sudo -u bwood_admin'
+
+# brew: bash-completion
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
+# this should come last
+# https://github.com/bamarni/symfony-console-autocomplete#prerequisites
+# enable symfony console app command completion
+# eval "$(symfony-autocomplete)"
+source ~/.terminus-autocomplete
+
