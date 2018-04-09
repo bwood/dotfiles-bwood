@@ -1,5 +1,5 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin so that things like brew-installed git take precedence over Apple-installed programs
-export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/bin/utility:/Applications/acquia-drupal/mysql/bin:$HOME/.composer/vendor/bin:/usr/local/sbin:/usr/local/opt/python/libexec/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/.composer/vendor/bin:/usr/local/sbin:/usr/local/opt/python/libexec/bin:/Users/bwood/Library/Python/3.6/bin:$PATH"
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
@@ -188,9 +188,6 @@ source $(brew --prefix)/etc/bash_completion
 # enable symfony console app command completion
 #eval "$(symfony-autocomplete)"
 source ~/.terminus-autocomplete
-
-# use python from homebrew
-alias pip=/usr/local/bin/pip2
 
 # by default sudo to bwood_admin
 alias sudo='sudo -u bwood_admin'
