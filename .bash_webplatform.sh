@@ -229,3 +229,54 @@ drush-self-alias () {
 
 alias dsa=drush-self-alias
 
+php-switch () {
+    VER=''
+    NEWPATH=''
+    
+    if [ x$1 = x ]; then
+	echo "Switch to a new php version."
+	echo ""
+	echo "USAGE:"
+	echo ""
+	echo "${FUNCNAME[0]} 71"
+	echo "   or"
+        echo "${FUNCNAME[0]} 7.1"
+	return 0
+    fi
+
+    IN=$1
+    # Best practise is to put the regular expression to match against into a variable. This is to avoid shell parsing errors on otherwise valid regular expressions.
+    RE='^[0-9]+\.[0-9]+$'
+    if [[ "$IN" =~ $RE ]]; then
+	VER=$IN
+    else
+	if [ ${#IN} -lt 3 ]; then
+	    VER="$(echo $IN | cut -c1-1).$(echo $IN | cut -c2-2)"
+	else
+	    echo "Please separate your numbers with a dot."
+	    return 1
+	fi
+    fi
+    
+    NEWPATH=$(echo $PATH |sed -E "s/php@[0-9]+\.[0-9]+/php@$VER/g")
+    PATHS=$(ECHO $NEWPATH | tr ':' "\n")
+    RE2='php@[0-9]+\.[0-9]+\/bin$'
+    for ITEM in $PATHS; do
+	if [[ $ITEM =~ $RE2 ]]; then
+	    PHP="$ITEM/php"
+	    if [ -x $PHP ]; then
+		export PATH=$NEWPATH
+		echo "New PHP version is:"
+		echo ""
+		$PHP --version
+		echo ""
+		echo "This php version is only set in the current terminal session."	       
+		break
+	    else
+		echo "$PHP is not an executable file. Aborting."
+		return 1
+	    fi
+	fi
+    done
+}
+alias phps=php-switch
