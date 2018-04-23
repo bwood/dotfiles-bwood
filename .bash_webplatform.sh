@@ -75,7 +75,7 @@ dig-ucb-ns () {
 
 showcert() {
   HOST=$1
-  curl -vvI https://$HOST 2>&1 |grep "Server certificate"
+  curl -vvI https://$HOST 2>&1 |grep -A6 "Server certificate"
 }
 
 new-site() {
