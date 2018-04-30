@@ -8,6 +8,7 @@
 # Globals
 # if you need to customize consider a symlink to this location
 ISTDRUPAL_NEW_SITE=$HOME/bin/istdrupal-new-site.php
+CLONE_PATH=$HOME/Sites/pantheon
 
 _terminus-hostname() {
   SITE=$1
@@ -305,7 +306,7 @@ $LOCATION        Full path to where you want to clone this.
     if [ -z $CLONE_PATH ]; then
     echo "Please add 
   export CLONE_PATH=/path/to/site/clones
-to your ~/.env file."
+to your ~/.bash_profile."
     return
     fi
 
