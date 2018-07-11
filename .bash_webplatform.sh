@@ -145,12 +145,12 @@ alias dsi=drush-site-install
 # Adding users/roles
 drush-users-roles() {
   MYALIAS=$1
-  drush $MYALIAS cas-user-create 300861
-  drush $MYALIAS cas-user-create 300862
-  drush $MYALIAS cas-user-create 300863
-  drush $MYALIAS urol contributor --name=300861
-  drush $MYALIAS urol editor --name=300862
-  drush $MYALIAS urol builder --name=300863
+  drush -y $MYALIAS cas-user-create 300861
+  drush -y $MYALIAS cas-user-create 300862
+  drush -y $MYALIAS cas-user-create 300863
+  drush -y $MYALIAS urol contributor --name=300861
+  drush -y $MYALIAS urol editor --name=300862
+  drush -y $MYALIAS urol builder --name=300863
 }
 alias dur=drush-users-roles
 
