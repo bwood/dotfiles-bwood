@@ -37,7 +37,7 @@
  '(ido-enable-flex-matching t)
  '(markdown-command "/usr/local/bin/markdown")
  '(org-agenda-files nil)
- '(package-selected-packages (quote (org))))
+ '(package-selected-packages (quote (org-clock-csv org))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -74,30 +74,17 @@
 (setq ispell-program-name "/usr/local/bin/ispell")
 
 ;; ========PACKAGE LIST===========
+;; Enable https for melpa
 ;; https://emacs.stackexchange.com/a/35953
-(setq gnutls-trustfiles "/private/etc/ssl/cert.pem")
+;; TODO should this be an add to list?
+;;(add-to-list 'gnutls-trustfiles "/private/etc/ssl/cert.pem")
+;;;;(setq gnutls-trustfiles "/private/etc/ssl/cert.pem")
 
 (require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
-
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-
+(setq package-archives '(("melpa-stable" . "http://stable.melpa.org/packages/")
+       	                 ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 
-(require 'package)
-(setq package-archives
-      '(("melpa" . "https://melpa.org/packages/")
-        ("gnu" . "https://elpa.gnu.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")))
-(package-initialize)
 
 ;; ========ORG MODE ====================
 
@@ -479,6 +466,80 @@ Webform_CAS
 (require 'ido)
 (ido-mode t)
 
-;; mu4e email
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e")
-(setq mu4e-mu-binary "/usr/local/bin/mu")
+;;;;;;;;;;;;;;;;
+;; mu4e email ;;
+;;;;;;;;;;;;;;;;
+
+;;(add-to-list 'load-path (expand-file-name "/usr/local/share/emacs/site-lisp/mu/mu4e"))
+;;
+;;; make sure emacs finds applications in /usr/local/bin
+;;(setq exec-path (cons "/usr/local/bin" exec-path))
+;;
+;;; require mu4e
+;;(require 'mu4e)
+;;
+;;(setq mu4e-mu-binary "/usr/local/bin/mu")
+;;
+;;; tell mu4e to use w3m for html rendering
+;;(setq mu4e-html2text-command "/usr/local/bin/w3m -T text/html")
+;;
+;;;;location of my maildir
+;;(setq mu4e-maildir (expand-file-name "~/Maildir/mbsync"))
+;;
+;;; tell mu4e how to sync email
+;;(setq mu4e-get-mail-command "/usr/local/bin/mbsync -a"
+;;      mu4e-update-interval 150)
+;;
+;;;;rename files when moving
+;;;;NEEDED FOR MBSYNC
+;;(setq mu4e-change-filenames-when-moving t)
+;;
+;;;; The header field used for sorting is indicated by nicer symbols
+;;(setq mu4e-use-fancy-chars t)
+;;
+;;(setq mu4e-contexts
+;;    `( ,(make-mu4e-context
+;;          :name "Home"
+;;          :enter-func (lambda () (mu4e-message "Entering HOME context"))
+;;          :leave-func (lambda () (mu4e-message "Leaving HOME context"))
+;;          ;; we match based on the contact-fields of the message
+;;          :match-func (lambda (msg)
+;;                        (when msg 
+;;                          (mu4e-message-contact-field-matches msg 
+;;                            :to "bri@nwood.org")))
+;;          :vars '( ( user-mail-address      . "bri@nwood.org"  )
+;;                   ( user-full-name         . "Brian Wood" )
+;;                   ( mu4e-compose-signature . "-Brian\n")
+;;                   ;; Smart refiling http://www.djcbsoftware.nl/code/mu/mu4e/Other-dynamic-folders.html#Other-dynamic-folders
+;;                   ( mu4e-sent-folder . "/home/[Gmail].Sent Mail")
+;;                   ( mu4e-drafts-folder . "/home/[Gmail].Drafts")
+;;                   ( mu4e-trash-folder .  "/home/[Gmail].Trash"))
+;;       ,(make-mu4e-context
+;;          :name "Work"
+;;          :enter-func (lambda () (mu4e-message "Entering WORK context"))
+;;          :leave-func (lambda () (mu4e-message "Leaving WORK context"))
+;;          ;; no leave-func
+;;          ;; we match based on the maildir of the message
+;;          ;; this matches maildir /Arkham and its sub-directories
+;;          :match-func (lambda (msg)
+;;                        (when msg
+;;                          (string-match-p "^/work" (mu4e-message-field msg :maildir))))
+;;          :vars '( ( user-mail-address       . "bwood@berkeley.edu" )
+;;                   ( user-full-name          . "Brian Wood" )
+;;                   ( mu4e-compose-signature  .
+;;                     (concat
+;;                       "Brian Wood\n"
+;;                       "Programmer Analyst\n"
+;;		       "UC Berkeley - IST Web Platform Services\n"
+;;                       "https://web.berkeley.edu\n")))
+;;                   ;; Smart refiling http://www.djcbsoftware.nl/code/mu/mu4e/Other-dynamic-folders.html#Other-dynamic-folders
+;;                   ( mu4e-sent-folder . "/work/[Gmail].Sent Mail")
+;;                   ( mu4e-drafts-folder . "/work/[Gmail].Drafts")
+;;                   ( mu4e-trash-folder . "/work/[Gmail].Trash")))))
+;;;; enable inline images
+;;(setq mu4e-view-show-images t)
+;;;; use imagemagick, if available
+;;(when (fboundp 'imagemagick-register-types)
+;;  (imagemagick-register-types))
+;;
+
