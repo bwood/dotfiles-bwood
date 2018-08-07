@@ -338,49 +338,63 @@ Webform_CAS
 
 ;; Customize Agenda menu
 ;                        (quote ((agenda time-up tag-up priority-down) )))
-(setq org-agenda-custom-commands
-
-      '(
-        ("A" "Weekly Action List"
-           (
-           (agenda "" ((org-agenda-ndays 2)
-                       (org-agenda-sorting-strategy
-                        (quote ((agenda time-up priority-down) )))
-                       (org-deadline-warning-days 2)
-                       ))))
-        ("D" "Daily Action List"
-           (
-           (agenda "" ((org-agenda-ndays 1)
-                       (org-agenda-sorting-strategy
-                        (quote ((agenda time-up tag-up priority-down) )))
-                       (org-deadline-warning-days 0)
-                       ))))
-                ;; searches both projects and archive directories
-        ("QA" "Archive tags search" org-tags-view "" 
-         ((org-agenda-files (file-expand-wildcards "/Volumes/GoogleDrive/My Drive/Documents/orgmode/archive/*.org"))))
-        ;; ...other commands here
-         ))
-
+;(setq org-agenda-custom-commands
+;
+;      '(
+;        ("A" "Weekly Action List"
+;           (
+;           (agenda "" ((org-agenda-ndays 2)
+;                       (org-agenda-sorting-strategy
+;                        (quote ((agenda time-up priority-down) )))
+;                       (org-deadline-warning-days 2)
+;                       ))))
+;        ("D" "Daily Action List"
+;           (
+;           (agenda "" ((org-agenda-ndays 1)
+;                       (org-agenda-sorting-strategy
+;                        (quote ((agenda time-up tag-up priority-down) )))
+;                       (org-deadline-warning-days 0)
+;                       ))))
+;                ;; searches both projects and archive directories
+;        ("QA" "Archive tags search" org-tags-view "" 
+;         ((org-agenda-files (file-expand-wildcards "/Volumes/GoogleDrive/My Drive/Documents/orgmode/archive/*.org"))))
+;        ;; ...other commands here
+;         ))
+;
 ;; Filter agenda on priority
 ;; https://lists.gnu.org/archive/html/emacs-orgmode/2010-04/msg01100.html
 (setq org-agenda-custom-commands
       '(("c" . "Priority views")
-        ("ca" "#A" agenda "Show only priority A"
+        ("cA" "#A" agenda "Show only priority A"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#A\\]"))))
-        ("cA" "#A and #B" agenda "Show only priorities A and B"
+        ("ca" "#A and #B" agenda "Show only priorities A and B"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
-"\\[#[A\|B]\\]"))))
-        ("Cb" "#B" agenda "Show only priority B"
+"\\[#[AB]\\]"))))
+        ("cb" "#B" agenda "Show only priority B"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#B\\]"))))
-        ("cc" "#C" agenda "Show only priority C"
+        ("cc" "#C and below" agenda "Show only priorities C and below"
+         ((org-agenda-entry-types '(:scheduled))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
+"\\[#[CDE]\\]"))))
+
+        ("cC" "#C" agenda "Show only priority C"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#C\\]"))))
+        ("cD" "#D" agenda "Show only priority D"
+         ((org-agenda-entry-types '(:scheduled))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
+"\\[#D\\]"))))
+        ("cE" "#E" agenda "Show only priority E"
+         ((org-agenda-entry-types '(:scheduled))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
+"\\[#E\\]"))))
+
         ;; Agenda queries.  Allow searching archives
         ("Q" . "Custom queries") ;; gives label to "Q" 
         ("Qa" "Search *just* archive files" search ""
@@ -389,6 +403,12 @@ Webform_CAS
          ((org-agenda-text-search-extra-files (file-expand-wildcards "/Volumes/GoogleDrive/My Drive/Documents/orgmode/archive/*.org"))))
         ;; ...other commands here
         ))
+
+;; load agenda
+; list agenda with unfiltered priorities
+;(org-agenda-list)
+; list agenda with my default priority filtering
+(org-agenda nil "ca")
 
 
 (setq org-agenda-start-with-follow-mode t)
@@ -415,10 +435,6 @@ Webform_CAS
           '(lambda ()
 	     (auto-fill-mode nil)
 	     (visual-line-mode t)))
-
-;; load agenda
-(org-agenda-list)
-
 
 ;; Capture
 ;; Notes
