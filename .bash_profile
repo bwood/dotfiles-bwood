@@ -38,6 +38,8 @@ export TERMINUS_ISTDRUPAL=$HOME/bin/terminus-0133
 #export PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\[$(tput setaf 3)\]\u\[$(tput setaf 7)\]@\[$(tput setaf 3)\]\h \[$(tput setaf 7)\]\W\[$(tput setaf 4)\]\\$ \[$(tput sgr0)\]"
 #PROMPT_COMMAND='__git_ps1 "\u@mbp \W" "\\\$ "'
 
+# Display the current php version in the iTerm title bar
+echo -e "\033];" $(php -v | awk 'NR == 1 {print $1 " " $2}') "\007"
 
 #aliases
 alias ll="ls -laFG"

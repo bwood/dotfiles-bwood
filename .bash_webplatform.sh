@@ -278,5 +278,8 @@ php-switch () {
 	    fi
 	fi
     done
+
+    # update the php version in the item title bar so you can verify your PHP version with a quick glance.  Often I switch versions in a session and then I forget.
+    echo -e "\033];" $(php -v | awk 'NR == 1 {print $1 " " $2}') "\007"
 }
 alias phps=php-switch
