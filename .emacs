@@ -369,10 +369,10 @@ Webform_CAS
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
 "\\[#A\\]"))))
-        ("ca" "#A and #B" agenda "Show only priorities A and B"
+        ("ca" "#A, #B, #C" agenda "Show only priorities A and B"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
-"\\[#[AB]\\]"))))
+"\\[#[ABC]\\]"))))
         ("cb" "#B" agenda "Show only priority B"
          ((org-agenda-entry-types '(:scheduled))
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp 
