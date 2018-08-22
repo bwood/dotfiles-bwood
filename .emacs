@@ -37,6 +37,7 @@
  '(ido-enable-flex-matching t)
  '(markdown-command "/usr/local/bin/markdown")
  '(org-agenda-files nil)
+ '(org-startup-indented t)
  '(package-selected-packages (quote (org-clock-csv org))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -399,8 +400,7 @@ Webform_CAS
 (setq org-refile-targets '((org-agenda-files . (:maxlevel . 10))))
 (setq org-reverse-note-order t)
 
-;; use indentation (hide ***)
-(setq org-startup-indented t)
+
 
 ;; wrap long lines
 ;; http://lists.gnu.org/archive/html/emacs-orgmode/2011-01/msg00290.html
