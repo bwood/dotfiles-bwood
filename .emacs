@@ -16,7 +16,12 @@
 
 (use-package org
   :config
-  (setq org-startup-indented t))
+  (setq org-startup-indented t)
+  (setq org-agenda-start-with-follow-mode t)
+  ;; http://orgmode.org/manual/Clocking-work-time.html#Clocking-work-time
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+  (setq org-clock-into-drawer t))
 
 
 ; --- Workstation specific config ---
@@ -417,13 +422,6 @@ Webform_CAS
 ;(org-agenda-list)
 ; list agenda with my default priority filtering
 (org-agenda nil "ca")
-
-
-(setq org-agenda-start-with-follow-mode t)
-;; http://orgmode.org/manual/Clocking-work-time.html#Clocking-work-time
-(setq org-clock-persist 'history)
-(org-clock-persistence-insinuate)
-(setq org-clock-into-drawer t)
 
 ;; http://orgmode.org/guide/Setting-up-a-capture-location.html#Setting-up-a-capture-location
 
