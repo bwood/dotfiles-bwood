@@ -1,3 +1,24 @@
+;; ========PACKAGE LIST===========
+;; Enable https for melpa
+;; https://emacs.stackexchange.com/a/35953
+;; TODO should this be an add to list?
+;;(add-to-list 'gnutls-trustfiles "/private/etc/ssl/cert.pem")
+;;;;(setq gnutls-trustfiles "/private/etc/ssl/cert.pem")
+
+(require 'package)
+(setq package-archives '(("melpa-stable" . "http://stable.melpa.org/packages/")
+       	                 ("org" . "http://orgmode.org/elpa/")))
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(use-package org
+  :config
+  (setq org-startup-indented t))
+
+
 ; --- Workstation specific config ---
 ;; --- Window size and position ---
 ;; emacs 23:
@@ -37,7 +58,7 @@
  '(ido-enable-flex-matching t)
  '(markdown-command "/usr/local/bin/markdown")
  '(org-agenda-files nil)
- '(package-selected-packages (quote (org-clock-csv org))))
+ '(package-selected-packages (quote (use-package org-clock-csv org))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -72,19 +93,6 @@
 
 ;; iSpell
 (setq ispell-program-name "/usr/local/bin/ispell")
-
-;; ========PACKAGE LIST===========
-;; Enable https for melpa
-;; https://emacs.stackexchange.com/a/35953
-;; TODO should this be an add to list?
-;;(add-to-list 'gnutls-trustfiles "/private/etc/ssl/cert.pem")
-;;;;(setq gnutls-trustfiles "/private/etc/ssl/cert.pem")
-
-(require 'package)
-(setq package-archives '(("melpa-stable" . "http://stable.melpa.org/packages/")
-       	                 ("org" . "http://orgmode.org/elpa/")))
-(package-initialize)
-
 
 ;; ========ORG MODE ====================
 
