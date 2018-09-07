@@ -143,7 +143,7 @@ alias codercs='phpcs --standard=/Users/bwood/.drush/coder/coder_sniffer/Drupal/r
 
 # If you commonly get a gateway timeout when running 'terminus sites aliases',
 # set this to "1" to avoid this problem. 
-export ISTDRUPAL_ALIAS_TIMEOUT=1 
+# export ISTDRUPAL_ALIAS_TIMEOUT=1 
  
 # Docker
 # Connect to an image
