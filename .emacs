@@ -63,12 +63,9 @@
  '(ido-enable-flex-matching t)
  '(markdown-command "/usr/local/bin/markdown")
  '(org-agenda-files nil)
-<<<<<<< HEAD
+ '(org-clock-csv-header "start,task,duration,category")
+ '(org-clock-csv-row-fmt (quote org-clock-csv-default-row-fmt-custom))
  '(package-selected-packages (quote (use-package org-clock-csv org))))
-=======
- '(org-startup-indented t)
- '(package-selected-packages (quote (org-clock-csv org))))
->>>>>>> a0879eb6922e81e627f8f5e9bc067acecde5c702
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -354,6 +351,33 @@ Webform_CAS
 ;; Default dealine warning number of days
 (setq org-deadline-warning-days 7)
 
+;; Customize Agenda menu
+;                        (quote ((agenda time-up tag-up priority-down) )))
+;(setq org-agenda-custom-commands
+;
+;      '(
+;        ("A" "Weekly Action List"
+;           (
+;           (agenda "" ((org-agenda-ndays 2)
+;                       (org-agenda-sorting-strategy
+;                        (quote ((agenda time-up priority-down) )))
+;                       (org-deadline-warning-days 2)
+;                       ))))
+;        ("D" "Daily Action List"
+;           (
+;           (agenda "" ((org-agenda-ndays 1)
+;                       (org-agenda-sorting-strategy
+;                        (quote ((agenda time-up tag-up priority-down) )))
+;                       (org-deadline-warning-days 0)
+;                       ))))
+;                ;; searches both projects and archive directories
+;        ("QA" "Archive tags search" org-tags-view "" 
+;         ((org-agenda-files (file-expand-wildcards "/Volumes/GoogleDrive/My Drive/Documents/orgmode/archive/*.org"))))
+;        ;; ...other commands here
+;         ))
+;
+;; Filter agenda on priority
+;; https://lists.gnu.org/archive/html/emacs-orgmode/2010-04/msg01100.html
 (setq org-agenda-custom-commands
       '(("c" . "Priority views")
         ("cA" "#A" agenda "Show only priority A"
@@ -410,7 +434,8 @@ Webform_CAS
 (setq org-refile-targets '((org-agenda-files . (:maxlevel . 10))))
 (setq org-reverse-note-order t)
 
-
+;; use indentation (hide ***)
+(setq org-startup-indented t)
 
 ;; wrap long lines
 ;; http://lists.gnu.org/archive/html/emacs-orgmode/2011-01/msg00290.html
@@ -464,6 +489,15 @@ Webform_CAS
 ;; https://www.emacswiki.org/emacs/InteractivelyDoThings#toc1
 (require 'ido)
 (ido-mode t)
+
+;;;;;;;;;;;;;;;;;;;;
+;; Customizations ;;
+;;;;;;;;;;;;;;;;;;;;
+;;; Emacs Load Path
+(setq load-path (cons "~/.emacs.d/elisp/org-clock-csv-custom" load-path))
+
+;; org-clock-csv
+
 
 ;;;;;;;;;;;;;;;;
 ;; mu4e email ;;
