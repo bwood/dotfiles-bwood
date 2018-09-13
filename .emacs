@@ -53,8 +53,14 @@
 ;; highlight the cursor line
 (global-hl-line-mode 1)
 
-
 (put 'downcase-region 'disabled nil)
+
+;; Emacs Load Path
+;; https://www.emacswiki.org/emacs/LoadPath
+(let ((default-directory  "~/.emacs.d/lisp/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
+;; Easy customizations
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -63,7 +69,7 @@
  '(ido-enable-flex-matching t)
  '(markdown-command "/usr/local/bin/markdown")
  '(org-agenda-files nil)
- '(org-clock-csv-header "start,task,duration,category")
+ '(org-clock-csv-header "start,task,duration,billing")
  '(org-clock-csv-row-fmt (quote org-clock-csv-default-row-fmt-custom))
  '(package-selected-packages (quote (use-package org-clock-csv org))))
 (custom-set-faces
@@ -493,8 +499,7 @@ Webform_CAS
 ;;;;;;;;;;;;;;;;;;;;
 ;; Customizations ;;
 ;;;;;;;;;;;;;;;;;;;;
-;;; Emacs Load Path
-(setq load-path (cons "~/.emacs.d/elisp/org-clock-csv-custom" load-path))
+
 
 ;; org-clock-csv
 
