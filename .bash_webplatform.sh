@@ -1,3 +1,15 @@
+show-function () {
+  if [ "x$1" == "x" ]; then
+      echo "To show a bash function:" 
+      echo "  show-function functino-name"
+      return 1
+  fi
+
+  set | awk "/^$1/,/}/"
+}
+alias sf=show-function
+alias bash-function=show-function
+
 is-numeric () {
     re='^[0-9]+$'
     if [[ $1 =~ $re ]] ; then
@@ -283,3 +295,4 @@ php-switch () {
     echo -e "\033];" $(php -v | awk 'NR == 1 {print $1 " " $2}') "\007"
 }
 alias phps=php-switch
+
