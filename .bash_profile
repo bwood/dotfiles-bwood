@@ -4,10 +4,8 @@ export PATH="/usr/local/opt/php@5.6/sbin:/usr/local/opt/php@5.6/bin:$HOME/bin:/u
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
-# istdrupal console development
-export ISTDRUPAL_TERMINUS_DEV_PATH="/Users/bwood/code/php/cli"
-export ISTDRUPAL_TERMINUS_DEV="1"
-export VCR_CASSETTE_PATH="/Users/bwood/code/php/istdrupal/tests/fixtures"
+# istdrupal_ops development
+export ISTDRUPAL_VCR_CASSETTE_PATH=/Users/bwood/code/drupal/istdrupal_ops/pantheon/tests/fixtures
 
 # wps console development
 export WPS_VCR_CASSETTE_PATH="/Users/bwood/code/php/WpsConsole/tests/fixtures"
