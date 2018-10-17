@@ -298,6 +298,16 @@ alias phps=php-switch
 
 packer-build-updates() {
 
+    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+	echo "USAGE:
+
+$FUNCNAME [istdrupal_ops version] [wps version] [terminus version]
+
+If you provide no arguments, you'll be prompted for values.
+"
+	return 0
+    fi
+    
     # Check required variables
     ENV_VARS=( WPS_MACHINE_USER WPS_MACHINE_TOKEN GITHUB_TOKEN )
 
@@ -313,16 +323,39 @@ packer-build-updates() {
     	echo "AMI_SRC not set. Problem with 'latest-ami-src'?"
     fi
 
-    # Prompt user for rest of info
-    echo "Enter version of istdrupal-updates-apply:"
-    read IST_DRUPALOPS_VER
+    if [[ "x$1" == "x" ]];then
+	echo "Enter version of istdrupal-updates-apply:"
+	read IST_DRUPALOPS_VER
+    else
+	echo "Using istdrupal_ops version: $1"
+	IST_DRUPALOPS_VER=$1
+    fi
 
-    echo "Enter version of wps:"
-    read WPS_VER
+    if [[ "x$2" == "x" ]];then
+	echo "Enter version of wps:"
+	read WPS_VER
+    else
+	echo "Using wps version: $2"
+	WPS_VER=$2
+    fi
 
-    echo "Enter version of terminus:"
-    read TERMINUS_VER
+    if [[ "x$3" == "x" ]];then
+	echo "Enter version of terminus:"
+	read TERMINUS_VER
+    else
+	echo "Using terminus version: $3"
+	TERMINUS_VER=$3
+    fi
 
+    if [[ "x$1" != "x" ]];then
+	echo "Are the above values correct? (y/n)"
+	read CORRECT
+        if [ "$CORRECT" != "y" ]; then
+	    echo "Aborting so you can try again."
+	    return 1
+	fi
+    fi
+    
     echo "Are we building for the Dev environment? (y/n)"
     read ENV_DEV
     if [ "$ENV_DEV" == "y" ];then
