@@ -296,3 +296,58 @@ php-switch () {
 }
 alias phps=php-switch
 
+packer-build-updates() {
+
+    # Check required variables
+    ENV_VARS=( WPS_MACHINE_USER WPS_MACHINE_TOKEN GITHUB_TOKEN )
+
+    for VAR in "${ENV_VARS[@]}"; do
+	# "${!VAR}" is a dynamic varilable, or variable variable in bash
+	if [ "x${!VAR}" == "x" ]; then
+	    echo "$VAR is not found in your environment. Check ~/.env."
+        fi
+    done
+
+    AMI_SRC=$(latest-ami us-west-2)
+    if [ "x$AMI_SRC" == "x" ]; then
+    	echo "AMI_SRC not set. Problem with 'latest-ami-src'?"
+    fi
+
+    # Prompt user for rest of info
+    echo "Enter version of istdrupal-updates-apply:"
+    read IST_DRUPALOPS_VER
+
+    echo "Enter version of wps:"
+    read WPS_VER
+
+    echo "Enter version of terminus:"
+    read TERMINUS_VER
+
+    echo "Are we building for the Dev environment? (y/n)"
+    read ENV_DEV
+    if [ "$ENV_DEV" == "y" ];then
+	DEV='_dev'
+	INSTANCE_TYPE=t2.micro
+	AMI_NAME=managed-sites-updates-dev
+    else
+        INSTANCE_TYPE=t2.large
+	AMI_NAME=managed-sites-updates	
+    fi
+    
+
+    GITHUB_DL_VER=1.0.0
+
+    cd $HOME/code/php/aws-updates-apply/aws
+
+packer build -var 'dev_instance='$DEV \
+ -var 'istdrupal_ops_ver='$IST_DRUPALOPS_VER \
+ -var 'wpsconsole_ver='$WPS_VER \
+ -var 'terminus_ver='$TERMINUS_VER \
+ -var 'instance_type='$INSTANCE_TYPE \
+ -var 'ami_name='$AMI_NAME \
+ -var 'ami_source='$AMI_SRC \
+ -var 'github_dl_ver='$GITHUB_DL_VER \
+ -var 'github_token='$GITHUB_TOKEN \
+ ec2/packer/sites-updates-packer-template.json
+
+}
