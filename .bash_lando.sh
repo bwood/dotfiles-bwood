@@ -1,5 +1,6 @@
-#Installing sites
-lando-openberkeley-site-install() {
+# Installing sites
+
+lando-openberkeley-site-install () {
 
     if [[ "$1" == "-h" || "$1" == "--help" ]];then
 	echo "USAGE:
@@ -53,8 +54,9 @@ or add this environment variable some other way."
   lando drush -y site-install  openberkeley \
   --site-mail=$SITE_EMAIL --site-name="$SITE_NAME" \
   --account-mail=$SITE_EMAIL --account-name=$USER1_ACCT_NAME \
-  update_status_module='array(FALSE,FALSE)' \
+  update_status_module='array\(FALSE,FALSE\)' \
   openberkeley_add_admin_form.cas_name=$SITE_ADMINS
+
 }
  
 alias lobsi=lando-openberkeley-site-install

@@ -4,8 +4,9 @@ export PATH="/usr/local/opt/php@5.6/sbin:/usr/local/opt/php@5.6/bin:$HOME/bin:/u
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
-# istdrupal_ops development
 export ISTDRUPAL_VCR_CASSETTE_PATH=/Users/bwood/code/drupal/istdrupal_ops/pantheon/tests/fixtures
+# istdrupal_ops development
+export ISTDRUPAL_TERMINUS_DEV=/Users/bwood/code/php/terminus-for-dev/terminus/bin
 
 # wps console development
 export WPS_VCR_CASSETTE_PATH="/Users/bwood/code/php/WpsConsole/tests/fixtures"
@@ -54,14 +55,11 @@ alias phpunit='php $(which phpunit)'
 # alias phpswitch="brew-php-switcher -s"
 
 ##############
-## Terminus ##
+## Include other function files.
 ##############
 . ~/.bash_terminus.sh
-
-##############################
-## IST Web Platform Scripts ##
-##############################
 . ~/.bash_webplatform.sh
+. ~/.bash_lando.sh
 
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
