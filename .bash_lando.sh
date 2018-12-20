@@ -1,5 +1,9 @@
-# Installing sites
+# https://github.com/bwood/lando_notify_wrapper
+export LW_LANDO_REAL_PATH=/usr/local/bin/lando
+export LW_LANDO_SITES_PATH_MATCH=Sites/lando
 
+# Installing sites
+# Deprecated. Use 'wps lando:init'
 lando-openberkeley-site-install () {
 
     if [[ "$1" == "-h" || "$1" == "--help" ]];then
