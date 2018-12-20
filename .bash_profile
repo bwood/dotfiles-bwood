@@ -1,5 +1,5 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin so that things like brew-installed git take precedence over Apple-installed programs
-export PATH="/usr/local/opt/php@5.6/sbin:/usr/local/opt/php@5.6/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/.composer/vendor/bin:/usr/local/sbin:/usr/local/opt/python/libexec/bin:/Users/bwood/Library/Python/3.7/bin:$PATH"
+export PATH="/usr/local/opt/php@7.1/sbin:/usr/local/opt/php@7.1/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/.composer/vendor/bin:/usr/local/sbin:/usr/local/opt/python/libexec/bin:/Users/bwood/Library/Python/3.7/bin:$PATH"
 # PATH: /Users/bwood/Library/Python/3.7/bin is for awscli
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
