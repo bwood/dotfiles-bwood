@@ -346,27 +346,29 @@ If you provide no arguments, you'll be prompted for values.
 	echo "Using terminus version: $3"
 	TERMINUS_VER=$3
     fi
-
-    if [[ "x$1" != "x" ]];then
-	echo "Are the above values correct? (y/n)"
-	read CORRECT
-        if [ "$CORRECT" != "y" ]; then
-	    echo "Aborting so you can try again."
-	    return 1
-	fi
-    fi
     
     echo "Are we building for the Dev environment? (y/n)"
     read ENV_DEV
+    # case insensitive
+    ENV_DEV=$(echo $ENV_DEV | tr '[:upper:]' '[:lower:]')
     if [ "$ENV_DEV" == "y" ];then
 	DEV='_dev'
 	INSTANCE_TYPE=t2.micro
 	AMI_NAME=managed-sites-updates-dev
     else
+	DEV=''
         INSTANCE_TYPE=t2.large
 	AMI_NAME=managed-sites-updates	
     fi
-    
+
+    echo "Take a second look. Are the above values correct? (y/n)"
+    read CORRECT
+    # case insensitive
+    CORRECT=$(echo $CORRECT | tr '[:upper:]' '[:lower:]')
+    if [ "$CORRECT" != "y" ]; then
+      echo "Aborting so you can try again."
+        return 1
+    fi
 
     GITHUB_DL_VER=1.0.0
 
