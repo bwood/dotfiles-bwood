@@ -1,8 +1,21 @@
 # https://github.com/bwood/lando_notify_wrapper
-export LW_LANDO_REAL_PATH=/usr/local/bin/lando
-export LW_LANDO_SITES_PATH_MATCH=Sites/lando
+#export LW_LANDO_REAL_PATH=/usr/local/bin/lando
+
 
 # Installing sites
+lando-drupal-site-install() {
+lando drupal site:install standard \
+--langcode="en" \
+--db-host="database" \
+--db-type=mysql \
+--db-name=drupal8 \
+--db-user=drupal8 \
+--db-pass=drupal8 \
+--db-port=3306 \
+--account-name=admin 
+}
+alias ldsi=lando-drupal-site-install
+
 # Deprecated. Use 'wps lando:init'
 lando-openberkeley-site-install () {
 
