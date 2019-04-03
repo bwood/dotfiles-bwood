@@ -77,3 +77,8 @@ or add this environment variable some other way."
 }
  
 alias lobsi=lando-openberkeley-site-install
+
+alias lando-url='lando info -p $[0].urls[2]'
+alias lurl=lando-url
+alias lando-urls='lando info -p $[0].urls'
+alias lurls=lando-urls
