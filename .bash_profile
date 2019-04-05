@@ -28,6 +28,9 @@ export TERM="xterm-color"
 # istdrupal app
 export TERMINUS_ISTDRUPAL=$HOME/bin/terminus-0133
 
+# lesspipe to open directories in less
+export LESSOPEN="|/usr/local/bin/lesspipe.sh %s" LESS_ADVANCED_PREPROCESSOR=1
+
 # Install new bash prompt
 # Git prompt
 #export GIT_PS1_SHOWSTASHSTATE=1
