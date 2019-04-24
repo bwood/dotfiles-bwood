@@ -386,3 +386,30 @@ packer build -var 'dev_instance='$DEV \
  ec2/packer/sites-updates-packer-template.json
 
 }
+
+###################
+# WPS Development #
+###################
+wpsv() {
+  cd /Users/bwood/code/php/WpsConsole/scripts
+  ../bin/robo wps:vcr "$*"
+  # sourcing this file makes the variable changes stick in your environment.  
+ source $HOME/.wps/vcr_env.sh
+}
+
+wpsv-none() {
+  export WPS_VCR_MODE=none
+  wpsv "$*"
+}
+
+wpsv-episodes() {
+  export WPS_VCR_MODE=new_episodes
+  wpsv "$*"
+}
+
+wpsv-base() {
+  unset WPS_VCR_BASE_PATH
+  # Since you're moving the fixture path, you probably want new episodes
+  export WPS_VCR_MODE=new_episodes
+  wpsv "$*"
+}
