@@ -397,15 +397,22 @@ wpsv() {
  source $HOME/.wps/vcr_env.sh
 }
 
+wpsv-list() {
+  wpsv --env
+}
+alias wpsvl=wpsv-list
+
 wpsv-none() {
   export WPS_VCR_MODE=none
   wpsv "$*"
 }
+alias wpsvn=wpsv-none
 
 wpsv-episodes() {
   export WPS_VCR_MODE=new_episodes
   wpsv "$*"
 }
+alias wpsve=wpsv-episodes
 
 wpsv-base() {
   unset WPS_VCR_BASE_PATH
@@ -413,3 +420,4 @@ wpsv-base() {
   export WPS_VCR_MODE=new_episodes
   wpsv "$*"
 }
+alias wpsvb=wpsv-base
