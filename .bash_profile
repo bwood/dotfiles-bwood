@@ -120,6 +120,7 @@ alias gsta='git stash apply'
 alias gstl='git stash list'
 alias gstd='git stash drop'
 alias gstp='git stash pop' #apply stash and drop from stack (gsa + gsd)
+alias git-latest-branch="git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 
 #commit pending changes and quote all args as message
 gg() {
@@ -136,6 +137,13 @@ gpob() {
   fi
 }
 
+# unshallow a repo so that you can checkout remote branches
+git-unshallow() {
+  git fetch --unshallow
+  git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  git fetch origin
+}
+alias gu=git-unshallow
 
 
 alias codercs='phpcs --standard=/Users/bwood/.drush/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
