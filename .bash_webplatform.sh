@@ -397,10 +397,22 @@ wpsv() {
  source $HOME/.wps/vcr_env.sh
 }
 
+wpsvd() {
+  wpsv --dev "$*"
+}
+
 wpsv-list() {
   wpsv --env
 }
 alias wpsvl=wpsv-list
+
+wpsv-unset() {
+  unset WPS_VCR_MODE
+  unset TERMINUS_VCR_MODE
+  wpsv-list
+}
+alias wpsvu=wpsv-unset
+alias wpsV=wpsv-unset
 
 wpsv-none() {
   export WPS_VCR_MODE=none
