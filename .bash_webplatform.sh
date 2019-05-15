@@ -390,9 +390,13 @@ packer build -var 'dev_instance='$DEV \
 ###################
 # WPS Development #
 ###################
-wpsv() {
+wpsvbase() {
   cd /Users/bwood/code/php/WpsConsole/scripts
   ../bin/robo wps:vcr "$*"
+}
+
+wpsv() {
+  wpsvbase
   # sourcing this file makes the variable changes stick in your environment.  
  source $HOME/.wps/vcr_env.sh
 }
@@ -402,7 +406,7 @@ wpsvd() {
 }
 
 wpsv-list() {
-  wpsv --env
+  wpsvbase --env
 }
 alias wpsvl=wpsv-list
 
@@ -426,10 +430,10 @@ wpsv-episodes() {
 }
 alias wpsve=wpsv-episodes
 
-wpsv-base() {
+wpsv-path() {
   unset WPS_VCR_BASE_PATH
   # Since you're moving the fixture path, you probably want new episodes
   export WPS_VCR_MODE=new_episodes
-  wpsv "$*"
+  wpsvbase "$*"
 }
-alias wpsvb=wpsv-base
+alias wpsvp=wpsv-path
