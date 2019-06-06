@@ -390,23 +390,33 @@ packer build -var 'dev_instance='$DEV \
 ###################
 # WPS Development #
 ###################
-wpsvbase() {
+wpsv-base() {
   cd /Users/bwood/code/php/WpsConsole/scripts
-  ../bin/robo wps:vcr "$*"
+  ../bin/robo wps:vcr "'$*'"
+  cd ..
 }
 
 wpsv() {
-  wpsvbase
+  wpsv-base $*
   # sourcing this file makes the variable changes stick in your environment.  
  source $HOME/.wps/vcr_env.sh
 }
 
+wpsv-dev-base() {
+  cd /Users/bwood/code/php/WpsConsole/scripts
+  ../bin/robo wps:vcr --dev "'$*'"
+  cd ..
+}
+
 wpsvd() {
-  wpsv --dev "$*"
+  wpsv-dev-base $*
+  source $HOME/.wps/vcr_env.sh
 }
 
 wpsv-list() {
-  wpsvbase --env
+  cd /Users/bwood/code/php/WpsConsole/scripts
+  ../bin/robo wps:vcr --env
+  cd ..
 }
 alias wpsvl=wpsv-list
 
@@ -416,17 +426,19 @@ wpsv-unset() {
   wpsv-list
 }
 alias wpsvu=wpsv-unset
-alias wpsV=wpsv-unset
+
 
 wpsv-none() {
   export WPS_VCR_MODE=none
-  wpsv "$*"
+  export TERMINUS_VCR_MODE=none
+  wpsv-list
 }
 alias wpsvn=wpsv-none
 
 wpsv-episodes() {
   export WPS_VCR_MODE=new_episodes
-  wpsv "$*"
+  export TERMINUS_VCR_MODE=new_episodes
+  wpsv-list
 }
 alias wpsve=wpsv-episodes
 
@@ -434,6 +446,6 @@ wpsv-path() {
   unset WPS_VCR_BASE_PATH
   # Since you're moving the fixture path, you probably want new episodes
   export WPS_VCR_MODE=new_episodes
-  wpsvbase "$*"
+  wpsv-list
 }
 alias wpsvp=wpsv-path
