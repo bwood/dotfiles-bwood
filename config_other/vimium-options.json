@@ -4,6 +4,18 @@
     {
       "pattern": "https?://mail.google.com/*",
       "passKeys": ""
+    },
+    {
+      "pattern": "https://play.hbonow.com/*",
+      "passKeys": ""
+    },
+    {
+      "pattern": "https://www.amazon.com/gp/*",
+      "passKeys": ""
+    },
+    {
+      "pattern": "https://www.netflix.com/watch/*",
+	"passKeys": ""
     }
   ],
   "filterLinkHints": true,
