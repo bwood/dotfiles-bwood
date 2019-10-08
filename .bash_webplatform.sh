@@ -296,102 +296,23 @@ php-switch () {
 }
 alias phps=php-switch
 
-packer-build-updates() {
-
-    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-	echo "USAGE:
-
-$FUNCNAME [istdrupal_ops version] [wps version] [terminus version]
-
-If you provide no arguments, you'll be prompted for values.
-"
-	return 0
-    fi
-    
-    # Check required variables
-    ENV_VARS=( WPS_MACHINE_USER WPS_MACHINE_TOKEN GITHUB_TOKEN )
-
-    for VAR in "${ENV_VARS[@]}"; do
-	# "${!VAR}" is a dynamic varilable, or variable variable in bash
-	if [ "x${!VAR}" == "x" ]; then
-	    echo "$VAR is not found in your environment. Check ~/.env."
-        fi
-    done
-
-    AMI_SRC=$(latest-ami us-west-2)
-    if [ "x$AMI_SRC" == "x" ]; then
-    	echo "AMI_SRC not set. Problem with 'latest-ami-src'?"
-    fi
-
-    if [[ "x$1" == "x" ]];then
-	echo "Enter version of istdrupal-updates-apply:"
-	read IST_DRUPALOPS_VER
-    else
-	echo "Using istdrupal_ops version: $1"
-	IST_DRUPALOPS_VER=$1
-    fi
-
-    if [[ "x$2" == "x" ]];then
-	echo "Enter version of wps:"
-	read WPS_VER
-    else
-	echo "Using wps version: $2"
-	WPS_VER=$2
-    fi
-
-    if [[ "x$3" == "x" ]];then
-	echo "Enter version of terminus:"
-	read TERMINUS_VER
-    else
-	echo "Using terminus version: $3"
-	TERMINUS_VER=$3
-    fi
-    
-    echo "Are we building for the Dev environment? (y/n)"
-    read ENV_DEV
-    # case insensitive
-    ENV_DEV=$(echo $ENV_DEV | tr '[:upper:]' '[:lower:]')
-    if [ "$ENV_DEV" == "y" ];then
-	DEV='_dev'
-	INSTANCE_TYPE=t2.micro
-	AMI_NAME=managed-sites-updates-dev
-    else
-	DEV=''
-        INSTANCE_TYPE=t2.large
-	AMI_NAME=managed-sites-updates	
-    fi
-
-    echo "Take a second look. Are the above values correct? (y/n)"
-    read CORRECT
-    # case insensitive
-    CORRECT=$(echo $CORRECT | tr '[:upper:]' '[:lower:]')
-    if [ "$CORRECT" != "y" ]; then
-      echo "Aborting so you can try again."
-        return 1
-    fi
-
-    GITHUB_DL_VER=1.0.0
-
-    cd $HOME/code/php/aws-updates-apply/aws
-
-packer build -var 'dev_instance='$DEV \
- -var 'istdrupal_ops_ver='$IST_DRUPALOPS_VER \
- -var 'wpsconsole_ver='$WPS_VER \
- -var 'terminus_ver='$TERMINUS_VER \
- -var 'instance_type='$INSTANCE_TYPE \
- -var 'ami_name='$AMI_NAME \
- -var 'ami_source='$AMI_SRC \
- -var 'github_dl_ver='$GITHUB_DL_VER \
- -var 'github_token='$GITHUB_TOKEN \
- ec2/packer/sites-updates-packer-template.json
-
-}
 
 ###################
 # WPS Development #
 ###################
+wpsv-scripts-dir () {
+  if [ -n "$WPS_VCR_BASE_PATH" ]; then
+    cd ${WPS_VCR_BASE_PATH}/scripts
+  elif [ -d "${PWD}/scripts" ]; then
+    cd scripts
+  else
+    echo "Please set or cd to WPS_VCR_BASE_PATH before proceeding."
+    return 1
+  fi
+}
+
 wpsv-base() {
-  cd /Users/bwood/code/php/WpsConsole/scripts
+  wpsv-scripts-dir
   ../bin/robo wps:vcr "'$*'"
   cd ..
 }
@@ -403,7 +324,7 @@ wpsv() {
 }
 
 wpsv-dev-base() {
-  cd /Users/bwood/code/php/WpsConsole/scripts
+  wpsv-scripts-dir
   ../bin/robo wps:vcr --dev "'$*'"
   cd ..
 }
@@ -414,7 +335,7 @@ wpsvd() {
 }
 
 wpsv-list() {
-  cd /Users/bwood/code/php/WpsConsole/scripts
+  wpsv-scripts-dir
   ../bin/robo wps:vcr --env
   cd ..
 }
