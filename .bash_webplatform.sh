@@ -370,3 +370,20 @@ wpsv-path() {
   wpsv-list
 }
 alias wpsvp=wpsv-path
+
+# wps Docker aliases #
+#
+# OPTIONS:
+# -d                    Use the wps-dev docker image.
+# -s                    Open a shell on the docker container.
+# -t                    Run a terminus command.
+# -h                    Display this help text.
+# -D                    Display debug messages.
+
+WPS_BASE_DIR=/Users/bwood/code/php/WpsConsole-docker
+alias wps="$WPS_BASE_DIR/bin/wps-docker.sh"
+alias wpsd="$WPS_BASE_DIR/bin/wps-docker.sh -d"
+alias wpss="$WPS_BASE_DIR/bin/wps-docker.sh -s"
+alias wpsds="$WPS_BASE_DIR/bin/wps-docker.sh -d -S"
+alias wpst="$WPS_BASE_DIR/bin/wps-docker.sh -t"
+alias wpsdt="$WPS_BASE_DIR/bin/wps-docker.sh -d -t"
