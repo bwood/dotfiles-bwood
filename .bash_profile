@@ -1,6 +1,5 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin so that things like brew-installed git take precedence over Apple-installed programs
-export PATH="/usr/local/opt/php@7.1/sbin:/usr/local/opt/php@7.1/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:$HOME/.composer/vendor/bin:/usr/local/sbin:/usr/local/opt/python/libexec/bin:/Users/bwood/Library/Python/3.7/bin:$PATH"
-# PATH: /Users/bwood/Library/Python/3.7/bin is for awscli
+export PATH="/usr/local/opt/php@7.1/sbin:/usr/local/opt/php@7.1/bin:$HOME/bin:$HOME/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:$PATH:/Users/bwood/Library/Python/3.7/bin"
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
@@ -175,4 +174,8 @@ alias sudo='sudo -u bwood_admin'
 # enable symfony console app command completion
 # eval "$(symfony-autocomplete)"
 source ~/.terminus-autocomplete
+
+# Python3
+alias pip=pip3
+alias python=python3
 
