@@ -1,3 +1,6 @@
+# set default aws profile
+export AWS_PROFILE=bwood
+
 updates-done () {
   cd $HOME/logs
   # Fragile: What if step_16 is removed, or there is a step 17. Improve the logging.
