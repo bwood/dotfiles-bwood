@@ -72,7 +72,9 @@
  '(org-agenda-files
    (quote
     ("/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/dev_tools.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/home/home.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/home/music.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/abatement.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/admin.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/community.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/css.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/drupal.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/emacs.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/ets.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/ideas.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/javascript.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/journal.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/oc.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/open_berkeley.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/operations-allsites.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/orgcsv_test.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/pantheon.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/parking.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/presales.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/professional_development.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/rct.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/reports.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/security.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/socrates.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/swift.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/system_maintenance.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/terminus.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/training.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/ucb_cas.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/ucb_envconf.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/wps.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/asg-charlesjames.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/bamboo.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/bamboo_acctsvcs.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/bamboo_dirt.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/box.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/calanswers.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/caltime.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/campuslife.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/careercompass.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/catsip.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/chancellor.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/hrweb-ob.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/hrweb.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/ist-staff.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/ls.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/ocio.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/oepo.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/optometry.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/panopoly.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/pmb.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/privatepages.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/procurment.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/public_affairs.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/safetrec.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/scholar.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/security-website.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/stafforg.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/techcommons.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/uhs.org" "/Volumes/GoogleDrive/My Drive/Documents/orgmode/work/projects/vcaf.org")))
- '(package-selected-packages (quote (org-jira use-package org-clock-csv org))))
+ '(package-selected-packages
+   (quote
+    (exec-path-from-shell deft try org-jira use-package org-clock-csv org))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -434,8 +436,6 @@ Webform_CAS
    (shell . t)
    (python . t)))
 
-(add-to-list 'org-babel-default-header-args:shell
-             '((:prologue . "source /Users/bwood/.bash_profile")))
 ;; load agenda
 ; list agenda with unfiltered priorities
 ;(org-agenda-list)
@@ -598,3 +598,11 @@ Webform_CAS
 (setq org-jira-users '(
 		       ("Brian Wood" . "api-openucb")
 		       ))
+
+;; Deft
+;; https://jblevins.org/projects/deft
+;; (use-package deft
+;;   :bind ("<f8>" . deft)
+;;   :commands (deft)
+;;   :config (setq deft-directory "/Volumes/GoogleDrive/My Drive/Documents/orgmode/deft"
+;;                 deft-extensions '("org")))
