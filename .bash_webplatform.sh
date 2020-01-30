@@ -85,10 +85,26 @@ dig-ucb-ns () {
   echo ""
 }
 
-showcert() {
-  HOST=$1
+show-cert() {
+    HOST=$1
+    if [ x$HOST = x ]; then
+	echo "Pass the hostname without the ';https://'"
+	exit 1
+    fi
   curl -vvI https://$HOST 2>&1 |grep -A6 "Server certificate"
 }
+alias curl-cert=show-cert
+
+show-redirects() {
+    URL=$1
+    if [ x$URL = x]; then
+	echo "Pass the url including protocol for which you want to check redirects."
+	exit 1
+    fi
+    curl -sLD - $URL -o /dev/null -w '%{url_effective}'
+    echo ""
+}
+alias curl-redirects=show-redirects
 
 new-site() {
 
