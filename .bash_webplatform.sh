@@ -5,7 +5,7 @@ show-function () {
       return 1
   fi
 
-  set | awk "/^$1/,/}/"
+  set | awk "/^$1/,/^}/"
 }
 alias sf=show-function
 alias bash-function=show-function
