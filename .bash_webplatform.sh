@@ -138,6 +138,11 @@ date-to-unixtime () {
 	return 1
     fi
 
+    # Optionally convert the unix timestamp to UTC
+    UTC=''
+    if [ x$2 != x ] && [ "$2" == "-u" ]; then
+	UTC='-u'
+    fi
 
     re='[0-9]{2}\/[0-9]{2}\/[0-9]{4}\ [0-9]{2}:[0-9]{2}:[0-9]{2}'
     if [[ ! "$1" =~ $re ]] ; then
@@ -145,8 +150,13 @@ date-to-unixtime () {
 	echo $USAGE
 	return 1
     fi
-    
-    gdate "+%s" -d "$1"
+
+    gdate "+%s" -d "$1" $UTC
+}
+
+# Convenience for 'date-to-unixtime $DATE -u'
+date-to-unixtime-utc () {
+    date-to-unixtime "$1" -u
 }
 
 unixtime-to-date () {
