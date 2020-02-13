@@ -131,6 +131,28 @@ upgrades-done () {
   grep -l "SCRIPT END TIME:" *.log | sed -e 's/_.*/.pantheon.berkeley.edu/g' -e 's/^/http://test-/g'
 }
 
+date-to-unixtime () {
+    USAGE="${FUNCNAME[0]} 'MM/DD/YYYY HH:mm:ss'"
+    if [ "x$1" == "x" ]; then
+	echo $USAGE
+	return 1
+    fi
+
+
+    re='[0-9]{2}\/[0-9]{2}\/[0-9]{4}\ [0-9]{2}:[0-9]{2}:[0-9]{2}'
+    if [[ ! "$1" =~ $re ]] ; then
+        echo "ERROR: Wrong date format: $1"
+	echo $USAGE
+	return 1
+    fi
+    
+    gdate "+%s" -d "$1"
+}
+
+unixtime-to-date () {
+    gdate "+%m/%d/%Y %X" -d "@$1"
+}
+
 ###########
 ## Drush ##
 ###########
