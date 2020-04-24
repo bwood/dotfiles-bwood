@@ -21,7 +21,7 @@ export ISTDRUPAL_OPS_BIN_DIR=builds
 
 # Finished adapting your PATH environment variable for use with MacPorts.
 export EDITOR="/usr/local/bin/emacs-orig -q -nw"
-export VISUAL="emacs-orig"
+export VISUAL="emacs -q -nw --no-splash"
 export TERM="xterm-color"
 
 # istdrupal app
@@ -58,10 +58,10 @@ alias phpunit='php $(which phpunit)'
 
 ##############
 ## Include other function files.
-##############
-. ~/.bash_terminus.sh
-. ~/.bash_webplatform.sh
-. ~/.bash_lando.sh
+#############
+. ~/code/dotfiles-wps/src/.bash_wps.sh
+. ~/.bash_wps_bwood.sh
+. ~/.bash_aws.sh
 
 # Allow php debugging from CLI
 export XDEBUG_CONFIG="idekey=PHPSTORM"  
@@ -178,4 +178,8 @@ source ~/.terminus-autocomplete
 # Python3
 alias pip=pip3
 alias python=python3
+export PYTHONPATH=/Users/bwood/Library/Python/3.7/lib/python/site-packages
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=/Users/bwood/Library/Python/3.7/bin/virtualenv
+. /Users/bwood/Library/Python/3.7/bin/virtualenvwrapper.sh
 
