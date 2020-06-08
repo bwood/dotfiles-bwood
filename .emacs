@@ -246,6 +246,7 @@ UCSF-PIVOT
 UHS-OptoHub-Features
 UHS-Policy-Website
 UPP-Website
+CV19-AdminLeavewithPay
 VCUE
 Web-Accessibility
 Web-Platform-Services
@@ -598,11 +599,20 @@ Webform_CAS
 (setq org-jira-users '(
 		       ("Brian Wood" . "api-openucb")
 		       ))
+(setq org-jira-working-dir "/Volumes/GoogleDrive/My Drive/Documents/orgmode/jira")
+
+;; Ensure that shell env variables are available in source blocks.
+;; https://emacs.stackexchange.com/q/53773/25582
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 ;; Deft
 ;; https://jblevins.org/projects/deft
-;; (use-package deft
-;;   :bind ("<f8>" . deft)
-;;   :commands (deft)
-;;   :config (setq deft-directory "/Volumes/GoogleDrive/My Drive/Documents/orgmode/deft"
-;;                 deft-extensions '("org")))
+(use-package deft
+  :bind (("C-c d" . deft)
+	 ("C-c D" . deft-new-file-named))
+  :commands (deft)
+  :config (setq deft-directory "/Volumes/GoogleDrive/My Drive/Documents/orgmode/deft"
+                deft-extensions '("org" "md")
+		deft-default-extension "org"))
+
