@@ -304,5 +304,6 @@ alias wpsds="$WPS_BASE_DIR/bin/wps-docker.sh -d -s"
 alias wpst="$WPS_BASE_DIR/bin/wps-docker.sh -t"
 alias wpsdt="$WPS_BASE_DIR/bin/wps-docker.sh -d -t"
 
-alias emacs-25='HOME=/Users/bwood/bin/emacs /Users/bwood/Apps\ bwood/Emacs.app/Contents/MacOS/Emacs'
+alias emacs-25='HOME=/Users/bwood/bin/emacs nohup /Users/bwood/Apps\ bwood/Emacs.app/Contents/MacOS/Emacs > /tmp/nohup.out &'
+
 
