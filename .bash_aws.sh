@@ -1,3 +1,6 @@
+# awscli command completion
+complete -C '~/bin/aws_completer' aws
+
 ssh-ec2 () {
 aws --region us-east-2 ec2 describe-instances --query 'Reservations[*].Instances[*].{id:InstanceId,state:State.Name,key:KeyName,IP:PublicIpAddress}'
 }
@@ -8,14 +11,16 @@ wlogs-env() {
    echo "What region?"
    read region
   else
-   region="$WPS_AWS_REGION"
+      region="$WPS_AWS_REGION"
+      echo "Region: ${region}"
   fi
 
   if [ -z "$WPS_AWS_ENV" ]; then
    echo "What environment?"
    read env
   else
-   env="$WPS_AWS_ENV"
+      env="$WPS_AWS_ENV"
+      echo "Env: ${env}"
   fi
 
 }
@@ -51,7 +56,7 @@ wlogs-be () {
 # Display all errors in a logfile.
 wlogs-err () {
   wlogs-env
-  wlogsq $region $env "\[error\]" "-f3-"
+  wlogsq "\[error\]" "-f2-"
 }
 
 # Display log events for one or more runs for site.
