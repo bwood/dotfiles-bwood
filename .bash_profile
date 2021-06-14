@@ -176,12 +176,13 @@ alias sudo='sudo -u bwood_admin'
 source ~/.terminus-autocomplete
 
 # Python3
+PYTHON_VER=$(python --version|sed -E "s/Python ([0-9]\.[0-9])\.[0-9]/\1/")
 alias pip=pip3
 alias python=python3
-export PYTHONPATH=/Users/bwood/Library/Python/3.7/lib/python/site-packages
+export PYTHONPATH=/Users/bwood/Library/Python/$PYTHON_VERSION/lib/python/site-packages
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-export VIRTUALENVWRAPPER_VIRTUALENV=/Users/bwood/Library/Python/3.7/bin/virtualenv
-. /Users/bwood/Library/Python/3.7/bin/virtualenvwrapper.sh
+export VIRTUALENVWRAPPER_VIRTUALENV=/Users/bwood/Library/Python/$PYTHON_VER/bin/virtualenv
+. /Users/bwood/Library/Python/$PYTHON_VER/bin/virtualenvwrapper.sh
 
 # BEGIN SNIPPET: Platform.sh CLI configuration
 HOME=${HOME:-'/Users/bwood'}
