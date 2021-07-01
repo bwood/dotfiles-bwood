@@ -1,5 +1,5 @@
 # Homebrew: make sure /usr/local/bin is before /usr/bin so that things like brew-installed git take precedence over Apple-installed programs
-export PATH="/usr/local/opt/php@7.1/sbin:/usr/local/opt/php@7.1/bin:$HOME/bin:$HOME/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:$PATH:/Users/bwood/Library/Python/3.7/bin"
+export PATH="/usr/local/opt/php@7.4/sbin:/usr/local/opt/php@7.4/bin:$HOME/bin:$HOME/.composer/vendor/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:$PATH"
 
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
@@ -59,7 +59,7 @@ alias phpunit='php $(which phpunit)'
 ##############
 ## Include other function files.
 #############
-. ~/code/dotfiles-wps/src/.bash_wps.sh
+. ~/code/dotfiles/dotfiles-wps/src/.bash_wps.sh
 . ~/.bash_wps_bwood.sh
 . ~/.bash_aws.sh
 
@@ -176,10 +176,15 @@ alias sudo='sudo -u bwood_admin'
 source ~/.terminus-autocomplete
 
 # Python3
+PYTHON_VER=$(python --version|sed -E "s/Python ([0-9]\.[0-9])\.[0-9]/\1/")
 alias pip=pip3
 alias python=python3
-export PYTHONPATH=/Users/bwood/Library/Python/3.7/lib/python/site-packages
+export PYTHONPATH=/Users/bwood/Library/Python/$PYTHON_VERSION/lib/python/site-packages
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-export VIRTUALENVWRAPPER_VIRTUALENV=/Users/bwood/Library/Python/3.7/bin/virtualenv
-. /Users/bwood/Library/Python/3.7/bin/virtualenvwrapper.sh
+export VIRTUALENVWRAPPER_VIRTUALENV=/Users/bwood/Library/Python/$PYTHON_VER/bin/virtualenv
+. /Users/bwood/Library/Python/$PYTHON_VER/bin/virtualenvwrapper.sh
 
+# BEGIN SNIPPET: Platform.sh CLI configuration
+HOME=${HOME:-'/Users/bwood'}
+export PATH="$HOME/"'.platformsh/bin':"$PATH"
+if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET

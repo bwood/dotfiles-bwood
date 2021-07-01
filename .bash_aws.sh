@@ -1,31 +1,78 @@
-# set default aws profile
-export AWS_PROFILE=bwood
+# awscli command completion
+complete -C '~/bin/aws_completer' aws
 
-updates-done () {
-  cd $HOME/logs
-  # Fragile: What if step_16 is removed, or there is a step 17. Improve the logging.
-  echo 'Sites that have finished:'
-  echo '-------------------------'
-  grep '===> step_16' *.log  -l |sed 's/_updates.*//'
-  echo ""
+ssh-ec2 () {
+aws --region us-east-2 ec2 describe-instances --query 'Reservations[*].Instances[*].{id:InstanceId,state:State.Name,key:KeyName,IP:PublicIpAddress}'
 }
 
-updates-overrides () {
-  if [ -z "$1" ]; then
-    ENV='LIVE'
+wlogs-env() {
+
+  if [ -z "$WPS_AWS_REGION" ]; then
+   echo "What region?"
+   read region
   else
-    ENV=$(echo $1 | awk '{print toupper($0)}')
+      region="$WPS_AWS_REGION"
+      echo "Region: ${region}"
   fi
 
-  echo "Sites with overrides in $ENV:"
-  echo '-----------------------------'
-  grep 'END: $ENV: Features and customizations' -B10 ~/logs/*.log |grep 'Overridden features detected.' |sed 's/_updates.*//'
-  echo ""
+  if [ -z "$WPS_AWS_ENV" ]; then
+   echo "What environment?"
+   read env
+  else
+      env="$WPS_AWS_ENV"
+      echo "Env: ${env}"
+  fi
+
 }
 
-updates-report () {
-  updates-done
-  updates-overrides live
-  # updates-overrides test 
-  # updates-overrides dev
+wlogs-get() {
+
+  wlogs-env
+  # start: default 1d
+  start=${1:-1d}
+
+  dir="/tmp/awslogs"
+  if [ ! -d "$dir" ];then
+    mkdir $dir
+  fi
+
+  awslogs get --aws-region="$region" /${env}/wpsconsole --start="$start" --timestamp > ${dir}/${region}_${env}.txt
+}
+
+wlogsq () {
+  wlogs-env
+  search="$1"
+  fields="$2"
+  grep -E "${search}" $dir/${region}_${env}.txt | cut -d ' ' $fields |sort
+}
+
+# Dispaly all begin and end entries in a logfile.
+wlogs-be () {
+  wlogs-env
+  wlogsq $region $env "Begin update:apply" "-f3-"
+  wlogsq $region $env "End update:apply" "-f3-"
+}
+
+# Display all errors in a logfile.
+wlogs-err () {
+  wlogs-env
+  wlogsq "\[error\]" "-f2-"
+}
+
+# Display log events for one or more runs for site.
+# Write logfiles for each run.
+wlogs-site () {
+  wlogs-env
+  site="$1"
+  dir="/tmp/awslogs"
+
+  streams=$(cat ${dir}/${region}_${env}.txt | cut -d ' ' -f2,4 |grep '\ \[' | grep -vE '\[\d{4}-\d{2}-\d{2}'|grep $site |cut -d ' ' -f1 |uniq)
+
+  for stream in ${streams[@]}; do
+      echo ""
+      site_start=$(grep $stream ${dir}/${region}_${env}.txt | cut -d ' ' -f3 | head -1)
+      logname=${site}_${site_start}_${region}_${env}
+      grep $stream ${dir}/${region}_${env}.txt | cut -d ' ' -f3- > ${dir}/${logname}.txt
+      cat ${dir}/${logname}.txt
+  done
 }
